@@ -559,25 +559,177 @@
             }
         }
 
-        /* Tema değiştirme */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+        /* View Mode Toggle */
+        .view-toggle {
             background: rgba(255, 255, 255, 0.9);
             border: none;
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
             cursor: pointer;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             transition: all 0.3s;
             z-index: 1000;
         }
 
-        .theme-toggle:hover {
+        .view-toggle:hover {
             transform: scale(1.1);
+        }
+
+        /* Desktop View Mode */
+        .desktop-mode {
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+        }
+
+        .desktop-mode .container {
+            max-width: 1200px !important;
+        }
+
+        /* Mobile View Mode */
+        .mobile-mode {
+            max-width: 480px !important;
+            margin: 0 auto !important;
+        }
+
+        .mobile-mode .container {
+            max-width: 100% !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+        }
+
+        .mobile-mode .navbar {
+            flex-direction: column !important;
+            gap: 15px !important;
+            padding: 15px 20px !important;
+        }
+
+        .mobile-mode .navbar-nav {
+            gap: 10px !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+        }
+
+        .mobile-mode .hero h1 {
+            font-size: 28px !important;
+        }
+
+        .mobile-mode .hero p {
+            font-size: 16px !important;
+        }
+
+        .mobile-mode .hero-stats {
+            flex-direction: column !important;
+            gap: 15px !important;
+        }
+
+        .mobile-mode .input-group {
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+
+        .mobile-mode .actions {
+            flex-direction: column !important;
+            gap: 8px !important;
+        }
+
+        .mobile-mode .filters {
+            justify-content: center !important;
+            gap: 8px !important;
+        }
+
+        .mobile-mode .team {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+        }
+
+        .mobile-mode .features {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+        }
+
+        .mobile-mode .todo-header {
+            flex-direction: column !important;
+            gap: 10px !important;
+            align-items: flex-start !important;
+        }
+
+        .mobile-mode .stats {
+            font-size: 12px !important;
+        }
+
+        .mobile-mode .task-content {
+            flex-direction: column !important;
+            gap: 10px !important;
+            align-items: flex-start !important;
+        }
+
+        .mobile-mode .task-actions {
+            align-self: stretch !important;
+        }
+
+        .mobile-mode .footer {
+            padding: 30px 15px !important;
+        }
+
+        .mobile-mode .main-content {
+            padding: 20px 15px !important;
+        }
+
+        .mobile-mode .todo-container {
+            padding: 20px 15px !important;
+        }
+
+        .mobile-mode .team-member {
+            padding: 20px 15px !important;
+        }
+
+        .mobile-mode .feature {
+            padding: 20px 15px !important;
+        }
+
+        .mobile-mode .about {
+            padding: 30px 15px !important;
+        }
+
+        .mobile-mode .input-group input,
+        .mobile-mode .input-group select {
+            font-size: 16px !important; /* Prevent zoom on iOS */
+        }
+
+        .mobile-mode .task-btn {
+            padding: 10px 16px !important;
+            font-size: 14px !important;
+        }
+
+        .mobile-mode .filter-btn {
+            padding: 10px 16px !important;
+            font-size: 14px !important;
+        }
+
+        .mobile-mode .action-btn {
+            padding: 12px 20px !important;
+            font-size: 14px !important;
+        }
+
+        .mobile-mode .social-links {
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+
+        /* Touch-friendly button sizes for mobile */
+        @media (max-width: 480px) {
+            .mobile-mode .view-toggle {
+                width: 60px !important;
+                height: 60px !important;
+                font-size: 24px !important;
+            }
+
+            .mobile-mode .add-btn {
+                padding: 15px 25px !important;
+                font-size: 18px !important;
+            }
         }
 
         /* Loading animation */
@@ -635,6 +787,7 @@
                 <li><a href="#team" class="nav-link">Yapımcılar</a></li>
                 <li><a href="#about" class="nav-link">Hakkında</a></li>
             </ul>
+            <button class="view-toggle" onclick="toggleViewMode()" id="view-toggle-btn">📱</button>
         </nav>
 
         <!-- Hero Section -->
@@ -815,6 +968,7 @@
             loadTasks();
             renderTasks();
             updateAllStats();
+            initializeViewMode(); // View mode'u başlat
 
             // Smooth scroll için navigation
             document.querySelectorAll('.nav-link').forEach(link => {
@@ -1101,17 +1255,44 @@
             });
         }
 
-        // Tema değiştirme
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-            const themeBtn = document.querySelector('.theme-toggle');
-            themeBtn.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+        // View mode değişimi
+        function toggleViewMode() {
+            const body = document.body;
+            const toggleBtn = document.getElementById('view-toggle-btn');
+            const isMobile = body.classList.contains('mobile-mode');
 
-            // Tema değişim animasyonu
-            document.body.style.transition = 'all 0.5s ease';
+            if (isMobile) {
+                // Desktop moduna geç
+                body.classList.remove('mobile-mode');
+                body.classList.add('desktop-mode');
+                toggleBtn.textContent = '💻';
+                toggleBtn.title = 'Desktop Görünümü';
+                showToast('💻 Desktop görünümüne geçildi');
+            } else {
+                // Mobile moduna geç
+                body.classList.remove('desktop-mode');
+                body.classList.add('mobile-mode');
+                toggleBtn.textContent = '📱';
+                toggleBtn.title = 'Mobil Görünümü';
+                showToast('📱 Mobil görünümüne geçildi');
+            }
+
+            // Geçiş animasyonu
+            body.style.transition = 'all 0.5s ease';
             setTimeout(() => {
-                document.body.style.transition = '';
+                body.style.transition = '';
             }, 500);
+        }
+
+        // Sayfa yüklendiğinde varsayılan görünümü ayarla
+        function initializeViewMode() {
+            const body = document.body;
+            const toggleBtn = document.getElementById('view-toggle-btn');
+
+            // Varsayılan olarak desktop mode
+            body.classList.add('desktop-mode');
+            toggleBtn.textContent = '💻';
+            toggleBtn.title = 'Desktop Görünümü (geçerli)';
         }
 
         // Toast mesajı göster
