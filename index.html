@@ -135,10 +135,71 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .search-container {
-            display: flex;
-            gap: 10px;
+        .categories-container {
             margin: 15px 0;
+        }
+
+        .categories-list {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .categories-label {
+            font-weight: 600;
+            color: #2c3e50;
+            white-space: nowrap;
+        }
+
+        .categories-scroll {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            max-width: 100%;
+            overflow-x: auto;
+            padding: 5px 0;
+        }
+
+        .category-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .category-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .category-tag.add-category {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+        }
+
+        .category-tag.active {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        }
+
+        .category-select {
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+            background: white;
+            min-width: 150px;
+        }
+
+        .category-select:focus {
+            border-color: #667eea;
         }
 
         .search-input {
@@ -295,7 +356,30 @@
             color: white;
         }
 
-        .filter-btn:hover {
+        .category-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .category-filter-btn {
+            padding: 6px 12px;
+            border: 2px solid #667eea;
+            background: transparent;
+            color: #667eea;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .category-filter-btn:hover {
             transform: translateY(-1px);
         }
 
@@ -360,18 +444,143 @@
             color: white;
         }
 
+        .task-meta {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            color: white;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
         .task-due-date {
             font-size: 12px;
             color: #667eea;
-            margin-top: 5px;
             padding: 2px 8px;
             background: rgba(102, 126, 234, 0.1);
             border-radius: 10px;
             display: inline-block;
         }
 
-        .task-due-date.overdue {
+        .subtasks-container {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .subtasks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .subtasks-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .add-subtask-btn {
+            background: linear-gradient(135deg, #667eea, #5a6fd8);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-subtask-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .add-subtask-btn.standalone {
+            margin-top: 8px;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .subtasks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .subtask-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 8px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e1e8ed;
+            transition: all 0.3s;
+        }
+
+        .subtask-item:hover {
+            background: #f8f9fa;
+            transform: translateX(2px);
+        }
+
+        .subtask-checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .subtask-text {
+            flex: 1;
+            font-size: 13px;
+            line-height: 1.3;
+        }
+
+        .subtask-completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .subtask-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .subtask-btn {
+            background: none;
+            border: none;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .subtask-edit-btn {
+            color: #667eea;
+        }
+
+        .subtask-edit-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .subtask-delete-btn {
             color: #ff6b6b;
+        }
+
+        .subtask-delete-btn:hover {
             background: rgba(255, 107, 107, 0.1);
         }
 
@@ -824,18 +1033,71 @@
             font-size: 16px !important;
         }
 
+        .mobile-mode .categories-list {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+        }
+
+        .mobile-mode .categories-scroll {
+            max-width: 100% !important;
+            overflow-x: auto !important;
+        }
+
         .mobile-mode .input-group {
             flex-direction: column !important;
             gap: 10px !important;
         }
 
-        .mobile-mode .input-group input,
-        .mobile-mode .input-group select {
+        .mobile-mode .input-group select,
+        .mobile-mode .input-group input {
             font-size: 16px !important; /* Prevent zoom on iOS */
         }
 
-        .mobile-mode .due-date-input {
+        .mobile-mode .category-select {
             min-width: 100% !important;
+        }
+
+        .mobile-mode .task-meta {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 5px !important;
+        }
+
+        .mobile-mode .subtasks-container {
+            padding: 8px !important;
+        }
+
+        .mobile-mode .subtasks-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+        }
+
+        .mobile-mode .subtasks-title {
+            font-size: 11px !important;
+        }
+
+        .mobile-mode .add-subtask-btn {
+            padding: 3px 6px !important;
+            font-size: 10px !important;
+        }
+
+        .mobile-mode .subtask-item {
+            padding: 4px 6px !important;
+        }
+
+        .mobile-mode .subtask-text {
+            font-size: 12px !important;
+        }
+
+        .mobile-mode .subtask-actions {
+            gap: 2px !important;
+        }
+
+        .mobile-mode .subtask-btn {
+            padding: 1px 3px !important;
+            font-size: 10px !important;
         }
 
         .mobile-mode .filters {
@@ -1003,6 +1265,15 @@
                 <div class="todo-container">
                     <div class="todo-header">
                         <h3>Yeni Görev Ekle</h3>
+                        <div class="categories-container">
+                            <div class="categories-list">
+                                <span class="categories-label">Kategoriler:</span>
+                                <div class="categories-scroll">
+                                    <span class="category-tag add-category" onclick="showAddCategoryDialog()">➕ Kategori Ekle</span>
+                                    <div id="categories-display"></div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="search-container">
                             <input type="text" id="search-input" class="search-input" placeholder="Görev ara..." onkeyup="filterTasks()">
                             <button onclick="clearSearch()" class="clear-search-btn">✕</button>
@@ -1019,6 +1290,9 @@
                             <option value="Yüksek">🔴 Yüksek Öncelik</option>
                             <option value="Orta" selected>🟡 Orta Öncelik</option>
                             <option value="Düşük">🟢 Düşük Öncelik</option>
+                        </select>
+                        <select id="category-select" class="category-select">
+                            <option value="">📂 Kategori Seçin (Opsiyonel)</option>
                         </select>
                         <input type="text" id="task-input" class="task-input" placeholder="Görev açıklamasını yazın..." onkeypress="handleKeyPress(event)">
                         <input type="datetime-local" id="due-date-input" class="due-date-input" title="Vade tarihi (opsiyonel)">
@@ -1055,6 +1329,9 @@
                         <button class="filter-btn" onclick="setFilter('low')">Düşük Öncelik</button>
                         <button class="filter-btn" onclick="setFilter('completed')">Tamamlanan</button>
                         <button class="filter-btn" onclick="setFilter('pending')">Bekleyen</button>
+                        <button class="filter-btn" onclick="setFilter('today')">Bugün</button>
+                        <button class="filter-btn" onclick="setFilter('overdue')">Geciken</button>
+                        <div class="category-filters" id="category-filters"></div>
                     </div>
 
                     <div class="tasks-container">
@@ -1160,7 +1437,128 @@
 
         // Veri yönetimi
         let tasks = [];
+        let categories = [];
         let currentFilter = 'all';
+        let currentCategoryFilter = 'all';
+
+        // Kategorileri yükle
+        function loadCategories() {
+            try {
+                const saved = localStorage.getItem('melih_professional_todo_categories');
+                if (saved) {
+                    categories = JSON.parse(saved);
+                } else {
+                    // Varsayılan kategoriler
+                    categories = [
+                        { id: '1', name: 'İş', color: '#667eea' },
+                        { id: '2', name: 'Kişisel', color: '#51cf66' },
+                        { id: '3', name: 'Alışveriş', color: '#ffd43b' },
+                        { id: '4', name: 'Sağlık', color: '#ff6b6b' }
+                    ];
+                    saveCategories();
+                }
+            } catch (e) {
+                console.error('Kategoriler yüklenemedi:', e);
+                categories = [];
+            }
+        }
+
+        // Kategorileri kaydet
+        function saveCategories() {
+            try {
+                localStorage.setItem('melih_professional_todo_categories', JSON.stringify(categories));
+            } catch (e) {
+                console.error('Kategoriler kaydedilemedi:', e);
+            }
+        }
+
+        // Kategori ekleme dialog'u göster
+        function showAddCategoryDialog() {
+            const categoryName = prompt('Yeni kategori adını girin:');
+            if (categoryName && categoryName.trim()) {
+                const newCategory = {
+                    id: Date.now().toString(),
+                    name: categoryName.trim(),
+                    color: getRandomColor()
+                };
+                categories.push(newCategory);
+                saveCategories();
+                updateCategoriesDisplay();
+                updateCategorySelect();
+                showToast(`✅ "${newCategory.name}" kategorisi eklendi!`);
+            }
+        }
+
+        // Rastgele renk al
+        function getRandomColor() {
+            const colors = ['#667eea', '#51cf66', '#ffd43b', '#ff6b6b', '#74c0fc', '#ffa8a8', '#a8e6cf', '#ffd93d'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Kategorileri göster
+        function updateCategoriesDisplay() {
+            const container = document.getElementById('categories-display');
+            container.innerHTML = '';
+
+            categories.forEach(category => {
+                const categoryElement = document.createElement('span');
+                categoryElement.className = 'category-tag';
+                categoryElement.style.background = category.color;
+                categoryElement.textContent = category.name;
+                categoryElement.onclick = () => setCategoryFilter(category.id);
+                categoryElement.title = `Bu kategoriye filtrele: ${category.name}`;
+
+                container.appendChild(categoryElement);
+            });
+        }
+
+        // Kategori seçimi güncelle
+        function updateCategorySelect() {
+            const select = document.getElementById('category-select');
+            select.innerHTML = '<option value="">📂 Kategori Seçin (Opsiyonel)</option>';
+
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.name;
+                option.style.color = category.color;
+                select.appendChild(option);
+            });
+        }
+
+        // Kategori filtresi uygula
+        function setCategoryFilter(categoryId) {
+            currentCategoryFilter = categoryId;
+
+            // Aktif kategori butonunu işaretle
+            document.querySelectorAll('.category-tag').forEach(tag => {
+                tag.classList.remove('active');
+            });
+
+            if (categoryId !== 'all') {
+                const activeTag = document.querySelector(`[onclick="setCategoryFilter('${categoryId}')"]`);
+                if (activeTag) activeTag.classList.add('active');
+            }
+
+            renderTasks();
+        }
+
+        // Kategori filtre butonlarını göster
+        function updateCategoryFilterButtons() {
+            const container = document.getElementById('category-filters');
+            container.innerHTML = '<button class="category-filter-btn active" onclick="setCategoryFilter(\'all\')">Tüm Kategoriler</button>';
+
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.className = 'category-filter-btn';
+                button.textContent = category.name;
+                button.style.borderColor = category.color;
+                button.style.color = category.color;
+                button.onclick = () => setCategoryFilter(category.id);
+
+                container.appendChild(button);
+            });
+        }
 
         // Bildirim izni iste
         function requestNotificationPermission() {
@@ -1218,6 +1616,10 @@
         // Sayfa yüklendiğinde
         document.addEventListener('DOMContentLoaded', function() {
             loadTasks();
+            loadCategories();
+            updateCategoriesDisplay();
+            updateCategorySelect();
+            updateCategoryFilterButtons();
             renderTasks();
             updateAllStats();
             initializeViewMode(); // View mode'u başlat
@@ -1355,18 +1757,24 @@
         function addTask() {
             const input = document.getElementById('task-input');
             const prioritySelect = document.getElementById('priority-select');
+            const categorySelect = document.getElementById('category-select');
             const dueDateInput = document.getElementById('due-date-input');
 
             const taskText = input.value.trim();
             const priority = prioritySelect.value;
+            const categoryId = categorySelect.value;
             const dueDate = dueDateInput.value ? new Date(dueDateInput.value).toISOString() : null;
 
             if (taskText) {
+                const category = categories.find(c => c.id === categoryId);
                 const newTask = {
                     id: Date.now().toString(),
                     text: taskText,
                     completed: false,
                     priority: priority,
+                    categoryId: categoryId,
+                    categoryName: category ? category.name : '',
+                    categoryColor: category ? category.color : '',
                     dueDate: dueDate,
                     created: new Date().toISOString(),
                     notificationsEnabled: true
@@ -1379,19 +1787,33 @@
 
                 // Input'ları temizle
                 input.value = '';
+                categorySelect.value = '';
                 dueDateInput.value = '';
 
                 // Bildirim izni iste ve zamanla
                 requestNotificationPermission();
+            }
+        }
 
-                // Başarı animasyonu ve mesajı
-                showToast('✅ Görev başarıyla eklendi!');
-                animateTaskAddition();
-
-                // Vade tarihi varsa hatırlatıcı ayarla
-                if (dueDate) {
-                    scheduleReminder(newTask);
+        // LocalStorage'dan görevleri yükle
+        function loadTasks() {
+            try {
+                const saved = localStorage.getItem('melih_professional_todo_tasks');
+                if (saved) {
+                    tasks = JSON.parse(saved);
                 }
+            } catch (e) {
+                console.error('Görevler yüklenemedi:', e);
+                tasks = [];
+            }
+        }
+
+        // Görevleri kaydet
+        function saveTasks() {
+            try {
+                localStorage.setItem('melih_professional_todo_tasks', JSON.stringify(tasks));
+            } catch (e) {
+                console.error('Görevler kaydedilemedi:', e);
             }
         }
 
@@ -1514,6 +1936,139 @@
             animateStats();
         }
 
+        // Alt görev ekleme dialog'u göster
+        function showAddSubtaskDialog(taskId) {
+            const subtaskText = prompt('Alt görev açıklamasını girin:');
+            if (subtaskText && subtaskText.trim()) {
+                addSubtask(taskId, subtaskText.trim());
+            }
+        }
+
+        // Alt görev ekle
+        function addSubtask(taskId, text) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task) {
+                if (!task.subtasks) task.subtasks = [];
+
+                const newSubtask = {
+                    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                    text: text,
+                    completed: false,
+                    created: new Date().toISOString()
+                };
+
+                task.subtasks.push(newSubtask);
+                saveTasks();
+                renderSubtasks(taskId);
+                updateAllStats();
+
+                // Eğer tüm alt görevler tamamlandıysa ana görevi de tamamla
+                checkSubtaskCompletion(taskId);
+
+                showToast('✅ Alt görev eklendi!');
+            }
+        }
+
+        // Alt görevleri göster
+        function renderSubtasks(taskId) {
+            const container = document.getElementById(`subtasks-${taskId}`);
+            if (!container) return;
+
+            const task = tasks.find(t => t.id === taskId);
+            if (!task || !task.subtasks) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = '';
+
+            task.subtasks.forEach(subtask => {
+                const subtaskElement = document.createElement('div');
+                subtaskElement.className = 'subtask-item';
+
+                subtaskElement.innerHTML = `
+                    <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? 'checked' : ''}
+                           onchange="toggleSubtask('${taskId}', '${subtask.id}')">
+                    <div class="subtask-text ${subtask.completed ? 'subtask-completed' : ''}">
+                        ${subtask.text}
+                    </div>
+                    <div class="subtask-actions">
+                        <button class="subtask-btn subtask-edit-btn" onclick="editSubtask('${taskId}', '${subtask.id}')">
+                            ✏️
+                        </button>
+                        <button class="subtask-btn subtask-delete-btn" onclick="deleteSubtask('${taskId}', '${subtask.id}')">
+                            🗑️
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(subtaskElement);
+            });
+        }
+
+        // Alt görevi tamamla/tamamlanmamış yap
+        function toggleSubtask(taskId, subtaskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task && task.subtasks) {
+                const subtask = task.subtasks.find(st => st.id === subtaskId);
+                if (subtask) {
+                    subtask.completed = !subtask.completed;
+                    saveTasks();
+                    renderSubtasks(taskId);
+                    updateAllStats();
+
+                    // Eğer tüm alt görevler tamamlandıysa ana görevi de tamamla
+                    checkSubtaskCompletion(taskId);
+                }
+            }
+        }
+
+        // Alt görevi düzenle
+        function editSubtask(taskId, subtaskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task && task.subtasks) {
+                const subtask = task.subtasks.find(st => st.id === subtaskId);
+                if (subtask) {
+                    const newText = prompt('Alt görev metnini düzenleyin:', subtask.text);
+                    if (newText && newText.trim()) {
+                        subtask.text = newText.trim();
+                        saveTasks();
+                        renderSubtasks(taskId);
+                        showToast('✏️ Alt görev güncellendi!');
+                    }
+                }
+            }
+        }
+
+        // Alt görevi sil
+        function deleteSubtask(taskId, subtaskId) {
+            if (confirm('Bu alt görevi silmek istediğinizden emin misiniz?')) {
+                const task = tasks.find(t => t.id === taskId);
+                if (task && task.subtasks) {
+                    task.subtasks = task.subtasks.filter(st => st.id !== subtaskId);
+                    saveTasks();
+                    renderSubtasks(taskId);
+                    updateAllStats();
+                    showToast('🗑️ Alt görev silindi!');
+                }
+            }
+        }
+
+        // Alt görev tamamlama kontrolü
+        function checkSubtaskCompletion(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task && task.subtasks && task.subtasks.length > 0) {
+                const allCompleted = task.subtasks.every(st => st.completed);
+                if (allCompleted && !task.completed) {
+                    task.completed = true;
+                    saveTasks();
+                    renderTasks();
+                    updateAllStats();
+                    showToast('🎉 Tüm alt görevler tamamlandı! Ana görev otomatik tamamlandı.');
+                }
+            }
+        }
+
         // Görevleri göster
         function renderTasks() {
             const container = document.getElementById('tasks-list');
@@ -1539,6 +2094,22 @@
                 case 'pending':
                     filteredTasks = tasks.filter(task => !task.completed);
                     break;
+                case 'today':
+                    filteredTasks = tasks.filter(task => {
+                        if (!task.dueDate) return false;
+                        const dueDate = new Date(task.dueDate);
+                        const today = new Date();
+                        return dueDate.toDateString() === today.toDateString();
+                    });
+                    break;
+                case 'overdue':
+                    filteredTasks = tasks.filter(task => isOverdue(task.dueDate));
+                    break;
+            }
+
+            // Kategori filtresi uygula
+            if (currentCategoryFilter !== 'all') {
+                filteredTasks = filteredTasks.filter(task => task.categoryId === currentCategoryFilter);
             }
 
             // Arama uygula
@@ -1587,11 +2158,33 @@
                             <div class="task-text ${task.completed ? 'task-completed' : ''}">
                                 ${task.text}
                             </div>
-                            ${task.dueDate ? `
-                                <div class="task-due-date ${isOverdue(task.dueDate) ? 'overdue' : ''}">
-                                    📅 ${formatDate(task.dueDate)}
+                            <div class="task-meta">
+                                ${task.categoryName ? `
+                                    <span class="category-badge" style="background: ${task.categoryColor}">
+                                        ${task.categoryName}
+                                    </span>
+                                ` : ''}
+                                ${task.dueDate ? `
+                                    <div class="task-due-date ${isOverdue(task.dueDate) ? 'overdue' : ''}">
+                                        📅 ${formatDate(task.dueDate)}
+                                    </div>
+                                ` : ''}
+                            </div>
+
+                            ${task.subtasks && task.subtasks.length > 0 ? `
+                                <div class="subtasks-container">
+                                    <div class="subtasks-header">
+                                        <span class="subtasks-title">Alt Görevler (${task.subtasks.filter(st => st.completed).length}/${task.subtasks.length})</span>
+                                        <button class="add-subtask-btn" onclick="showAddSubtaskDialog('${task.id}')">+ Alt Görev</button>
+                                    </div>
+                                    <div class="subtasks-list" id="subtasks-${task.id}">
+                                    </div>
                                 </div>
-                            ` : ''}
+                            ` : `
+                                <button class="add-subtask-btn standalone" onclick="showAddSubtaskDialog('${task.id}')">
+                                    + Alt Görev Ekle
+                                </button>
+                            `}
                         </div>
 
                         <span class="priority-badge ${priorityClass}">
@@ -1617,6 +2210,11 @@
                     taskElement.style.opacity = '1';
                     taskElement.style.transform = 'translateY(0)';
                 }, index * 100);
+
+                // Alt görevleri varsa göster
+                if (task.subtasks && task.subtasks.length > 0) {
+                    renderSubtasks(task.id);
+                }
             });
         }
 
