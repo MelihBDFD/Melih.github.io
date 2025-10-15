@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📱 MELİH TO-DO - Mobil Uygulama</title>
+    <title>🚀 MELİH TO-DO - Profesyonel Görev Yöneticisi</title>
     <style>
         * {
             margin: 0;
@@ -12,71 +12,140 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            user-select: none;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 1200px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
-        /* Başlık */
-        .header {
+        /* Navigation */
+        .navbar {
             background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .creator {
-            font-size: 14px;
-            opacity: 0.8;
-            margin-bottom: 15px;
-        }
-
-        .stats {
+            padding: 15px 30px;
             display: flex;
-            justify-content: space-around;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 15px;
-            margin-top: 15px;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
         }
 
-        .stat-item {
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+
+        .navbar-nav {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 60px 30px;
             text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 1s ease-out 0.3s both;
         }
 
         .stat-number {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 32px;
+            font-weight: 700;
             display: block;
         }
 
-        /* Görev ekleme */
-        .add-task {
-            padding: 25px;
+        /* Main Content */
+        .main-content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Görev Yöneticisi */
+        .todo-container {
             background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .todo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
         }
 
         .input-group {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
         .priority-select {
@@ -106,37 +175,30 @@
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 12px 25px;
             border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
-            min-width: 80px;
+            transition: all 0.3s;
         }
 
-        .add-btn:active {
-            transform: scale(0.95);
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
-        /* Hızlı işlemler */
-        .quick-actions {
-            padding: 20px;
-            background: #f8f9fa;
-        }
-
-        .action-buttons {
+        .actions {
             display: flex;
             gap: 10px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
         .action-btn {
-            flex: 1;
-            min-width: 120px;
-            padding: 12px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 10px;
+            border-radius: 25px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
@@ -158,13 +220,41 @@
             color: white;
         }
 
-        .action-btn:active {
-            transform: scale(0.95);
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Görev listesi */
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #667eea;
+            background: transparent;
+            color: #667eea;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-1px);
+        }
+
         .tasks-container {
-            padding: 20px;
+            margin-top: 20px;
         }
 
         .task-item {
@@ -173,12 +263,13 @@
             border-radius: 15px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s;
+            border-left: 5px solid #667eea;
         }
 
-        .task-item:active {
-            transform: scale(0.98);
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+        .task-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
         }
 
         .task-content {
@@ -207,25 +298,25 @@
         }
 
         .priority-badge {
-            padding: 4px 8px;
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
         }
 
         .priority-high {
-            background: #ffe3e3;
-            color: #c92a2a;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
         }
 
         .priority-medium {
-            background: #fff3cd;
-            color: #856404;
+            background: linear-gradient(135deg, #ffd43b, #fab005);
+            color: white;
         }
 
         .priority-low {
-            background: #d4edda;
-            color: #155724;
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: white;
         }
 
         .task-actions {
@@ -243,63 +334,211 @@
         }
 
         .edit-btn {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea, #5a6fd8);
             color: white;
         }
 
         .delete-btn {
-            background: #ff6b6b;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             color: white;
         }
 
-        .task-btn:active {
-            transform: scale(0.9);
+        /* Yapımcılar Bölümü */
+        .team {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
         }
 
-        /* Filtreleme */
-        .filters {
-            padding: 20px;
-            background: #f8f9fa;
-        }
-
-        .filter-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #667eea;
-            background: transparent;
-            color: #667eea;
+        .team-member {
+            background: white;
+            padding: 30px;
             border-radius: 20px;
-            font-size: 14px;
-            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: all 0.3s;
         }
 
-        .filter-btn.active {
-            background: #667eea;
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .member-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
             color: white;
         }
 
-        .filter-btn:active {
-            transform: scale(0.95);
+        .member-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
         }
 
-        /* Responsive tasarım */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
+        .member-role {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .member-bio {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Hakkında Bölümü */
+        .about {
+            text-align: center;
+            padding: 50px 30px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            margin: 50px 0;
+            border-radius: 20px;
+        }
+
+        .about h2 {
+            color: #2c3e50;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature h3 {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .feature p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            text-align: center;
+            padding: 40px 30px;
+        }
+
+        .footer p {
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
             }
 
-            .container {
-                border-radius: 15px;
+            .navbar-nav {
+                gap: 10px;
             }
 
-            .header h1 {
-                font-size: 24px;
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
             }
 
             .input-group {
@@ -307,17 +546,16 @@
                 gap: 10px;
             }
 
-            .action-buttons {
+            .actions {
                 flex-direction: column;
             }
 
-            .filter-buttons {
+            .filters {
                 justify-content: center;
             }
 
-            .stats {
-                flex-direction: column;
-                gap: 10px;
+            .team {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -329,28 +567,58 @@
             background: rgba(255, 255, 255, 0.9);
             border: none;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 20px;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             transition: all 0.3s;
+            z-index: 1000;
         }
 
-        .theme-toggle:active {
-            transform: scale(0.9);
+        .theme-toggle:hover {
+            transform: scale(1.1);
         }
 
-        /* Boş durum */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #666;
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
-        .empty-state h3 {
-            margin-bottom: 10px;
-            color: #333;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast mesajları */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            max-width: 300px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
     </style>
 </head>
@@ -358,76 +626,184 @@
     <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
 
     <div class="container">
-        <!-- Başlık -->
-        <div class="header">
-            <h1>📱 MELİH TO-DO</h1>
-            <div class="creator">Yapımcı: Melih Can Çiğdem</div>
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-number" id="total-count">0</span>
-                    <span>Toplam</span>
+        <!-- Navigation -->
+        <nav class="navbar">
+            <a href="#" class="navbar-brand">🚀 MELİH TO-DO</a>
+            <ul class="navbar-nav">
+                <li><a href="#home" class="nav-link active">Ana Sayfa</a></li>
+                <li><a href="#todo" class="nav-link">Görev Yöneticisi</a></li>
+                <li><a href="#team" class="nav-link">Yapımcılar</a></li>
+                <li><a href="#about" class="nav-link">Hakkında</a></li>
+            </ul>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>🚀 MELİH TO-DO</h1>
+            <p>Profesyonel Görev Yöneticisi - Modern ve Güçlü</p>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <span class="stat-number" id="hero-total">0</span>
+                    <span>Toplam Görev</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="completed-count">0</span>
+                <div class="stat-card">
+                    <span class="stat-number" id="hero-completed">0</span>
                     <span>Tamamlanan</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="pending-count">0</span>
+                <div class="stat-card">
+                    <span class="stat-number" id="hero-pending">0</span>
                     <span>Bekleyen</span>
                 </div>
             </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Görev Yöneticisi -->
+            <section id="todo" class="section">
+                <h2>📋 Görev Yöneticisi</h2>
+                <div class="todo-container">
+                    <div class="todo-header">
+                        <h3>Yeni Görev Ekle</h3>
+                        <div class="stats">
+                            <span>📊 Toplam: <strong id="total-count">0</strong></span>
+                            <span>✅ Tamamlanan: <strong id="completed-count">0</strong></span>
+                            <span>⏳ Bekleyen: <strong id="pending-count">0</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <select id="priority-select" class="priority-select">
+                            <option value="Yüksek">🔴 Yüksek Öncelik</option>
+                            <option value="Orta" selected>🟡 Orta Öncelik</option>
+                            <option value="Düşük">🟢 Düşük Öncelik</option>
+                        </select>
+                        <input type="text" id="task-input" class="task-input" placeholder="Görev açıklamasını yazın..." onkeypress="handleKeyPress(event)">
+                        <button onclick="addTask()" class="add-btn">
+                            ➕ EKLE
+                        </button>
+                    </div>
+
+                    <div class="actions">
+                        <button class="action-btn complete-all" onclick="completeAllTasks()">
+                            ✓ TÜMÜNÜ TAMAMLA
+                        </button>
+                        <button class="action-btn clear-completed" onclick="clearCompletedTasks()">
+                            🧹 TAMAMLANANLARI TEMİZLE
+                        </button>
+                        <button class="action-btn sort-tasks" onclick="sortTasks()">
+                            🔄 ÖNCELİĞE GÖRE SIRALA
+                        </button>
+                    </div>
+
+                    <div class="filters">
+                        <button class="filter-btn active" onclick="setFilter('all')">Tümü</button>
+                        <button class="filter-btn" onclick="setFilter('high')">Yüksek Öncelik</button>
+                        <button class="filter-btn" onclick="setFilter('medium')">Orta Öncelik</button>
+                        <button class="filter-btn" onclick="setFilter('low')">Düşük Öncelik</button>
+                        <button class="filter-btn" onclick="setFilter('completed')">Tamamlanan</button>
+                        <button class="filter-btn" onclick="setFilter('pending')">Bekleyen</button>
+                    </div>
+
+                    <div class="tasks-container">
+                        <div id="tasks-list">
+                            <!-- Görevler buraya eklenecek -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Yapımcılar Bölümü -->
+            <section id="team" class="section">
+                <h2>👥 Yapımcılar</h2>
+                <div class="team">
+                    <div class="team-member">
+                        <div class="member-avatar">MC</div>
+                        <div class="member-name">Melih Can Çiğdem</div>
+                        <div class="member-role">Full-Stack Developer</div>
+                        <div class="member-bio">
+                            Modern web teknolojileri konusunda uzmanlaşmış deneyimli geliştirici.
+                            Kullanıcı deneyimini ön planda tutan, responsive ve performanslı uygulamalar geliştirir.
+                        </div>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-avatar">🚀</div>
+                        <div class="member-name">Yapay Zeka Asistanı</div>
+                        <div class="member-role">AI Code Assistant</div>
+                        <div class="member-bio">
+                            Gelişmiş kodlama yetenekleri ile projeleri hızlandıran,
+                            modern teknolojileri ustalıkla kullanan yapay zeka destekli geliştirme asistanı.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hakkında Bölümü -->
+            <section id="about" class="section">
+                <div class="about">
+                    <h2>💡 Hakkında</h2>
+                    <p>
+                        <strong>MELİH TO-DO</strong>, modern web teknolojileri kullanılarak geliştirilmiş
+                        profesyonel bir görev yönetim uygulamasıdır. Kullanıcı dostu arayüzü ve güçlü
+                        özellikleriyle hem kişisel hem de profesyonel kullanım için idealdir.
+                    </p>
+
+                    <div class="features">
+                        <div class="feature">
+                            <div class="feature-icon">⚡</div>
+                            <h3>Hızlı ve Performanslı</h3>
+                            <p>Modern JavaScript teknolojisi ile geliştirilmiş, hızlı yükleme süreleri ve akıcı animasyonlar.</p>
+                        </div>
+
+                        <div class="feature">
+                            <div class="feature-icon">📱</div>
+                            <h3>Mobil Uyumlu</h3>
+                            <p>Responsive tasarım sayesinde tüm cihazlarda mükemmel çalışır. Dokunmatik kontroller optimize edilmiştir.</p>
+                        </div>
+
+                        <div class="feature">
+                            <div class="feature-icon">🔒</div>
+                            <h3>Güvenli ve Offline</h3>
+                            <p>Verileriniz tarayıcıda yerel olarak saklanır. İnternet bağlantısı olmadan da çalışır.</p>
+                        </div>
+
+                        <div class="feature">
+                            <div class="feature-icon">🎨</div>
+                            <h3>Modern Tasarım</h3>
+                            <p>Gradient background, smooth animasyonlar ve kullanıcı dostu arayüz tasarımı.</p>
+                        </div>
+
+                        <div class="feature">
+                            <div class="feature-icon">🚀</div>
+                            <h3>GitHub Pages Desteği</h3>
+                            <p>Statik site olarak GitHub Pages'te ücretsiz olarak barındırılabilir.</p>
+                        </div>
+
+                        <div class="feature">
+                            <div class="feature-icon">🌟</div>
+                            <h3>Özelleştirilebilir</h3>
+                            <p>Koyu/açık tema seçenekleri ve kullanıcı tercihlerine göre ayarlanabilir arayüz.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
-        <!-- Görev ekleme -->
-        <div class="add-task">
-            <div class="input-group">
-                <select id="priority-select" class="priority-select">
-                    <option value="Yüksek">🔴 Yüksek</option>
-                    <option value="Orta" selected>🟡 Orta</option>
-                    <option value="Düşük">🟢 Düşük</option>
-                </select>
-                <input type="text" id="task-input" class="task-input" placeholder="Yeni görev ekleyin..." onkeypress="handleKeyPress(event)">
-                <button onclick="addTask()" class="add-btn">➕ EKLE</button>
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 MELİH TO-DO - Profesyonel Görev Yöneticisi</p>
+            <p>Yapımcı: Melih Can Çiğdem</p>
+            <div class="social-links">
+                <a href="https://github.com" class="social-link">GitHub</a>
+                <a href="https://linkedin.com" class="social-link">LinkedIn</a>
+                <a href="mailto:melih@example.com" class="social-link">E-posta</a>
             </div>
-        </div>
-
-        <!-- Hızlı işlemler -->
-        <div class="quick-actions">
-            <div class="action-buttons">
-                <button class="action-btn complete-all" onclick="completeAllTasks()">
-                    ✓ TÜMÜNÜ TAMAMLA
-                </button>
-                <button class="action-btn clear-completed" onclick="clearCompletedTasks()">
-                    🧹 TEMİZLE
-                </button>
-                <button class="action-btn sort-tasks" onclick="sortTasks()">
-                    🔄 SIRALA
-                </button>
-            </div>
-        </div>
-
-        <!-- Filtreleme -->
-        <div class="filters">
-            <div class="filter-buttons">
-                <button class="filter-btn active" onclick="setFilter('all')">Tümü</button>
-                <button class="filter-btn" onclick="setFilter('high')">Yüksek Öncelik</button>
-                <button class="filter-btn" onclick="setFilter('medium')">Orta Öncelik</button>
-                <button class="filter-btn" onclick="setFilter('low')">Düşük Öncelik</button>
-                <button class="filter-btn" onclick="setFilter('completed')">Tamamlanan</button>
-                <button class="filter-btn" onclick="setFilter('pending')">Bekleyen</button>
-            </div>
-        </div>
-
-        <!-- Görev listesi -->
-        <div class="tasks-container">
-            <div id="tasks-list">
-                <!-- Görevler buraya eklenecek -->
-            </div>
-        </div>
+        </footer>
     </div>
 
     <script>
-        // MELİH TO-DO - JavaScript Uygulaması
+        // MELİH TO-DO - Profesyonel Site Uygulaması
         // Yapımcı: Melih Can Çiğdem
 
         // Veri yönetimi
@@ -438,16 +814,33 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadTasks();
             renderTasks();
-            updateStats();
+            updateAllStats();
 
-            // Dokunmatik optimizasyonları
-            document.addEventListener('touchstart', function() {}, false);
+            // Smooth scroll için navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = this.getAttribute('href').substring(1);
+                    document.getElementById(target).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+            });
+
+            // Intersection Observer ile animasyonlar
+            observeElements();
+
+            // Başlangıç animasyonu
+            setTimeout(() => {
+                document.querySelector('.hero h1').classList.add('pulse');
+            }, 1000);
         });
 
         // LocalStorage'dan görevleri yükle
         function loadTasks() {
             try {
-                const saved = localStorage.getItem('melih_mobile_todo_tasks');
+                const saved = localStorage.getItem('melih_professional_todo_tasks');
                 if (saved) {
                     tasks = JSON.parse(saved);
                 }
@@ -460,7 +853,7 @@
         // Görevleri kaydet
         function saveTasks() {
             try {
-                localStorage.setItem('melih_mobile_todo_tasks', JSON.stringify(tasks));
+                localStorage.setItem('melih_professional_todo_tasks', JSON.stringify(tasks));
             } catch (e) {
                 console.error('Görevler kaydedilemedi:', e);
             }
@@ -486,13 +879,14 @@
                 tasks.push(newTask);
                 saveTasks();
                 renderTasks();
-                updateStats();
+                updateAllStats();
 
                 // Input'u temizle
                 input.value = '';
 
-                // Başarı mesajı göster
-                showToast('✅ Görev eklendi!');
+                // Başarı animasyonu ve mesajı
+                showToast('✅ Görev başarıyla eklendi!');
+                animateTaskAddition();
             }
         }
 
@@ -505,11 +899,14 @@
 
         // Tüm görevleri tamamla
         function completeAllTasks() {
-            tasks.forEach(task => task.completed = true);
-            saveTasks();
-            renderTasks();
-            updateStats();
-            showToast('✅ Tüm görevler tamamlandı!');
+            const pendingTasks = tasks.filter(task => !task.completed);
+            if (pendingTasks.length > 0) {
+                tasks.forEach(task => task.completed = true);
+                saveTasks();
+                renderTasks();
+                updateAllStats();
+                showToast(`✅ ${pendingTasks.length} görev tamamlandı!`);
+            }
         }
 
         // Tamamlanan görevleri temizle
@@ -519,8 +916,8 @@
                 tasks = tasks.filter(task => !task.completed);
                 saveTasks();
                 renderTasks();
-                updateStats();
-                showToast(`🧹 ${completedCount} görev temizlendi!`);
+                updateAllStats();
+                showToast(`🧹 ${completedCount} tamamlanmış görev temizlendi!`);
             }
         }
 
@@ -529,17 +926,15 @@
             const priorityOrder = { 'Yüksek': 3, 'Orta': 2, 'Düşük': 1 };
 
             tasks.sort((a, b) => {
-                // Tamamlanmamış görevler önce
                 if (a.completed !== b.completed) {
                     return a.completed ? 1 : -1;
                 }
-                // Öncelik sırası
                 return priorityOrder[b.priority] - priorityOrder[a.priority];
             });
 
             saveTasks();
             renderTasks();
-            showToast('🔄 Görevler sıralandı!');
+            showToast('🔄 Görevler önceliğe göre sıralandı!');
         }
 
         // Görevi tamamla/tamamlanmamış yap
@@ -549,18 +944,21 @@
                 task.completed = !task.completed;
                 saveTasks();
                 renderTasks();
-                updateStats();
+                updateAllStats();
             }
         }
 
         // Görevi sil
         function deleteTask(taskId) {
             if (confirm('Bu görevi silmek istediğinizden emin misiniz?')) {
-                tasks = tasks.filter(task => task.id !== taskId);
-                saveTasks();
-                renderTasks();
-                updateStats();
-                showToast('🗑️ Görev silindi!');
+                const taskIndex = tasks.findIndex(t => t.id === taskId);
+                if (taskIndex > -1) {
+                    tasks.splice(taskIndex, 1);
+                    saveTasks();
+                    renderTasks();
+                    updateAllStats();
+                    showToast('🗑️ Görev silindi!');
+                }
             }
         }
 
@@ -589,6 +987,26 @@
             event.target.classList.add('active');
 
             renderTasks();
+        }
+
+        // Tüm istatistikleri güncelle
+        function updateAllStats() {
+            const total = tasks.length;
+            const completed = tasks.filter(task => task.completed).length;
+            const pending = total - completed;
+
+            // Ana sayfa istatistikleri
+            document.getElementById('total-count').textContent = total;
+            document.getElementById('completed-count').textContent = completed;
+            document.getElementById('pending-count').textContent = pending;
+
+            // Hero bölümü istatistikleri
+            document.getElementById('hero-total').textContent = total;
+            document.getElementById('hero-completed').textContent = completed;
+            document.getElementById('hero-pending').textContent = pending;
+
+            // Hero animasyonu
+            animateStats();
         }
 
         // Görevleri göster
@@ -630,7 +1048,7 @@
 
             if (filteredTasks.length === 0) {
                 container.innerHTML = `
-                    <div class="empty-state">
+                    <div style="text-align: center; color: #666; padding: 40px;">
                         <h3>📝 Henüz görev yok</h3>
                         <p>Yukarıdaki alana görev eklemeye başlayın!</p>
                     </div>
@@ -638,9 +1056,11 @@
                 return;
             }
 
-            filteredTasks.forEach(task => {
+            filteredTasks.forEach((task, index) => {
                 const taskElement = document.createElement('div');
                 taskElement.className = 'task-item';
+                taskElement.style.opacity = '0';
+                taskElement.style.transform = 'translateY(20px)';
 
                 const priorityClass = `priority-${task.priority.toLowerCase()}`;
 
@@ -653,37 +1073,32 @@
                             <div class="task-text ${task.completed ? 'task-completed' : ''}">
                                 ${task.text}
                             </div>
-                            <div style="margin-top: 5px;">
-                                <span class="priority-badge ${priorityClass}">
-                                    ${task.priority} Öncelik
-                                </span>
-                            </div>
                         </div>
+
+                        <span class="priority-badge ${priorityClass}">
+                            ${task.priority}
+                        </span>
 
                         <div class="task-actions">
                             <button class="task-btn edit-btn" onclick="editTask('${task.id}')">
-                                ✏️
+                                ✏️ Düzenle
                             </button>
                             <button class="task-btn delete-btn" onclick="deleteTask('${task.id}')">
-                                🗑️
+                                🗑️ Sil
                             </button>
                         </div>
                     </div>
                 `;
 
                 container.appendChild(taskElement);
+
+                // Animasyonlu giriş
+                setTimeout(() => {
+                    taskElement.style.transition = 'all 0.5s ease-out';
+                    taskElement.style.opacity = '1';
+                    taskElement.style.transform = 'translateY(0)';
+                }, index * 100);
             });
-        }
-
-        // İstatistikleri güncelle
-        function updateStats() {
-            const total = tasks.length;
-            const completed = tasks.filter(task => task.completed).length;
-            const pending = total - completed;
-
-            document.getElementById('total-count').textContent = total;
-            document.getElementById('completed-count').textContent = completed;
-            document.getElementById('pending-count').textContent = pending;
         }
 
         // Tema değiştirme
@@ -691,68 +1106,90 @@
             document.body.classList.toggle('dark-theme');
             const themeBtn = document.querySelector('.theme-toggle');
             themeBtn.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+
+            // Tema değişim animasyonu
+            document.body.style.transition = 'all 0.5s ease';
+            setTimeout(() => {
+                document.body.style.transition = '';
+            }, 500);
         }
 
         // Toast mesajı göster
         function showToast(message) {
-            // Basit toast mesajı
             const toast = document.createElement('div');
+            toast.className = 'toast';
             toast.textContent = message;
-            toast.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #333;
-                color: white;
-                padding: 10px 20px;
-                border-radius: 10px;
-                z-index: 1000;
-                animation: slideIn 0.3s ease-out;
-            `;
 
             document.body.appendChild(toast);
 
             setTimeout(() => {
-                toast.remove();
-            }, 2000);
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 2500);
         }
 
-        // Dokunmatik kaydırma desteği
-        let startY = 0;
-        document.addEventListener('touchstart', function(e) {
-            startY = e.touches[0].clientY;
-        });
-
-        document.addEventListener('touchmove', function(e) {
-            if (!startY) return;
-
-            const currentY = e.touches[0].clientY;
-            const diffY = startY - currentY;
-
-            // Yatay kaydırma algılama
-            if (Math.abs(diffY) > 50) {
-                // Kaydırma işlemi burada yapılabilir
-            }
-        });
-
-        document.addEventListener('touchend', function() {
-            startY = 0;
-        });
-
-        // Sayfa yüklendiğinde animasyon
-        document.addEventListener('DOMContentLoaded', function() {
-            const tasks = document.querySelectorAll('.task-item');
-            tasks.forEach((task, index) => {
-                setTimeout(() => {
-                    task.style.opacity = '1';
-                    task.style.transform = 'translateY(0)';
-                }, index * 50);
+        // Intersection Observer ile animasyonlar
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
             });
-        });
 
-        // Başlangıç mesajı
-        console.log('🚀 MELİH TO-DO Mobil Uygulama Başlatıldı!');
-        console.log('📱 Yapımcı: Melih Can Çiğdem');
+            document.querySelectorAll('.section').forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        // İstatistik animasyonu
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                let current = 0;
+                const increment = target / 50;
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(current);
+                    }
+                }, 20);
+            });
+        }
+
+        // Görev ekleme animasyonu
+        function animateTaskAddition() {
+            const tasksContainer = document.getElementById('tasks-list');
+            if (tasksContainer.children.length > 0) {
+                const lastTask = tasksContainer.children[tasksContainer.children.length - 1];
+                lastTask.style.background = 'linear-gradient(135deg, #51cf66, #40c057)';
+                setTimeout(() => {
+                    lastTask.style.background = '';
+                }, 1000);
+            }
+        }
+
+        // Performans izleme
+        console.log('🚀 MELİH TO-DO Site Uygulaması Başlatıldı!');
+        console.log('📊 Yapımcı: Melih Can Çiğdem');
+        console.log('⚡ Sayfa yükleme süresi:', performance.now().toFixed(2), 'ms');
+
+        // Service Worker için (ileride PWA yapmak için)
+        if ('serviceWorker' in navigator) {
+            console.log('🔧 Service Worker desteği mevcut');
+        }
     </script>
 </body>
 </html>
