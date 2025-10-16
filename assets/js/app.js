@@ -757,15 +757,306 @@ function generateAIResponse(message) {
     return `🤖 "${message}" hakkında yardımcı olmaya çalışayım. To-Do PRO Ultimate ile ilgili sorularınızı sorun!`;
 }
 
-// Yardım sistemi
-function showHelpModal() {
-    const modal = document.getElementById('help-modal');
+function createModal(title, content) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 600px; margin: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #e9ecef;">
+                <h2 style="margin: 0; color: var(--text-primary); font-size: 24px;">${title}</h2>
+                <button onclick="this.closest('.modal').remove()" style="background: none; border: none; font-size: 28px; cursor: pointer; color: #666; padding: 5px;">×</button>
+            </div>
+            ${content}
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    return modal;
+}
+
+function showSettings() {
+    const settingsHTML = `
+        <div style="padding: 20px;">
+            <h3 style="color: #667eea; margin-bottom: 20px;">⚙️ Uygulama Ayarları</h3>
+
+            <div style="display: grid; gap: 20px;">
+                <div>
+                    <h4 style="margin-bottom: 10px; color: var(--text-primary);">Veri Yönetimi</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button onclick="exportTasks(); this.closest('.modal').remove()" class="settings-btn">
+                            📤 Dışa Aktar
+                        </button>
+                        <button onclick="importTasks(); this.closest('.modal').remove()" class="settings-btn">
+                            📥 İçe Aktar
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 style="margin-bottom: 10px; color: var(--text-primary);">Görünüm</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button onclick="toggleThemeSwitcher(); this.closest('.modal').remove()" class="settings-btn">
+                            🎨 Tema Değiştirici
+                        </button>
+                        <button onclick="setViewMode('mobile'); this.closest('.modal').remove()" class="settings-btn">
+                            📱 Mobil Mod
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 style="margin-bottom: 10px; color: var(--text-primary);">Bakım</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button onclick="clearCompletedTasks(); this.closest('.modal').remove()" class="settings-btn">
+                            🧹 Tamamlananları Temizle
+                        </button>
+                        <button onclick="if(confirm('TÜM VERİLERİ KALICI OLARAK SİLMEK istediğinizden emin misiniz?')) { clearAllData(); this.closest('.modal').remove(); }" class="settings-btn danger">
+                            💀 Tüm Verileri Sil
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <button onclick="this.closest('.modal').remove()" style="background: #6c757d; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">Kapat</button>
+            </div>
+        </div>
+    `;
+
+    const modal = createModal('⚙️ Ayarlar', settingsHTML);
     modal.classList.add('show');
 }
 
-function hideHelpModal() {
-    const modal = document.getElementById('help-modal');
-    modal.classList.remove('show');
+function showDetailedStats() {
+    const completedTasks = tasks.filter(t => t.completed).length;
+    const pendingTasks = tasks.filter(t => !t.completed).length;
+    const totalTime = tasks.reduce((sum, task) => sum + (task.timeSpent || 0), 0);
+    const categoriesCount = categories.length;
+    const avgTimePerTask = completedTasks > 0 ? Math.round(totalTime / completedTasks) : 0;
+
+    const statsHTML = `
+        <div style="padding: 20px;">
+            <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">📊 Detaylı İstatistikler</h3>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-value">${tasks.length}</div>
+                    <div class="stat-label">Toplam Görev</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value">${completedTasks}</div>
+                    <div class="stat-label">Tamamlanan</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-value">${pendingTasks}</div>
+                    <div class="stat-label">Bekleyen</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-value">${Math.floor(totalTime / 60)}sa ${totalTime % 60}dk</div>
+                    <div class="stat-label">Toplam Zaman</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📂</div>
+                    <div class="stat-value">${categoriesCount}</div>
+                    <div class="stat-label">Kategori</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-value">${avgTimePerTask}dk</div>
+                    <div class="stat-label">Ortalama Süre</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h4 style="color: var(--text-primary); margin-bottom: 15px;">🏆 Başarımlar</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                    ${achievements.map(achievement => `
+                        <div class="achievement-mini ${achievement.unlocked ? 'unlocked' : 'locked'}">
+                            <div class="achievement-icon-mini">${achievement.icon}</div>
+                            <div class="achievement-name-mini">${achievement.name}</div>
+                            <div class="achievement-status-mini">
+                                ${achievement.unlocked ? '✅' : `${achievement.current}/${achievement.requirement}`}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <button onclick="this.closest('.modal').remove()" style="background: #6c757d; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">Kapat</button>
+            </div>
+        </div>
+    `;
+
+    const modal = createModal('📊 Detaylı İstatistikler', statsHTML);
+    modal.classList.add('show');
+}
+
+// Giriş sistemi için kullanıcı verilerini tut
+let currentUser = null;
+
+// Giriş sistemi fonksiyonları
+function showLoginModal() {
+    if (currentUser) {
+        // Zaten giriş yapılmış, çıkış yapmak mı istiyor?
+        if (confirm(`${currentUser.name} olarak giriş yaptınız. Çıkış yapmak istiyor musunuz?`)) {
+            logout();
+        }
+        return;
+    }
+
+    const loginHTML = `
+        <div style="padding: 30px; max-width: 400px; margin: 0 auto;">
+            <h3 style="color: #667eea; margin-bottom: 25px; text-align: center;">🔐 Giriş Yap</h3>
+
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button onclick="showLoginForm()" style="flex: 1; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 600;">Giriş Yap</button>
+                <button onclick="showRegisterForm()" style="flex: 1; background: linear-gradient(135deg, #4caf50, #66bb6a); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 600;">Kaydol</button>
+            </div>
+
+            <div id="auth-form-container">
+                <div id="login-form" style="display: none;">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: var(--text-primary); font-weight: 500;">İsim</label>
+                        <input type="text" id="login-name" placeholder="İsminizi girin" style="width: 100%; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; font-size: 16px; box-sizing: border-box;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 5px; color: var(--text-primary); font-weight: 500;">Şifre</label>
+                        <input type="password" id="login-password" placeholder="Şifrenizi girin" style="width: 100%; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; font-size: 16px; box-sizing: border-box;">
+                    </div>
+                    <button onclick="login()" style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px;">Giriş Yap</button>
+                </div>
+
+                <div id="register-form" style="display: none;">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: var(--text-primary); font-weight: 500;">İsim</label>
+                        <input type="text" id="register-name" placeholder="İsminizi girin" style="width: 100%; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; font-size: 16px; box-sizing: border-box;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 5px; color: var(--text-primary); font-weight: 500;">Şifre</label>
+                        <input type="password" id="register-password" placeholder="Şifre oluşturun" style="width: 100%; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; font-size: 16px; box-sizing: border-box;">
+                    </div>
+                    <button onclick="register()" style="width: 100%; background: linear-gradient(135deg, #4caf50, #66bb6a); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px;">Kaydol</button>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; text-align: center;">
+                <button onclick="this.closest('.modal').remove()" style="background: none; border: none; color: #666; cursor: pointer; text-decoration: underline;">İptal</button>
+            </div>
+        </div>
+    `;
+
+    const modal = createModal('🔐 Giriş Sistemi', loginHTML);
+    modal.classList.add('show');
+}
+
+function showLoginForm() {
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('register-form').style.display = 'none';
+}
+
+function showRegisterForm() {
+    document.getElementById('register-form').style.display = 'block';
+    document.getElementById('login-form').style.display = 'none';
+}
+
+function login() {
+    const name = document.getElementById('login-name').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+
+    if (!name || !password) {
+        showToast('⚠️ Lütfen isim ve şifre girin!');
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem('todo_pro_users') || '[]');
+    const user = users.find(u => u.name === name && u.password === password);
+
+    if (user) {
+        currentUser = user;
+        localStorage.setItem('todo_pro_current_user', JSON.stringify(user));
+        updateUserUI();
+        showToast(`✅ Hoş geldiniz, ${user.name}!`);
+        document.querySelector('.modal').remove();
+    } else {
+        showToast('❌ İsim veya şifre yanlış!');
+    }
+}
+
+function register() {
+    const name = document.getElementById('register-name').value.trim();
+    const password = document.getElementById('register-password').value.trim();
+
+    if (!name || !password) {
+        showToast('⚠️ Lütfen isim ve şifre girin!');
+        return;
+    }
+
+    if (password.length < 4) {
+        showToast('⚠️ Şifre en az 4 karakter olmalı!');
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem('todo_pro_users') || '[]');
+    const existingUser = users.find(u => u.name === name);
+
+    if (existingUser) {
+        showToast('❌ Bu isim zaten kullanılıyor!');
+        return;
+    }
+
+    const newUser = {
+        id: Date.now().toString(),
+        name: name,
+        password: password,
+        created: new Date().toISOString()
+    };
+
+    users.push(newUser);
+    localStorage.setItem('todo_pro_users', JSON.stringify(users));
+
+    currentUser = newUser;
+    localStorage.setItem('todo_pro_current_user', JSON.stringify(newUser));
+
+    updateUserUI();
+    showToast(`✅ Kayıt başarılı! Hoş geldiniz, ${newUser.name}!`);
+    document.querySelector('.modal').remove();
+}
+
+function logout() {
+    currentUser = null;
+    localStorage.removeItem('todo_pro_current_user');
+    updateUserUI();
+    showToast('👋 Çıkış yapıldı!');
+}
+
+function updateUserUI() {
+    const loginBtn = document.getElementById('login-btn');
+    if (loginBtn) {
+        if (currentUser) {
+            loginBtn.innerHTML = `👤 ${currentUser.name}`;
+            loginBtn.onclick = () => showLoginModal();
+        } else {
+            loginBtn.innerHTML = '🔐 Giriş';
+            loginBtn.onclick = () => showLoginModal();
+        }
+    }
+}
+
+function loadUserData() {
+    const savedUser = localStorage.getItem('todo_pro_current_user');
+    if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+    }
 }
 
 // Hızlı işlemler
@@ -1078,7 +1369,7 @@ function showSettings() {
             <h3 style="color: #667eea; margin-bottom: 20px;">⚙️ Uygulama Ayarları</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
                 <div>
-                    <h4>💾 Veri Yönetimi</h4>
+                    <h4 style="color: #000000;">💾 Veri Yönetimi</h4>
                     <button onclick="exportTasks()" style="background: #4caf50; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; margin: 5px;">
                         📤 Dışa Aktar
                     </button>
@@ -1087,16 +1378,16 @@ function showSettings() {
                     </button>
                 </div>
                 <div>
-                    <h4>🎨 Görünüm</h4>
+                    <h4 style="color: #000000;">🎨 Görünüm</h4>
                     <button onclick="toggleThemeSwitcher()" style="background: #9c27b0; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; margin: 5px;">
                         🎨 Tema Seçici
                     </button>
                 </div>
             </div>
             <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
-                <p><strong>Sürüm:</strong> To-Do PRO Ultimate v2.0</p>
-                <p><strong>Geliştirici:</strong> Modern Web App</p>
-                <p><strong>Tarih:</strong> ${new Date().toLocaleDateString('tr-TR')}</p>
+                <p style="color: #000000;"><strong style="color: #000000;">Sürüm:</strong> To-Do PRO Ultimate v2.0</p>
+                <p style="color: #000000;"><strong style="color: #000000;">Geliştirici:</strong> Melih Can Çiğdem</p>
+                <p style="color: #000000;"><strong style="color: #000000;">Tarih:</strong> ${new Date().toLocaleDateString('tr-TR')}</p>
             </div>
         </div>
     `;
@@ -1111,7 +1402,7 @@ function createModal(title, content) {
     modal.innerHTML = `
         <div class="modal-content" style="background: white; padding: 30px; border-radius: 20px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-                <h2 style="color: #2c3e50; margin: 0;">${title}</h2>
+                <h2 style="color: #000000; margin: 0;">${title}</h2>
                 <button onclick="this.closest('.modal').remove()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666; padding: 5px;">✕</button>
             </div>
             ${content}
@@ -1175,6 +1466,10 @@ function initApp() {
     if (savedViewMode) {
         setViewMode(savedViewMode);
     }
+
+    // Kullanıcı verilerini yükle
+    loadUserData();
+    updateUserUI();
 
     // Toast container oluştur
     if (!document.getElementById('toast-container')) {

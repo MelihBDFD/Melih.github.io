@@ -2737,7 +2737,7 @@ body {
     }
 }
 
-/* FAB Container Positioning Fix */
+/* FAB Container Positioning Fix - Complete Rewrite */
 @media (max-width: 768px) {
     .fab-container {
         position: fixed !important;
@@ -2747,6 +2747,11 @@ body {
         flex-direction: column !important;
         gap: 8px !important;
         z-index: 998 !important;
+        pointer-events: none !important; /* Container'ın kendisi tıklanmasın */
+    }
+
+    .fab-container > * {
+        pointer-events: auto !important; /* Sadece butonlar tıklanabilir */
     }
 
     .fab {
@@ -2761,6 +2766,13 @@ body {
         align-items: center !important;
         justify-content: center !important;
         cursor: pointer !important;
+        margin: 0 !important;
+        transform: none !important;
+    }
+
+    .fab:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4) !important;
     }
 }
 
@@ -2792,56 +2804,121 @@ body {
     }
 }
 
-/* Touch Device Optimizations */
-@media (hover: none) and (pointer: coarse) {
-    /* Remove hover effects on touch devices */
-    .view-toggle-btn:hover,
-    .task-btn:hover,
-    .filter-btn:hover,
-    .add-btn:hover,
-    .add-category-btn:hover,
-    .fab:hover,
-    .help-btn:hover,
-    .ai-toggle:hover {
-        transform: none !important;
-        box-shadow: none !important;
-    }
+/* FAB Container Animation */
+.fab-container {
+    animation: fabSlideIn 0.5s ease-out;
+}
 
-    /* Add active states for touch feedback */
-    .view-toggle-btn:active,
-    .task-btn:active,
-    .filter-btn:active,
-    .add-btn:active,
-    .add-category-btn:active,
-    .fab:active,
-    .help-btn:active,
-    .ai-toggle:active {
-        transform: scale(0.95);
-        opacity: 0.9;
+@keyframes fabSlideIn {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
     }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
 
-    /* Ensure minimum touch target sizes */
-    .view-toggle-btn,
-    .task-btn,
-    .filter-btn,
-    .add-btn,
-    .add-category-btn,
-    .fab,
-    .help-btn,
-    .ai-toggle,
-    .category-item,
-    .theme-option {
-        min-height: 44px;
-        min-width: 44px;
-    }
+/* Settings Button Styles */
+.settings-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
 
-    /* Larger checkboxes for touch */
-    .task-checkbox,
-    .checkbox-container input[type="checkbox"] {
-        width: 24px;
-        height: 24px;
-        transform: scale(1.2);
-    }
+.settings-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+}
+
+.settings-btn.danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.settings-btn.danger:hover {
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.3);
+}
+
+/* Stat Card Styles */
+.stat-card {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    opacity: 0.8;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Achievement Mini Styles */
+.achievement-mini {
+    background: var(--bg-secondary);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.achievement-mini.unlocked {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    border-color: #ffc107;
+}
+
+.achievement-mini.locked {
+    opacity: 0.7;
+}
+
+.achievement-icon-mini {
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.achievement-name-mini {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.achievement-status-mini {
+    font-size: 11px;
+    font-weight: 500;
 }
 
 /* Landscape orientation on small screens */
