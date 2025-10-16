@@ -61,10 +61,37 @@
             border: 2px solid #f0f0f0;
         }
 
-        .add-task-section h3 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 20px;
+        .enhanced-task-form {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 2px solid #f0f0f0;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .priority-select,
+        .category-select {
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            min-height: 50px;
+        }
+
+        .priority-select:focus,
+        .category-select:focus {
+            outline: none;
+            border-color: #667eea;
         }
 
         .task-form {
@@ -435,13 +462,19 @@
                 margin-bottom: 15px;
             }
 
-            .task-form {
+            .enhanced-task-form {
+                padding: 20px;
+            }
+
+            .form-row {
                 display: flex;
                 flex-direction: column;
                 gap: 12px;
             }
 
-            .task-input {
+            .task-input,
+            .priority-select,
+            .category-select {
                 padding: 16px;
                 font-size: 16px; /* Prevents zoom on iOS */
                 border-radius: 12px;
@@ -604,15 +637,78 @@
                 border-radius: 8px;
             }
 
-            /* Toast Mobile */
-            .toast {
-                top: 10px;
-                right: 10px;
-                left: 10px;
-                border-radius: 12px;
+            /* AI Assistant Mobile */
+            .ai-assistant {
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .ai-toggle {
                 padding: 12px 16px;
+                font-size: 13px;
+            }
+
+            .ai-chat {
+                width: calc(100vw - 30px);
+                height: 70vh;
+                max-height: 400px;
+                right: -15px;
+            }
+
+            .ai-chat-messages {
+                padding: 12px;
+            }
+
+            .ai-message {
+                margin-bottom: 10px;
+                padding: 6px;
+            }
+
+            .ai-message-text {
+                font-size: 12px;
+            }
+
+            .ai-chat-input-area {
+                padding: 12px;
+                gap: 6px;
+            }
+
+            .ai-input {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .ai-send-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 12px;
+            }
+
+            /* Help Button Mobile */
+            .help-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+                top: 15px;
+                right: 15px;
+            }
+
+            .help-content {
+                padding: 20px;
+                max-width: 90vw;
+                width: 90vw;
+            }
+
+            .help-title {
+                font-size: 20px;
+            }
+
+            .help-section h4 {
+                font-size: 16px;
+            }
+
+            .help-section p {
                 font-size: 14px;
-                text-align: center;
             }
         }
 
@@ -716,8 +812,329 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
+        /* AI Assistant Styles */
+        .ai-assistant {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .ai-toggle {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        .ai-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .ai-chat {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 320px;
+            height: 450px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .ai-chat.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .ai-chat-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-chat-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .ai-chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .ai-chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .ai-message {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding: 8px;
+            border-radius: 12px;
+            animation: slideInLeft 0.3s ease-out;
+        }
+
+        .ai-message.ai-welcome {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .ai-message.user {
+            background: #e3f2fd;
+            flex-direction: row-reverse;
+        }
+
+        .ai-message-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .ai-message.user .ai-message-avatar {
+            background: #2196f3;
+        }
+
+        .ai-message-content {
+            flex: 1;
+        }
+
+        .ai-message-text {
+            margin-bottom: 4px;
+            line-height: 1.4;
+            font-size: 13px;
+        }
+
+        .ai-message-time {
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+        .ai-chat-input-area {
+            padding: 15px;
+            border-top: 1px solid #e1e8ed;
+            display: flex;
+            gap: 8px;
+            background: white;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .ai-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 20px;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .ai-input:focus {
+            border-color: #667eea;
+        }
+
+        .ai-send-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .ai-send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Help System */
+        .help-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .help-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .help-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .help-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .help-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .help-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .help-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .close-help {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .help-section {
+            margin-bottom: 25px;
+        }
+
+        .help-section h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .help-section p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .help-tip {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+            margin: 10px 0;
+        }
+
+        /* Enhanced Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes bounceInUp {
+            from, 60%, 75%, 90%, to {
+                animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            }
+            from {
+                opacity: 0;
+                transform: translate3d(0, 3000px, 0) scaleY(3);
+            }
+            60% {
+                opacity: 1;
+                transform: translate3d(0, -20px, 0) scaleY(0.9);
+            }
+            75% {
+                transform: translate3d(0, 10px, 0) scaleY(0.95);
+            }
+            90% {
+                transform: translate3d(0, -5px, 0) scaleY(0.985);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .bounce-in-up {
+            animation: bounceInUp 1s ease-out;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
         /* Toast Messages */
@@ -752,9 +1169,19 @@
             <!-- Add Task Section -->
             <div class="add-task-section fade-in">
                 <h3>✨ Yeni Görev Ekle</h3>
-                <div class="task-form">
-                    <input type="text" id="task-input" class="task-input" placeholder="Görev açıklamasını yazın...">
-                    <button onclick="addTask()" class="add-btn">➕ EKLE</button>
+                <div class="enhanced-task-form">
+                    <div class="form-row">
+                        <input type="text" id="task-input" class="task-input" placeholder="Görev açıklamasını yazın...">
+                        <select id="priority-select" class="priority-select">
+                            <option value="low">🟢 Düşük Öncelik</option>
+                            <option value="medium" selected>🟡 Orta Öncelik</option>
+                            <option value="high">🔴 Yüksek Öncelik</option>
+                        </select>
+                        <select id="category-select" class="category-select">
+                            <option value="">📂 Kategori Seçin</option>
+                        </select>
+                        <button onclick="addTask()" class="add-btn">➕ EKLE</button>
+                    </div>
                 </div>
             </div>
 
@@ -794,10 +1221,99 @@
                 </div>
             </div>
         </div>
-    </div>
+        </div>
 
-    <!-- Toast Container -->
-    <div id="toast-container"></div>
+        <!-- AI Assistant -->
+        <div class="ai-assistant" id="ai-assistant">
+            <button class="ai-toggle" onclick="toggleAIAssistant()" id="ai-toggle-btn">
+                <span class="ai-icon">🤖</span>
+                <span class="ai-text">AI Asistan</span>
+            </button>
+
+            <div class="ai-chat" id="ai-chat">
+                <div class="ai-chat-header">
+                    <h3>🤖 AI Asistan</h3>
+                    <button class="ai-chat-close" onclick="toggleAIAssistant()">✕</button>
+                </div>
+                <div class="ai-chat-messages" id="ai-chat-messages">
+                    <div class="ai-message ai-welcome">
+                        <div class="ai-message-avatar">🤖</div>
+                        <div class="ai-message-content">
+                            <div class="ai-message-text">Merhaba! Ben To-Do PRO AI asistanıyım. Görev yönetimi, kategoriler ve uygulama hakkında size yardımcı olabilirim. Ne sormak istiyorsunuz?</div>
+                            <div class="ai-message-time">Şimdi</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ai-chat-input-area">
+                    <input type="text" id="ai-input" class="ai-input" placeholder="AI asistana sorun sorun..." onkeypress="handleAIKeyPress(event)">
+                    <button class="ai-send-btn" onclick="sendAIMessage()">Gönder</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help System -->
+        <button class="help-btn" onclick="showHelpModal()" title="Yardım">?</button>
+
+        <!-- Help Modal -->
+        <div class="help-modal" id="help-modal">
+            <div class="help-content">
+                <div class="help-header">
+                    <h2 class="help-title">📚 To-Do PRO Yardım Rehberi</h2>
+                    <button class="close-help" onclick="hideHelpModal()">✕</button>
+                </div>
+
+                <div class="help-section">
+                    <h4>🚀 Görev Ekleme</h4>
+                    <p>• Üst kısımdaki input alanına görev metnini yazın</p>
+                    <p>• Öncelik seviyesi seçin (Düşük/Orta/Yüksek)</p>
+                    <p>• İsteğe bağlı olarak kategori seçin</p>
+                    <p>• "EKLE" butonuna basın veya Enter'a basın</p>
+                    <div class="help-tip">
+                        💡 İpucu: Hızlı görev eklemek için sadece metin yazıp Enter'a basın!
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h4>✅ Görev Yönetimi</h4>
+                    <p>• Checkbox'a tıklayarak görevleri tamamlayın</p>
+                    <p>• ✏️ butonu ile görevleri düzenleyin</p>
+                    <p>• 🗑️ butonu ile görevleri silin</p>
+                    <p>• Öncelik seviyesine göre otomatik renk kodlaması</p>
+                </div>
+
+                <div class="help-section">
+                    <h4>📂 Kategoriler</h4>
+                    <p>• "+" butonuna tıklayarak yeni kategori ekleyin</p>
+                    <p>• Kategoriye tıklayarak o kategorideki görevleri filtreleyin</p>
+                    <p>• Her kategori farklı renkle gösterilir</p>
+                </div>
+
+                <div class="help-section">
+                    <h4>🔍 Filtreleme</h4>
+                    <p>• "Tümü" - Tüm görevleri gösterir</p>
+                    <p>• "Bekleyen" - Tamamlanmamış görevler</p>
+                    <p>• "Tamamlanan" - Tamamlanmış görevler</p>
+                    <p>• Öncelik butonları ile öncelik seviyesine göre filtreleme</p>
+                </div>
+
+                <div class="help-section">
+                    <h4>📱 Mobil Kullanım</h4>
+                    <p>• Tüm butonlar dokunmatik kullanım için optimize edildi</p>
+                    <p>• Responsive tasarım tüm ekran boyutlarında çalışır</p>
+                    <p>• Touch-friendly buton boyutları</p>
+                </div>
+
+                <div class="help-section">
+                    <h4>💾 Veri Saklama</h4>
+                    <p>• Tüm veriler tarayıcıda yerel olarak saklanır</p>
+                    <p>• İnternet bağlantısı olmadan da çalışır</p>
+                    <p>• Veriler otomatik olarak kaydedilir</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toast-container"></div>
 
     <script>
         // Veri yönetimi
@@ -880,15 +1396,22 @@
         // Görev ekle
         function addTask() {
             const input = document.getElementById('task-input');
+            const prioritySelect = document.getElementById('priority-select');
+            const categorySelect = document.getElementById('category-select');
             const taskText = input.value.trim();
+            const priority = prioritySelect.value;
+            const categoryId = categorySelect.value;
 
             if (taskText) {
+                const category = categories.find(c => c.id === categoryId);
                 const newTask = {
                     id: Date.now().toString(),
                     text: taskText,
                     completed: false,
-                    priority: 'medium',
-                    categoryId: '',
+                    priority: priority,
+                    categoryId: categoryId,
+                    categoryName: category ? category.name : '',
+                    categoryColor: category ? category.color : '',
                     created: new Date().toISOString()
                 };
 
@@ -897,6 +1420,8 @@
                 renderTasks();
                 updateStats();
                 input.value = '';
+                prioritySelect.value = 'medium'; // Reset to default
+                categorySelect.value = ''; // Reset to default
 
                 showToast('✅ Görev eklendi!');
             }
@@ -926,7 +1451,7 @@
                         <div class="task-text">${task.text}</div>
                         <div class="task-meta">
                             <span class="priority-badge ${priorityClass}">${getPriorityText(task.priority)}</span>
-                            ${task.categoryId ? `<span class="category-badge">${getCategoryName(task.categoryId)}</span>` : ''}
+                            ${task.categoryName ? `<span class="category-badge" style="background: ${task.categoryColor}">${task.categoryName}</span>` : ''}
                         </div>
                     </div>
                     <div class="task-actions">
@@ -1104,8 +1629,99 @@
             showToast('Kategori filtresi yakında eklenecek!');
         }
 
-        // Başlangıçta kategorileri göster
-        renderCategories();
-    </script>
-</body>
-</html>
+        // AI Asistan aç/kapat
+        function toggleAIAssistant() {
+            const chat = document.getElementById('ai-chat');
+            const toggleBtn = document.getElementById('ai-toggle-btn');
+
+            if (chat.classList.contains('show')) {
+                chat.classList.remove('show');
+                toggleBtn.classList.remove('active');
+            } else {
+                chat.classList.add('show');
+                toggleBtn.classList.add('active');
+            }
+        }
+
+        // AI mesajı ekle
+        function addAIMessage(text, type) {
+            const messages = document.getElementById('ai-chat-messages');
+            if (!messages) return;
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-message ${type}`;
+
+            const now = new Date();
+            const time = now.toLocaleTimeString('tr-TR', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            messageDiv.innerHTML = `
+                <div class="ai-message-avatar">${type === 'user' ? '👤' : '🤖'}</div>
+                <div class="ai-message-content">
+                    <div class="ai-message-text">${text}</div>
+                    <div class="ai-message-time">${time}</div>
+                </div>
+            `;
+
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        // AI mesaj gönder
+        function sendAIMessage() {
+            const input = document.getElementById('ai-input');
+            const message = input.value.trim();
+
+            if (message) {
+                addAIMessage(message, 'user');
+                input.value = '';
+
+                // AI yanıtı üret
+                setTimeout(() => {
+                    let response = generateAIResponse(message);
+                    addAIMessage(response, 'ai');
+                }, 1000);
+            }
+        }
+
+        // AI klavye tuşu
+        function handleAIKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendAIMessage();
+            }
+        }
+
+        // AI yanıtları üret
+        function generateAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+
+            if (lowerMessage.includes('merhaba') || lowerMessage.includes('selam')) {
+                return 'Merhaba! Size nasıl yardımcı olabilirim? Görev yönetimi, kategoriler veya uygulama özellikleri hakkında soru sorabilirsiniz.';
+            } else if (lowerMessage.includes('görev') && lowerMessage.includes('ekle')) {
+                return 'Yeni görev eklemek için: 1) Üst kısımdaki input alanına görev metnini yazın, 2) Öncelik ve kategori seçin, 3) "EKLE" butonuna basın veya Enter\'a basın.';
+            } else if (lowerMessage.includes('kategori')) {
+                return 'Kategoriler görevlerinizi organize etmenizi sağlar. "+" butonuna tıklayarak yeni kategori ekleyebilirsiniz. Kategoriye tıklayarak o kategorideki görevleri görebilirsiniz.';
+            } else if (lowerMessage.includes('öncelik')) {
+                return 'Görevlere 3 öncelik seviyesi atayabilirsiniz: 🔴 Yüksek, 🟡 Orta, 🟢 Düşük. Bu sayede önemli görevleri ön plana çıkarabilirsiniz.';
+            } else if (lowerMessage.includes('yardım')) {
+                return 'Detaylı yardım için sağ üst köşedeki mavi "?" butonuna tıklayın. Orada tüm özellikler hakkında bilgi bulabilirsiniz.';
+            } else if (lowerMessage.includes('mobil')) {
+                return 'Uygulama tamamen mobil uyumludur. Tüm butonlar dokunmatik kullanım için optimize edildi ve responsive tasarım kullanıyor.';
+            } else {
+                return 'Bu konuda daha detaylı bilgi için lütfen spesifik bir soru sorun. Görev ekleme, kategori yönetimi, öncelik atama veya diğer özellikler hakkında yardımcı olabilirim.';
+            }
+        }
+
+        // Yardım modalını göster
+        function showHelpModal() {
+            const modal = document.getElementById('help-modal');
+            modal.classList.add('show');
+        }
+
+        // Yardım modalını kapat
+        function hideHelpModal() {
+            const modal = document.getElementById('help-modal');
+            modal.classList.remove('show');
+        }
