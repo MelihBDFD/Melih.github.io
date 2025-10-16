@@ -123,8 +123,64 @@
             min-height: 50px;
         }
 
-        .priority-select:focus,
-        .category-select:focus {
+        .due-date-input {
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            min-height: 50px;
+        }
+
+        .due-date-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .task-options {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .recurring-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            align-items: center;
+        }
+
+        .recurring-select,
+        .recurring-input {
+            padding: 8px 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .recurring-select:focus,
+        .recurring-input:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -234,6 +290,99 @@
         .stat.total { background: #e3f2fd; color: #1976d2; }
         .stat.completed { background: #e8f5e8; color: #388e3c; }
         .stat.pending { background: #fff3e0; color: #f57c00; }
+        /* Achievements Section */
+        .achievements-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 2px solid #f0f0f0;
+        }
+
+        .achievements-title {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .achievement-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .achievement-item.unlocked {
+            background: linear-gradient(135deg, #fff9c4, #fff59d);
+            border-color: #ffeb3b;
+        }
+
+        .achievement-item.locked {
+            background: #f5f5f5;
+            border-color: #bdbdbd;
+            opacity: 0.7;
+        }
+
+        .achievement-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .achievement-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .achievement-description {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .achievement-progress {
+            background: #e0e0e0;
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .achievement-progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+        }
+
+        .achievement-status {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .achievement-status.unlocked {
+            color: #388e3c;
+        }
+
+        .achievement-status.locked {
+            color: #757575;
+        }
 
         /* Task Items */
         .task-item {
@@ -333,6 +482,20 @@
 
         .delete-btn:hover {
             background: #d32f2f;
+        }
+
+        .time-btn {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+        }
+
+        .time-btn.tracking {
+            background: linear-gradient(135deg, #4caf50, #388e3c);
+            animation: pulse 1s infinite;
+        }
+
+        .time-btn.tracking:hover {
+            background: linear-gradient(135deg, #388e3c, #2e7d32);
         }
 
         /* Categories Section */
@@ -509,11 +672,32 @@
 
             .task-input,
             .priority-select,
-            .category-select {
+            .category-select,
+            .due-date-input {
                 padding: 16px;
                 font-size: 16px; /* Prevents zoom on iOS */
                 border-radius: 12px;
                 min-height: 52px;
+            }
+
+            .task-options {
+                padding: 12px;
+            }
+
+            .checkbox-container {
+                font-size: 13px;
+            }
+
+            .recurring-options {
+                flex-direction: column;
+                gap: 8px;
+                align-items: stretch;
+            }
+
+            .recurring-select,
+            .recurring-input {
+                padding: 10px;
+                font-size: 14px;
             }
 
             .add-btn {
@@ -556,6 +740,56 @@
             .categories-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
+            }
+
+            .category-item {
+                padding: 16px 12px;
+                min-height: 60px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .category-color {
+                width: 16px;
+                height: 16px;
+                margin-bottom: 8px;
+            }
+
+            .category-name {
+                font-size: 12px;
+                text-align: center;
+                line-height: 1.3;
+            }
+
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
+            }
+
+            .achievement-item {
+                padding: 16px 12px;
+            }
+
+            .achievement-icon {
+                font-size: 28px;
+            }
+
+            .achievement-name {
+                font-size: 14px;
+            }
+
+            .achievement-description {
+                font-size: 11px;
+            }
+
+            .achievement-name {
+                font-size: 14px;
+            }
+
+            .achievement-description {
+                font-size: 11px;
             }
 
             .category-item {
@@ -1360,7 +1594,23 @@
                         <select id="category-select" class="category-select">
                             <option value="">📂 Kategori Seçin</option>
                         </select>
+                        <input type="datetime-local" id="due-date-input" class="due-date-input" title="Bitiş tarihi (opsiyonel)">
                         <button onclick="addTask()" class="add-btn">➕ EKLE</button>
+                    </div>
+                    <div class="task-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="recurring-task" onchange="toggleRecurringOptions()">
+                            <span class="checkmark"></span>
+                            Tekrarlayan görev
+                        </label>
+                        <div id="recurring-options" style="display: none;">
+                            <select id="recurring-type" class="recurring-select">
+                                <option value="daily">📅 Günlük</option>
+                                <option value="weekly">📆 Haftalık</option>
+                                <option value="monthly">📅 Aylık</option>
+                            </select>
+                            <input type="number" id="recurring-count" class="recurring-input" placeholder="Kaç kez?" min="1" max="52">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1394,10 +1644,19 @@
                         <span class="stat total">Toplam: <span id="total-count">0</span></span>
                         <span class="stat completed">✅ <span id="completed-count">0</span></span>
                         <span class="stat pending">⏳ <span id="pending-count">0</span></span>
+                        <span class="stat time-spent">⏱️ <span id="total-time">0dk</span></span>
                     </div>
                 </div>
                 <div id="tasks-list">
                     <!-- Tasks will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Achievements Section -->
+            <div class="achievements-section fade-in">
+                <h3 class="achievements-title">🏆 Başarımlar</h3>
+                <div class="achievements-grid" id="achievements-container">
+                    <!-- Achievements will be loaded here -->
                 </div>
             </div>
         </div>
@@ -1499,13 +1758,156 @@
         // Veri yönetimi
         let tasks = [];
         let categories = [];
+        let achievements = [];
         let currentFilter = 'all';
+
+        // Başarımları yükle
+        function loadAchievements() {
+            try {
+                const saved = localStorage.getItem('todo_pro_achievements');
+                if (saved) {
+                    achievements = JSON.parse(saved);
+                } else {
+                    // Varsayılan başarımlar
+                    achievements = [
+                        {
+                            id: 'first_task',
+                            name: 'İlk Görev',
+                            description: 'İlk görevi tamamla',
+                            icon: '🎯',
+                            requirement: 1,
+                            current: 0,
+                            unlocked: false,
+                            category: 'baslangic'
+                        },
+                        {
+                            id: 'task_master',
+                            name: 'Görev Ustası',
+                            description: '10 görevi tamamla',
+                            icon: '🏆',
+                            requirement: 10,
+                            current: 0,
+                            unlocked: false,
+                            category: 'tamamlama'
+                        },
+                        {
+                            id: 'time_tracker',
+                            name: 'Zaman Takipçisi',
+                            description: '1 saat zaman takip et',
+                            icon: '⏱️',
+                            requirement: 60,
+                            current: 0,
+                            unlocked: false,
+                            category: 'zaman'
+                        },
+                        {
+                            id: 'category_king',
+                            name: 'Kategori Kralı',
+                            description: '5 kategori oluştur',
+                            icon: '📂',
+                            requirement: 5,
+                            current: 0,
+                            unlocked: false,
+                            category: 'kategoriler'
+                        },
+                        {
+                            id: 'perfectionist',
+                            name: 'Mükemmeliyetçi',
+                            description: 'Yüksek öncelikli 5 görevi tamamla',
+                            icon: '💎',
+                            requirement: 5,
+                            current: 0,
+                            unlocked: false,
+                            category: 'oncelik'
+                        },
+                        {
+                            id: 'streak_master',
+                            name: 'Çizgi Ustası',
+                            description: '3 gün üst üste görev tamamla',
+                            icon: '🔥',
+                            requirement: 3,
+                            current: 0,
+                            unlocked: false,
+                            category: 'cizgi'
+                        }
+                    ];
+                    saveAchievements();
+                }
+            } catch (e) {
+                console.error('Başarımlar yüklenemedi:', e);
+                achievements = [];
+            }
+        }
+
+        // Başarımları kaydet
+        function saveAchievements() {
+            try {
+                localStorage.setItem('todo_pro_achievements', JSON.stringify(achievements));
+            } catch (e) {
+                console.error('Başarımlar kaydedilemedi:', e);
+            }
+        }
+
+        // Başarımları göster
+        function renderAchievements() {
+            const container = document.getElementById('achievements-container');
+            container.innerHTML = '';
+
+            achievements.forEach(achievement => {
+                const achievementElement = document.createElement('div');
+                achievementElement.className = `achievement-item ${achievement.unlocked ? 'unlocked' : 'locked'}`;
+
+                const progressPercent = Math.min((achievement.current / achievement.requirement) * 100, 100);
+
+                achievementElement.innerHTML = `
+                    <div class="achievement-icon">${achievement.icon}</div>
+                    <div class="achievement-name">${achievement.name}</div>
+                    <div class="achievement-description">${achievement.description}</div>
+                    <div class="achievement-progress">
+                        <div class="achievement-progress-bar" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <div class="achievement-status ${achievement.unlocked ? 'unlocked' : 'locked'}">
+                        ${achievement.unlocked ? '✅ Açıldı!' : `${achievement.current}/${achievement.requirement}`}
+                    </div>
+                `;
+
+                container.appendChild(achievementElement);
+            });
+        }
+
+        // Başarım ilerlemesini güncelle
+        function updateAchievementProgress() {
+            const completedTasks = tasks.filter(t => t.completed).length;
+            const totalTime = tasks.reduce((sum, task) => sum + (task.timeSpent || 0), 0);
+            const highPriorityCompleted = tasks.filter(t => t.completed && t.priority === 'high').length;
+            const categoryCount = categories.length;
+
+            // Başarım güncellemeleri
+            achievements.find(a => a.id === 'first_task').current = completedTasks > 0 ? 1 : 0;
+            achievements.find(a => a.id === 'task_master').current = completedTasks;
+            achievements.find(a => a.id === 'time_tracker').current = totalTime;
+            achievements.find(a => a.id === 'category_king').current = categoryCount;
+            achievements.find(a => a.id === 'perfectionist').current = highPriorityCompleted;
+
+            // Başarım kilidini aç
+            achievements.forEach(achievement => {
+                if (!achievement.unlocked && achievement.current >= achievement.requirement) {
+                    achievement.unlocked = true;
+                    showToast(`🏆 Yeni başarım: ${achievement.name}!`);
+                }
+            });
+
+            saveAchievements();
+            renderAchievements();
+        }
 
         // Sayfa yüklendiğinde
         document.addEventListener('DOMContentLoaded', function() {
             loadTasks();
             loadCategories();
+            loadAchievements();
             renderTasks();
+            renderAchievements();
             updateStats();
             setupEventListeners();
             initializeViewMode();
@@ -1608,13 +2010,20 @@
             const input = document.getElementById('task-input');
             const prioritySelect = document.getElementById('priority-select');
             const categorySelect = document.getElementById('category-select');
+            const dueDateInput = document.getElementById('due-date-input');
+            const recurringCheckbox = document.getElementById('recurring-task');
+
             const taskText = input.value.trim();
             const priority = prioritySelect.value;
             const categoryId = categorySelect.value;
+            const dueDate = dueDateInput.value ? new Date(dueDateInput.value).toISOString() : null;
+            const isRecurring = recurringCheckbox.checked;
 
             if (taskText) {
                 const category = categories.find(c => c.id === categoryId);
-                const newTask = {
+
+                // Ana görevi oluştur
+                const mainTask = {
                     id: Date.now().toString(),
                     text: taskText,
                     completed: false,
@@ -1622,18 +2031,85 @@
                     categoryId: categoryId,
                     categoryName: category ? category.name : '',
                     categoryColor: category ? category.color : '',
-                    created: new Date().toISOString()
+                    dueDate: dueDate,
+                    isRecurring: isRecurring,
+                    recurringType: null,
+                    recurringCount: 0,
+                    created: new Date().toISOString(),
+                    timeSpent: 0,
+                    comments: []
                 };
 
-                tasks.unshift(newTask); // En üste ekle
+                tasks.unshift(mainTask);
+
+                // Tekrarlayan görevleri oluştur
+                if (isRecurring) {
+                    const recurringType = document.getElementById('recurring-type').value;
+                    const recurringCount = parseInt(document.getElementById('recurring-count').value) || 1;
+
+                    createRecurringTasks(mainTask, recurringType, recurringCount);
+                }
+
                 saveTasks();
                 renderTasks();
                 updateStats();
-                input.value = '';
-                prioritySelect.value = 'medium'; // Reset to default
-                categorySelect.value = ''; // Reset to default
+                updateAchievementProgress();
+                resetForm();
 
-                showToast('✅ Görev eklendi!');
+                showToast(`✅ Görev eklendi! ${isRecurring ? '(Tekrarlayan)' : ''}`);
+            }
+        }
+
+        // Tekrarlayan görevleri oluştur
+        function createRecurringTasks(baseTask, recurringType, count) {
+            const baseDate = baseTask.dueDate ? new Date(baseTask.dueDate) : new Date();
+
+            for (let i = 1; i <= count; i++) {
+                const recurringTask = { ...baseTask };
+                recurringTask.id = `${baseTask.id}_recurring_${i}`;
+                recurringTask.text = `${baseTask.text} (${i}/${count})`;
+                recurringTask.isRecurring = true;
+                recurringTask.recurringType = recurringType;
+                recurringTask.recurringCount = i;
+
+                // Sonraki tarihi hesapla
+                const nextDate = new Date(baseDate);
+                switch (recurringType) {
+                    case 'daily':
+                        nextDate.setDate(nextDate.getDate() + i);
+                        break;
+                    case 'weekly':
+                        nextDate.setDate(nextDate.getDate() + (i * 7));
+                        break;
+                    case 'monthly':
+                        nextDate.setMonth(nextDate.getMonth() + i);
+                        break;
+                }
+                recurringTask.dueDate = nextDate.toISOString();
+
+                tasks.push(recurringTask);
+            }
+        }
+
+        // Formu sıfırla
+        function resetForm() {
+            document.getElementById('task-input').value = '';
+            document.getElementById('priority-select').value = 'medium';
+            document.getElementById('category-select').value = '';
+            document.getElementById('due-date-input').value = '';
+            document.getElementById('recurring-task').checked = false;
+            toggleRecurringOptions();
+        }
+
+        // Tekrarlayan seçenekleri göster/gizle
+        function toggleRecurringOptions() {
+            const checkbox = document.getElementById('recurring-task');
+            const options = document.getElementById('recurring-options');
+
+            if (checkbox.checked) {
+                options.style.display = 'flex';
+            } else {
+                options.style.display = 'none';
             }
         }
 
@@ -1662,10 +2138,15 @@
                         <div class="task-meta">
                             <span class="priority-badge ${priorityClass}">${getPriorityText(task.priority)}</span>
                             ${task.categoryName ? `<span class="category-badge" style="background: ${task.categoryColor}">${task.categoryName}</span>` : ''}
+                            ${task.dueDate ? `<span class="due-date-badge">${formatDate(task.dueDate)}</span>` : ''}
+                            ${task.isRecurring ? `<span class="recurring-badge">🔄 ${task.recurringType}</span>` : ''}
                         </div>
                     </div>
                     <div class="task-actions">
                         <button class="task-btn edit-btn" onclick="editTask('${task.id}')">✏️</button>
+                        <button class="task-btn time-btn ${task.isTracking ? 'tracking' : ''}" onclick="trackTime('${task.id}')" title="Zaman Takibi">
+                            ${task.isTracking ? '⏹️' : '⏱️'}
+                        </button>
                         <button class="task-btn delete-btn" onclick="deleteTask('${task.id}')">🗑️</button>
                     </div>
                 `;
@@ -1720,6 +2201,7 @@
                 saveTasks();
                 renderTasks();
                 updateStats();
+                updateAchievementProgress();
                 showToast(task.completed ? '✅ Görev tamamlandı!' : '⏳ Görev aktif!');
             }
         }
@@ -1754,10 +2236,42 @@
             const totalCount = document.getElementById('total-count');
             const completedCount = document.getElementById('completed-count');
             const pendingCount = document.getElementById('pending-count');
+            const totalTime = document.getElementById('total-time');
 
             totalCount.textContent = tasks.length;
             completedCount.textContent = tasks.filter(t => t.completed).length;
             pendingCount.textContent = tasks.filter(t => !t.completed).length;
+
+            // Toplam zamanı hesapla
+            const totalMinutes = tasks.reduce((sum, task) => sum + (task.timeSpent || 0), 0);
+            totalTime.textContent = totalMinutes > 0 ? `${Math.floor(totalMinutes / 60)}sa ${totalMinutes % 60}dk` : '0dk';
+        }
+
+        // Zaman takibi başlat/durdur
+        function trackTime(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+
+            if (task.isTracking) {
+                // Zamanı durdur
+                const now = Date.now();
+                const elapsed = Math.floor((now - task.trackingStart) / 1000 / 60); // dakika cinsinden
+                task.timeSpent = (task.timeSpent || 0) + elapsed;
+                task.isTracking = false;
+                task.trackingStart = null;
+
+                showToast(`⏱️ ${elapsed} dakika kaydedildi!`);
+            } else {
+                // Zamanı başlat
+                task.isTracking = true;
+                task.trackingStart = Date.now();
+
+                showToast('⏱️ Zaman takibi başladı!');
+            }
+
+            saveTasks();
+            renderTasks();
+            updateStats();
         }
 
         // Öncelik metnini al
