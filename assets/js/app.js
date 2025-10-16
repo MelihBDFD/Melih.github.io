@@ -650,6 +650,75 @@ function toggleThemeSwitcher() {
     switcher.classList.toggle('show');
 }
 
+// Mobil tema değiştirici
+function toggleMobileTheme() {
+    const switcher = document.getElementById('mobile-theme-switcher');
+    switcher.classList.toggle('show');
+
+    // Dışarı tıklandığında kapat
+    if (switcher.classList.contains('show')) {
+        setTimeout(() => {
+            document.addEventListener('click', closeMobileThemeOnOutsideClick);
+        }, 1);
+    } else {
+        document.removeEventListener('click', closeMobileThemeOnOutsideClick);
+    }
+}
+
+function closeMobileThemeOnOutsideClick(event) {
+    const switcher = document.getElementById('mobile-theme-switcher');
+    const themeBtn = document.querySelector('.mobile-view-toggle-btn[title="Tema"]');
+
+    if (!switcher.contains(event.target) && event.target !== themeBtn) {
+        switcher.classList.remove('show');
+        document.removeEventListener('click', closeMobileThemeOnOutsideClick);
+    }
+}
+
+// Mobil tema ayarla
+function setMobileTheme(themeName) {
+    // Önceki tema class'ını kaldır
+    document.documentElement.className = document.documentElement.className.replace(/theme-\w+/g, '');
+
+    // Yeni tema class'ını ekle
+    if (themeName !== 'original') {
+        document.documentElement.classList.add(`theme-${themeName}`);
+    }
+
+    // Mobil tema seçici butonlarını güncelle
+    document.querySelectorAll('.mobile-theme-option').forEach(option => {
+        option.classList.remove('active');
+    });
+
+    // Aktif tema butonunu işaretle
+    const activeThemeBtn = document.querySelector(`.mobile-theme-${themeName}`);
+    if (activeThemeBtn) {
+        activeThemeBtn.classList.add('active');
+    }
+
+    // Tema değiştiriciyi kapat
+    const switcher = document.getElementById('mobile-theme-switcher');
+    switcher.classList.remove('show');
+    document.removeEventListener('click', closeMobileThemeOnOutsideClick);
+
+    // Temayı kaydet
+    localStorage.setItem('todo_pro_theme', themeName);
+
+    // Başarı mesajı göster
+    const themeNames = {
+        'original': 'Orijinal',
+        'ocean': 'Okyanus',
+        'forest': 'Orman',
+        'sunset': 'Gün Batımı',
+        'rose': 'Gül',
+        'purple': 'Mor',
+        'midnight': 'Gece Yarısı',
+        'cyber': 'Siber'
+    };
+
+    showToast(`🎨 ${themeNames[themeName] || themeName} teması aktif!`);
+}
+
 // Görünüm modunu ayarla
 function setViewMode(mode) {
     document.body.classList.remove('desktop-mode', 'mobile-mode');

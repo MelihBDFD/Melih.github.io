@@ -15,7 +15,7 @@
                 <button id="login-btn" onclick="showLoginModal()" class="view-toggle-btn" title="Giriş Yap">🔐 Giriş</button>
                 <button class="view-toggle-btn" onclick="toggleTheme()" title="Tema Değiştir">🎨</button>
                 <button class="view-toggle-btn" onclick="showSettings()" title="Ayarlar">⚙️</button>
-                <button class="view-toggle-btn" onclick="openMobileInterface()" title="Mobil Arayüz">📱</button>
+                <button class="view-toggle-btn" onclick="setViewMode('mobile')" title="Mobil Mod">📱</button>
                 <button class="view-toggle-btn" onclick="showQuickActions()" title="Hızlı İşlemler">⚡</button>
             </div>
             <h1>To-Do PRO Ultimate</h1>
@@ -298,14 +298,14 @@
 
                     <!-- Mobile Theme Switcher -->
                     <div class="mobile-theme-switcher" id="mobile-theme-switcher">
-                        <div class="mobile-theme-option theme-original active" onclick="setMobileTheme('original')" title="Orijinal"></div>
-                        <div class="mobile-theme-option theme-ocean" onclick="setMobileTheme('ocean')" title="Okyanus"></div>
-                        <div class="mobile-theme-option theme-forest" onclick="setMobileTheme('forest')" title="Orman"></div>
-                        <div class="mobile-theme-option theme-sunset" onclick="setMobileTheme('sunset')" title="Gün Batımı"></div>
-                        <div class="mobile-theme-option theme-rose" onclick="setMobileTheme('rose')" title="Gül"></div>
-                        <div class="mobile-theme-option theme-purple" onclick="setMobileTheme('purple')" title="Mor"></div>
-                        <div class="mobile-theme-option theme-midnight" onclick="setMobileTheme('midnight')" title="Gece Yarısı"></div>
-                        <div class="mobile-theme-option theme-cyber" onclick="setMobileTheme('cyber')" title="Siber"></div>
+                        <div class="mobile-theme-option mobile-theme-original active" onclick="setMobileTheme('original')" title="Orijinal"></div>
+                        <div class="mobile-theme-option mobile-theme-ocean" onclick="setMobileTheme('ocean')" title="Okyanus"></div>
+                        <div class="mobile-theme-option mobile-theme-forest" onclick="setMobileTheme('forest')" title="Orman"></div>
+                        <div class="mobile-theme-option mobile-theme-sunset" onclick="setMobileTheme('sunset')" title="Gün Batımı"></div>
+                        <div class="mobile-theme-option mobile-theme-rose" onclick="setMobileTheme('rose')" title="Gül"></div>
+                        <div class="mobile-theme-option mobile-theme-purple" onclick="setMobileTheme('purple')" title="Mor"></div>
+                        <div class="mobile-theme-option mobile-theme-midnight" onclick="setMobileTheme('midnight')" title="Gece Yarısı"></div>
+                        <div class="mobile-theme-option mobile-theme-cyber" onclick="setMobileTheme('cyber')" title="Siber"></div>
                     </div>
 
                     <!-- Mobile AI Assistant -->
