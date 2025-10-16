@@ -2818,15 +2818,6 @@
 <body>
     <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
 
-    <!-- Welcome Animation -->
-    <div class="welcome-animation" id="welcome-animation">
-        <div class="welcome-content">
-            <div class="welcome-title" id="welcome-title">Merhaba, [İsim]!</div>
-            <div class="welcome-subtitle">To-Do PRO'ya hoş geldiniz</div>
-            <div class="welcome-countdown" id="welcome-countdown">5</div>
-        </div>
-    </div>
-
     <!-- Login Modal -->
     <div class="login-modal" id="login-modal">
         <div class="login-content">
@@ -3412,10 +3403,7 @@
                     <div class="mobile-category-count">${taskCount}</div>
                 `;
 
-        }
-
-        container.appendChild(categoryElement);
-    });
+        });
 }
 
 // Google Login Functions
