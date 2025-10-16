@@ -365,16 +365,7 @@ function toggleTask(taskId) {
 
 // Görevi düzenle
 function editTask(taskId) {
-    const task = tasks.find(t => t.id === taskId);
-    if (task) {
-        const newText = prompt('Görevi düzenleyin:', task.text);
-        if (newText && newText.trim()) {
-            task.text = newText.trim();
-            saveTasks();
-            renderTasks();
-            showToast('✏️ Görev güncellendi!');
-        }
-    }
+    showEditTaskModal(taskId);
 }
 
 // Görevi sil
@@ -614,18 +605,43 @@ function updateAchievementProgress() {
     renderAchievements();
 }
 
-// Tema değiştirme
+// Tema değiştirme - DÜZELTİLMİŞ
 function setTheme(themeName) {
-    document.documentElement.className = `theme-${themeName}`;
+    // Önceki tema class'ını kaldır
+    document.documentElement.className = document.documentElement.className.replace(/theme-\w+/g, '');
 
+    // Yeni tema class'ını ekle
+    if (themeName !== 'original') {
+        document.documentElement.classList.add(`theme-${themeName}`);
+    }
+
+    // Tema seçici butonlarını güncelle
     document.querySelectorAll('.theme-option').forEach(option => {
         option.classList.remove('active');
     });
 
-    event.target.classList.add('active');
+    // Aktif tema butonunu işaretle
+    const activeThemeBtn = document.querySelector(`.theme-${themeName}`);
+    if (activeThemeBtn) {
+        activeThemeBtn.classList.add('active');
+    }
 
+    // Temayı kaydet
     localStorage.setItem('todo_pro_theme', themeName);
-    showToast(`🎨 ${themeName.charAt(0).toUpperCase() + themeName.slice(1)} teması aktif!`);
+
+    // Başarı mesajı göster
+    const themeNames = {
+        'original': 'Orijinal',
+        'ocean': 'Okyanus',
+        'forest': 'Orman',
+        'sunset': 'Gün Batımı',
+        'rose': 'Gül',
+        'purple': 'Mor',
+        'midnight': 'Gece Yarısı',
+        'cyber': 'Siber'
+    };
+
+    showToast(`🎨 ${themeNames[themeName] || themeName} teması aktif!`);
 }
 
 // Tema değiştiriciyi aç/kapat
@@ -754,7 +770,52 @@ function hideHelpModal() {
 
 // Hızlı işlemler
 function showQuickActions() {
-    showToast('⚡ Hızlı işlemler menüsü yakında eklenecek!');
+    const actions = [
+        { icon: '📝', text: 'Yeni Görev Ekle', action: 'document.getElementById("task-input").focus()' },
+        { icon: '📂', text: 'Yeni Kategori Ekle', action: 'showAddCategoryDialog()' },
+        { icon: '📤', text: 'Verileri Dışa Aktar', action: 'exportTasks()' },
+        { icon: '📥', text: 'Verileri İçe Aktar', action: 'importTasks()' },
+        { icon: '🧹', text: 'Tamamlananları Temizle', action: 'clearCompletedTasks()' },
+        { icon: '📊', text: 'İstatistikleri Görüntüle', action: 'showDetailedStats()' },
+        { icon: '🎨', text: 'Tema Değiştirici', action: 'toggleThemeSwitcher()' },
+        { icon: '⚙️', text: 'Ayarlar', action: 'showSettings()' },
+        { icon: '❓', text: 'Yardım', action: 'showHelpModal()' }
+    ];
+
+    const quickActionsHTML = `
+        <div style="padding: 20px;">
+            <h3 style="color: #667eea; margin-bottom: 20px;">⚡ Hızlı İşlemler</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                ${actions.map(action => `
+                    <button onclick="${action.action}; this.closest('.modal').remove()" style="
+                        background: linear-gradient(135deg, #667eea, #764ba2);
+                        color: white;
+                        border: none;
+                        padding: 15px 10px;
+                        border-radius: 12px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 8px;
+                        min-height: 80px;
+                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <span style="font-size: 20px;">${action.icon}</span>
+                        <span>${action.text}</span>
+                    </button>
+                `).join('')}
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+                <button onclick="this.closest('.modal').remove()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Kapat</button>
+            </div>
+        </div>
+    `;
+
+    const modal = createModal('⚡ Hızlı İşlemler', quickActionsHTML);
+    modal.classList.add('show');
 }
 
 function exportTasks() {
@@ -775,6 +836,179 @@ function exportTasks() {
 
     URL.revokeObjectURL(url);
     showToast('📤 Veriler dışa aktarıldı!');
+}
+
+function importTasks() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+
+    input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const data = JSON.parse(event.target.result);
+
+                    if (data.tasks && Array.isArray(data.tasks)) {
+                        tasks = data.tasks;
+                        saveTasks();
+                    }
+
+                    if (data.categories && Array.isArray(data.categories)) {
+                        categories = data.categories;
+                        saveCategories();
+                    }
+
+                    if (data.achievements && Array.isArray(data.achievements)) {
+                        achievements = data.achievements;
+                        saveAchievements();
+                    }
+
+                    // UI'yi güncelle
+                    renderTasks();
+                    renderCategories();
+                    renderAchievements();
+                    updateCategorySelect();
+                    updateStats();
+                    updateAchievementProgress();
+
+                    showToast('📥 Veriler başarıyla içe aktarıldı!');
+                } catch (error) {
+                    showToast('❌ Geçersiz dosya formatı!');
+                    console.error('İçe aktarma hatası:', error);
+                }
+            };
+            reader.readAsText(file);
+        }
+    };
+
+    input.click();
+}
+
+function clearCompletedTasks() {
+    if (confirm('Tamamlanan tüm görevleri silmek istediğinizden emin misiniz?')) {
+        tasks = tasks.filter(task => !task.completed);
+        saveTasks();
+        renderTasks();
+        updateStats();
+        updateAchievementProgress();
+        showToast('🧹 Tamamlanan görevler temizlendi!');
+    }
+}
+
+function clearAllData() {
+    if (confirm('TÜM VERİLERİ KALICI OLARAK SİLMEK istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
+        tasks = [];
+        categories = [];
+        achievements = [];
+        currentFilter = 'all';
+
+        localStorage.clear();
+
+        // Temel kategorileri yeniden oluştur
+        categories = [
+            { id: 'work', name: 'İş', color: '#667eea' },
+            { id: 'personal', name: 'Kişisel', color: '#4caf50' },
+            { id: 'shopping', name: 'Alışveriş', color: '#ff9800' }
+        ];
+
+        // Başarımları yeniden yükle
+        loadAchievements();
+
+        saveTasks();
+        saveCategories();
+        saveAchievements();
+
+        renderTasks();
+        renderCategories();
+        renderAchievements();
+        updateCategorySelect();
+        updateStats();
+
+        showToast('🗑️ Tüm veriler temizlendi!');
+    }
+}
+
+// Görev düzenleme modal'ı
+function showEditTaskModal(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    const editHTML = `
+        <div style="padding: 20px;">
+            <h3 style="color: #667eea; margin-bottom: 20px;">✏️ Görevi Düzenle</h3>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Görev Metni:</label>
+                <input type="text" id="edit-task-text" value="${task.text}" style="width: 100%; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; font-size: 16px;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Öncelik:</label>
+                <select id="edit-priority-select" style="width: 100%; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; font-size: 16px;">
+                    <option value="low" ${task.priority === 'low' ? 'selected' : ''}>🟢 Düşük Öncelik</option>
+                    <option value="medium" ${task.priority === 'medium' ? 'selected' : ''}>🟡 Orta Öncelik</option>
+                    <option value="high" ${task.priority === 'high' ? 'selected' : ''}>🔴 Yüksek Öncelik</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Kategori:</label>
+                <select id="edit-category-select" style="width: 100%; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; font-size: 16px;">
+                    <option value="">📂 Kategori Seçin</option>
+                    ${categories.map(cat => `<option value="${cat.id}" ${task.categoryId === cat.id ? 'selected' : ''}>${cat.name}</option>`).join('')}
+                </select>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Bitiş Tarihi:</label>
+                <input type="datetime-local" id="edit-due-date" value="${task.dueDate ? new Date(task.dueDate).toISOString().slice(0, 16) : ''}" style="width: 100%; padding: 12px; border: 2px solid #e1e8ed; border-radius: 8px; font-size: 16px;">
+            </div>
+
+            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                <button onclick="this.closest('.modal').remove()" style="background: #6c757d; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer;">İptal</button>
+                <button onclick="saveEditedTask('${taskId}')" style="background: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer;">💾 Kaydet</button>
+            </div>
+        </div>
+    `;
+
+    const modal = createModal('Görev Düzenleme', editHTML);
+    modal.classList.add('show');
+}
+
+function saveEditedTask(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    const newText = document.getElementById('edit-task-text').value.trim();
+    const newPriority = document.getElementById('edit-priority-select').value;
+    const newCategoryId = document.getElementById('edit-category-select').value;
+    const newDueDate = document.getElementById('edit-due-date').value;
+
+    if (newText) {
+        task.text = newText;
+        task.priority = newPriority;
+        task.categoryId = newCategoryId;
+
+        const category = categories.find(c => c.id === newCategoryId);
+        task.categoryName = category ? category.name : '';
+        task.categoryColor = category ? category.color : '';
+
+        task.dueDate = newDueDate ? new Date(newDueDate).toISOString() : null;
+
+        saveTasks();
+        renderTasks();
+        updateStats();
+
+        // Modal'ı kapat
+        document.querySelector('.modal').remove();
+
+        showToast('✅ Görev güncellendi!');
+    } else {
+        showToast('⚠️ Görev metni boş olamaz!');
+    }
 }
 
 function showDetailedStats() {
@@ -848,7 +1082,7 @@ function showSettings() {
                     <button onclick="exportTasks()" style="background: #4caf50; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; margin: 5px;">
                         📤 Dışa Aktar
                     </button>
-                    <button onclick="showToast('📥 İçe aktarma yakında!')" style="background: #2196f3; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; margin: 5px;">
+                    <button onclick="importTasks()" style="background: #2196f3; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; margin: 5px;">
                         📥 İçe Aktar
                     </button>
                 </div>
@@ -907,8 +1141,20 @@ function handleKeyPress(event) {
     }
 }
 
-// Uygulama başlatma
+// Mobil cihaz kontrolü
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+           (window.innerWidth <= 768 && window.innerHeight > window.innerWidth);
+}
+
+// Uygulama başlatma - Mobil optimizasyon eklendi
 function initApp() {
+    // Mobil cihaz algılama ve otomatik mobil mod
+    if (isMobileDevice() && !localStorage.getItem('todo_pro_view_mode')) {
+        document.body.classList.add('mobile-mode');
+        localStorage.setItem('todo_pro_view_mode', 'mobile');
+    }
+
     loadTasks();
     loadCategories();
     loadAchievements();
@@ -937,7 +1183,17 @@ function initApp() {
         document.body.appendChild(toastContainer);
     }
 
+    // Mobil cihazda dokunmatik olayları optimize et
+    if ('ontouchstart' in window) {
+        document.addEventListener('touchstart', function() {}, { passive: true });
+    }
+
     console.log('🚀 To-Do PRO Ultimate başarıyla yüklendi!');
+
+    // Mobil cihaz bilgisini göster
+    if (isMobileDevice()) {
+        console.log('📱 Mobil cihaz algılandı - Otomatik mobil optimizasyon aktif');
+    }
 }
 
 // Sayfa yüklendiğinde uygulamayı başlat

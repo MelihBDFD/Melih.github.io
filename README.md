@@ -213,3 +213,43 @@ Bu proje MIT lisansı altında lisanslanmıştır - detaylar için [LICENSE](LIC
 ---
 
 ⭐ Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!
+
+---
+
+## 📱 Mobil Uyumluluk
+
+### Otomatik Mobil Algılama
+Uygulama otomatik olarak mobil cihazları algılar ve aşağıdaki optimizasyonları uygular:
+
+- **Dokunmatik Dostu Tasarım**: 44px minimum buton boyutları
+- **Responsive Layout**: Tüm ekran boyutlarında mükemmel görünüm
+- **Mobil-Optimize Arayüz**: Dokunmatik cihazlar için özelleştirilmiş
+- **iOS Safari Uyumluluğu**: Zoom önleme ve dokunmatik optimizasyonlar
+
+### Mobil Özellikler
+- **Otomatik Mobil Mod**: Mobil cihazlarda otomatik etkinleştirme
+- **Dokunmatik Geri Bildirim**: Butonlara tıklandığında görsel geri bildirim
+- **Mobil Menüler**: Küçük ekranlara uyarlanmış navigasyon
+- **Landscape Mod**: Yatay yönde optimize edilmiş görünüm
+
+### Desteklenen Cihazlar
+- 📱 **iPhone/iPad**: iOS 12+
+- 🤖 **Android**: Android 7+
+- 📱 **Windows Phone**: Edge 79+
+- 💻 **Tabletler**: Tüm modern tabletler
+- 🖥️ **Desktop**: Tüm modern tarayıcılar
+
+### Mobil Test
+```bash
+# Mobil görünümü test etmek için:
+1. Tarayıcı geliştirici araçlarını açın (F12)
+2. Responsive design mode'u etkinleştirin
+3. Çeşitli cihaz boyutlarını test edin
+4. Dokunmatik etkileşimleri kontrol edin
+```
+
+### Responsive Breakpoints
+- **768px ve altı**: Tablet ve mobil cihazlar
+- **480px ve altı**: Küçük mobil cihazlar
+- **Orientation**: Landscape/portrait optimizasyonları
+- **Touch Devices**: Dokunmatik cihaz optimizasyonları

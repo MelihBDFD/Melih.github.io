@@ -104,6 +104,50 @@
         </main>
     </div>
 
+    <!-- Theme Switcher Panel -->
+    <div class="theme-switcher" id="theme-switcher">
+        <div class="theme-option theme-original active" onclick="setTheme('original')" title="Orijinal">
+            <span class="theme-tooltip">Orijinal</span>
+        </div>
+        <div class="theme-option theme-ocean" onclick="setTheme('ocean')" title="Okyanus">
+            <span class="theme-tooltip">Okyanus</span>
+        </div>
+        <div class="theme-option theme-forest" onclick="setTheme('forest')" title="Orman">
+            <span class="theme-tooltip">Orman</span>
+        </div>
+        <div class="theme-option theme-sunset" onclick="setTheme('sunset')" title="Gün Batımı">
+            <span class="theme-tooltip">Gün Batımı</span>
+        </div>
+        <div class="theme-option theme-rose" onclick="setTheme('rose')" title="Gül">
+            <span class="theme-tooltip">Gül</span>
+        </div>
+        <div class="theme-option theme-purple" onclick="setTheme('purple')" title="Mor">
+            <span class="theme-tooltip">Mor</span>
+        </div>
+        <div class="theme-option theme-midnight" onclick="setTheme('midnight')" title="Gece Yarısı">
+            <span class="theme-tooltip">Gece Yarısı</span>
+        </div>
+        <div class="theme-option theme-cyber" onclick="setTheme('cyber')" title="Siber">
+            <span class="theme-tooltip">Siber</span>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <button class="fab" onclick="showQuickActions()" title="Hızlı İşlemler">
+            <span style="font-size: 24px;">⚡</span>
+        </button>
+        <button class="fab export" onclick="exportTasks()" title="Verileri Dışa Aktar">
+            <span style="font-size: 18px;">📤</span>
+        </button>
+        <button class="fab stats" onclick="showDetailedStats()" title="Detaylı İstatistikler">
+            <span style="font-size: 18px;">📊</span>
+        </button>
+        <button class="fab settings" onclick="showSettings()" title="Ayarlar">
+            <span style="font-size: 18px;">⚙️</span>
+        </button>
+    </div>
+
     <!-- Toast Container -->
     <div id="toast-container" class="toast-container"></div>
 
@@ -137,7 +181,7 @@
     </div>
 
     <!-- Help Button -->
-    <button onclick="showHelp()" class="help-btn">❓</button>
+    <button onclick="showHelpModal()" class="help-btn">❓</button>
 
     <!-- Help Modal -->
     <div id="help-modal" class="help-modal">

@@ -1689,3 +1689,569 @@ body {
     opacity: 1;
     visibility: visible;
 }
+
+/* ============================================
+   MOBILE RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet and Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+        font-size: 14px;
+    }
+
+    .app-container {
+        max-width: 100%;
+        border-radius: 15px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .app-header {
+        padding: 30px 20px;
+        text-align: center;
+    }
+
+    .app-header h1 {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+
+    .app-header p {
+        font-size: 16px;
+        opacity: 0.9;
+    }
+
+    .view-toggle-container {
+        position: static;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    /* Add Task Section Mobile */
+    .add-task-section {
+        padding: 25px 20px;
+        margin-bottom: 25px;
+    }
+
+    .add-task-section h3 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .task-form-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .task-input,
+    .select-input,
+    .date-input {
+        padding: 16px 18px;
+        font-size: 16px; /* Prevents zoom on iOS */
+        min-height: 50px;
+    }
+
+    .add-btn {
+        width: 100%;
+        padding: 16px 24px;
+        font-size: 16px;
+        min-height: 50px;
+    }
+
+    .task-options {
+        padding: 15px;
+    }
+
+    .recurring-options {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    /* Categories Mobile */
+    .categories-section {
+        padding: 25px 20px;
+        margin-bottom: 25px;
+    }
+
+    .categories-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .categories-title {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .category-item {
+        padding: 20px 15px;
+    }
+
+    .category-name {
+        font-size: 14px;
+    }
+
+    /* Filters Mobile */
+    .filters {
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .filter-btn {
+        padding: 10px 16px;
+        font-size: 13px;
+        min-height: 44px;
+        flex: 1;
+        min-width: 80px;
+    }
+
+    /* Tasks Section Mobile */
+    .tasks-section {
+        padding: 25px 20px;
+        margin-bottom: 25px;
+    }
+
+    .tasks-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+        padding-bottom: 15px;
+    }
+
+    .tasks-title {
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .task-stats {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .stat {
+        padding: 6px 12px;
+        font-size: 13px;
+        min-width: 60px;
+    }
+
+    /* Task Items Mobile */
+    .task-item {
+        border-left-width: 3px;
+    }
+
+    .task-content {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .task-checkbox {
+        align-self: flex-start;
+        margin-top: 2px;
+    }
+
+    .task-text {
+        font-size: 16px;
+        line-height: 1.4;
+        margin-bottom: 8px;
+    }
+
+    .task-meta {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .priority-badge,
+    .category-badge,
+    .due-date-badge,
+    .recurring-badge {
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+
+    .task-actions {
+        width: 100%;
+        justify-content: space-around;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .task-btn {
+        min-width: 44px;
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    /* Achievements Mobile */
+    .achievements-section {
+        padding: 25px 20px;
+        margin-bottom: 25px;
+    }
+
+    .achievements-title {
+        font-size: 22px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .achievements-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .achievement-item {
+        padding: 20px;
+    }
+
+    .achievement-icon {
+        font-size: 40px;
+        margin-bottom: 12px;
+    }
+
+    .achievement-name {
+        font-size: 16px;
+        margin-bottom: 6px;
+    }
+
+    .achievement-description {
+        font-size: 13px;
+        margin-bottom: 12px;
+    }
+
+    /* AI Assistant Mobile */
+    .ai-assistant {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .ai-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 12px;
+        padding: 12px 16px;
+    }
+
+    .ai-toggle span.ai-text {
+        display: none;
+    }
+
+    .ai-chat {
+        width: calc(100vw - 40px);
+        height: 70vh;
+        max-height: 400px;
+        right: -20px;
+        bottom: 70px;
+    }
+
+    .ai-chat-header h3 {
+        font-size: 16px;
+    }
+
+    .ai-chat-messages {
+        padding: 15px;
+    }
+
+    .ai-message {
+        padding: 10px;
+    }
+
+    .ai-message-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .ai-message-text {
+        font-size: 13px;
+    }
+
+    .ai-chat-input-area {
+        padding: 15px;
+    }
+
+    .ai-input {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .ai-send-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 14px;
+    }
+
+    /* Help Button Mobile */
+    .help-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    /* Theme Switcher Mobile */
+    .theme-switcher {
+        right: -50px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 15px 8px;
+    }
+
+    .theme-option {
+        width: 35px;
+        height: 35px;
+        margin: 6px 0;
+    }
+
+    /* Floating Action Buttons Mobile */
+    .fab-container {
+        bottom: 20px;
+        left: 20px;
+        gap: 12px;
+    }
+
+    .fab {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    /* Toast Mobile */
+    .toast {
+        bottom: 100px;
+        left: 20px;
+        right: 20px;
+        width: auto;
+        max-width: calc(100vw - 40px);
+        font-size: 14px;
+        padding: 16px 20px;
+    }
+
+    /* Modal Mobile */
+    .modal .modal-content {
+        margin: 20px;
+        max-width: calc(100vw - 40px);
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+    }
+
+    /* Help Modal Mobile */
+    .help-modal .help-content {
+        margin: 20px;
+        max-width: calc(100vw - 40px);
+        padding: 30px 20px;
+    }
+
+    .help-title {
+        font-size: 24px;
+    }
+}
+
+/* Small Mobile Devices (max-width: 480px) */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .app-header {
+        padding: 25px 15px;
+    }
+
+    .app-header h1 {
+        font-size: 28px;
+    }
+
+    .app-header p {
+        font-size: 14px;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .add-task-section,
+    .categories-section,
+    .tasks-section,
+    .achievements-section {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+    }
+
+    .categories-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .task-content {
+        padding: 15px;
+    }
+
+    .task-text {
+        font-size: 15px;
+    }
+
+    .ai-chat {
+        width: calc(100vw - 30px);
+        height: 60vh;
+        right: -15px;
+    }
+
+    .fab-container {
+        bottom: 15px;
+        left: 15px;
+        gap: 10px;
+    }
+
+    .fab {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+
+    .help-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .toast {
+        bottom: 80px;
+        left: 15px;
+        right: 15px;
+        max-width: calc(100vw - 30px);
+        font-size: 13px;
+        padding: 14px 18px;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Remove hover effects on touch devices */
+    .view-toggle-btn:hover,
+    .task-btn:hover,
+    .filter-btn:hover,
+    .add-btn:hover,
+    .add-category-btn:hover,
+    .fab:hover,
+    .help-btn:hover,
+    .ai-toggle:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Add active states for touch feedback */
+    .view-toggle-btn:active,
+    .task-btn:active,
+    .filter-btn:active,
+    .add-btn:active,
+    .add-category-btn:active,
+    .fab:active,
+    .help-btn:active,
+    .ai-toggle:active {
+        transform: scale(0.95);
+        opacity: 0.9;
+    }
+
+    /* Ensure minimum touch target sizes */
+    .view-toggle-btn,
+    .task-btn,
+    .filter-btn,
+    .add-btn,
+    .add-category-btn,
+    .fab,
+    .help-btn,
+    .ai-toggle,
+    .category-item,
+    .theme-option {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Larger checkboxes for touch */
+    .task-checkbox,
+    .checkbox-container input[type="checkbox"] {
+        width: 24px;
+        height: 24px;
+        transform: scale(1.2);
+    }
+}
+
+/* Landscape orientation on small screens */
+@media (max-width: 768px) and (orientation: landscape) {
+    .app-header {
+        padding: 20px 15px;
+    }
+
+    .app-header h1 {
+        font-size: 28px;
+    }
+
+    .ai-chat {
+        height: 50vh;
+        max-height: 300px;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .app-container {
+        border-width: 0.5px;
+    }
+
+    .task-item,
+    .category-item,
+    .achievement-item {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 12px;
+    }
+
+    .app-container {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+    }
+
+    .view-toggle-container,
+    .ai-assistant,
+    .help-btn,
+    .theme-switcher,
+    .fab-container {
+        display: none !important;
+    }
+
+    .task-item.completed .task-text {
+        text-decoration: underline !important;
+    }
+}
