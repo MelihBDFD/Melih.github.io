@@ -2,7 +2,8 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 To-Do PRO - Görev Yöneticisi</title>
     <style>
         * {
             margin: 0;
@@ -11,1846 +12,79 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 25px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
 
-        /* Navbar Actions */
-        .navbar-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .hamburger-menu {
-            display: none;
-            flex-direction: column;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            gap: 3px;
-            position: relative;
-        }
-
-        .hamburger-menu span {
-            width: 20px;
-            height: 2px;
-            background: white;
-            transition: all 0.3s;
-            border-radius: 1px;
-        }
-
-        .hamburger-menu.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .hamburger-menu.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger-menu .new-badge {
-            position: absolute;
-            top: -5px;
-            right: -10px;
-            background: #ff6b6b;
-            color: white;
-            font-size: 8px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            animation: pulse 1.5s infinite;
-        }
-
-        /* Mobile Categories Menu */
-        .mobile-categories-menu {
-            position: fixed;
-            top: 0;
-            left: -300px;
-            width: 280px;
-            height: 100vh;
-            background: white;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 999;
-            transition: left 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .mobile-categories-menu.show {
-            left: 0;
-        }
-
-        .mobile-categories-header {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .mobile-categories-header h3 {
-            margin: 0;
-            font-size: 18px;
-        }
-
-        .close-categories-menu {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .mobile-categories-content {
-            padding: 20px;
-        }
-
-        .mobile-categories-scroll {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .mobile-category-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .mobile-category-item:hover {
-            background: #e9ecef;
-            transform: translateX(5px);
-        }
-
-        .mobile-category-item.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border-color: #667eea;
-        }
-
-        .mobile-category-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-
-        .mobile-category-name {
-            font-weight: 500;
-            flex: 1;
-        }
-
-        .mobile-category-count {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .mobile-category-item.active .mobile-category-count {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Mobile Founder Section */
-        .mobile-founder-section {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 2px solid #667eea;
-        }
-
-        .mobile-founder-title {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 16px;
-            text-align: center;
-        }
-
-        .mobile-founder-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 8px;
-            transition: all 0.3s;
-        }
-
-        .mobile-founder-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-
-        /* Mobile Quick Actions */
-        .mobile-quick-actions {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .mobile-actions-title {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 16px;
-            text-align: center;
-        }
-
-        .mobile-action-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #51cf66, #40c057);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 8px;
-            transition: all 0.3s;
-        }
-
-        .mobile-action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(81, 207, 102, 0.3);
-        }
-
-        .mobile-action-btn:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Founder Section */
-        .founder-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .founder-card {
+        /* Header */
+        .header {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             padding: 30px;
-            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s;
         }
 
-        .founder-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .founder-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
+        .header h1 {
+            font-size: 36px;
             font-weight: 700;
+            margin-bottom: 10px;
         }
 
-        .founder-card p {
-            margin-bottom: 25px;
+        .header p {
+            font-size: 18px;
             opacity: 0.9;
-            font-size: 16px;
-        }
-
-        .founder-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .founder-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        /* Bot System Modal */
-        .bot-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .bot-modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .bot-content {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .bot-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .bot-title {
-            font-size: 28px;
-            color: #2c3e50;
-            margin: 0;
-        }
-
-        .close-bot-modal {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #666;
-        }
-
-        .bot-input-group {
-            margin-bottom: 20px;
-        }
-
-        .bot-input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .bot-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e8ed;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-
-        .bot-input:focus {
-            border-color: #667eea;
-            outline: none;
-        }
-
-        .bot-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-right: 10px;
-        }
-
-        .bot-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .bot-output {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 4px solid #667eea;
-        }
-
-        /* AI Assistant */
-        .ai-assistant {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-        }
-
-        .ai-toggle {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 15px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            animation: pulse 2s infinite;
-            position: relative;
-        }
-
-        .ai-toggle .new-badge {
-            position: absolute;
-            top: -5px;
-            right: -15px;
-            background: #ff6b6b;
-            color: white;
-            font-size: 8px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            animation: pulse 1.5s infinite;
-        }
-
-        .ai-chat {
-            position: absolute;
-            bottom: 70px;
-            right: 0;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            display: none;
-            flex-direction: column;
-            opacity: 0;
-            transform: translateY(20px) scale(0.9);
-            transition: all 0.3s ease;
-        }
-
-        .ai-chat.show {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .ai-chat-header {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 20px 20px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .ai-chat-header h3 {
-            margin: 0;
-            font-size: 18px;
-        }
-
-        .ai-chat-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .ai-chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            background: #f8f9fa;
-        }
-
-        .ai-message {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 15px;
-            animation: slideInLeft 0.3s ease-out;
-        }
-
-        .ai-message.ai-welcome {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .ai-message.user {
-            background: #e3f2fd;
-            flex-direction: row-reverse;
-        }
-
-        .ai-message-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .ai-message.user .ai-message-avatar {
-            background: #2196f3;
-        }
-
-        .ai-message-content {
-            flex: 1;
-        }
-
-        .ai-message-text {
-            margin-bottom: 5px;
-            line-height: 1.4;
-        }
-
-        .ai-message-time {
-            font-size: 11px;
-            opacity: 0.7;
-        }
-
-        .ai-chat-input-area {
-            padding: 20px;
-            border-top: 1px solid #e1e8ed;
-            display: flex;
-            gap: 10px;
-            background: white;
-            border-radius: 0 0 20px 20px;
-        }
-
-        .ai-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 2px solid #e1e8ed;
-            border-radius: 25px;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .ai-input:focus {
-            border-color: #667eea;
-        }
-
-        .ai-send-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        /* Customer Service */
-        .customer-service {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            z-index: 1000;
-        }
-
-        .customer-service-toggle {
-            background: linear-gradient(135deg, #51cf66, #40c057);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 15px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(81, 207, 102, 0.3);
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            position: relative;
-        }
-
-        .customer-service-toggle .new-badge {
-            position: absolute;
-            top: -5px;
-            right: -15px;
-            background: #ff6b6b;
-            color: white;
-            font-size: 8px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            animation: pulse 1.5s infinite;
-        }
-
-        .customer-service-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(81, 207, 102, 0.4);
-        }
-
-        .customer-service-chat {
-            position: absolute;
-            bottom: 70px;
-            left: 0;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            display: none;
-            flex-direction: column;
-            opacity: 0;
-            transform: translateY(20px) scale(0.9);
-            transition: all 0.3s ease;
-        }
-
-        .customer-service-chat.show {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .customer-service-header {
-            background: linear-gradient(135deg, #51cf66, #40c057);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 20px 20px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .customer-service-header h3 {
-            margin: 0;
-            font-size: 18px;
-        }
-
-        .customer-service-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .customer-service-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            background: #f8f9fa;
-        }
-
-        .customer-service-message {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 15px;
-            animation: slideInLeft 0.3s ease-out;
-        }
-
-        .customer-service-message.support-welcome {
-            background: linear-gradient(135deg, #51cf66, #40c057);
-            color: white;
-        }
-
-        .customer-service-message.user {
-            background: #e3f2fd;
-            flex-direction: row-reverse;
-        }
-
-        .customer-service-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .customer-service-message.user .customer-service-avatar {
-            background: #2196f3;
-        }
-
-        .customer-service-content {
-            flex: 1;
-        }
-
-        .customer-service-text {
-            margin-bottom: 5px;
-            line-height: 1.4;
-        }
-
-        .customer-service-time {
-            font-size: 11px;
-            opacity: 0.7;
-        }
-
-        .customer-service-input-area {
-            padding: 20px;
-            border-top: 1px solid #e1e8ed;
-            display: flex;
-            gap: 10px;
-            background: white;
-            border-radius: 0 0 20px 20px;
-        }
-
-        .customer-service-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 2px solid #e1e8ed;
-            border-radius: 25px;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .customer-service-input:focus {
-            border-color: #51cf66;
-        }
-
-        .customer-service-send-btn {
-            background: linear-gradient(135deg, #51cf66, #40c057);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .customer-service-send-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(81, 207, 102, 0.3);
-        }
-
-        /* Theme Manager Styles */
-        .theme-categories {
-            margin-bottom: 30px;
-        }
-
-        .theme-category {
-            margin-bottom: 30px;
-        }
-
-        .theme-category h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-
-        .theme-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .theme-item {
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid #e1e8ed;
-        }
-
-        .theme-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            border-color: #667eea;
-        }
-
-        .theme-preview {
-            width: 100%;
-            height: 100px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .theme-name {
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 8px;
-        }
-
-        .theme-status {
-            font-size: 12px;
-            padding: 4px 8px;
-            border-radius: 10px;
-            background: #f8f9fa;
-            color: #666;
-            display: inline-block;
-        }
-
-        .theme-actions {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .theme-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .theme-info p {
-            margin: 0;
-            color: #666;
-            font-size: 14px;
-        }
-
-        /* Dark Theme Styles */
-        .theme-dark-mode {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
-            color: #ecf0f1 !important;
-        }
-
-        .theme-dark-mode .container {
-            background: rgba(52, 73, 94, 0.95) !important;
-        }
-
-        .theme-dark-mode .navbar {
-            background: linear-gradient(135deg, #34495e, #2c3e50) !important;
-        }
-
-        .theme-dark-mode .todo-container {
-            background: #34495e !important;
-            color: #ecf0f1 !important;
-        }
-
-        .theme-dark-mode .task-item {
-            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%) !important;
-            color: #ecf0f1 !important;
-        }
-
-        /* Green Theme Styles */
-        .theme-nature-green {
-            background: linear-gradient(135deg, #51cf66 0%, #40c057 100%) !important;
-        }
-
-        .theme-nature-green .container {
-            background: rgba(64, 192, 87, 0.95) !important;
-        }
-
-        .theme-nature-green .navbar {
-            background: linear-gradient(135deg, #40c057, #37a747) !important;
-        }
-
-        /* Orange Theme Styles */
-        .theme-sunset-orange {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%) !important;
-        }
-
-        .theme-sunset-orange .container {
-            background: rgba(238, 90, 82, 0.95) !important;
-        }
-
-        .theme-sunset-orange .navbar {
-            background: linear-gradient(135deg, #ee5a52, #d63031) !important;
-        }
-
-        /* Purple Theme Styles */
-        .theme-purple-dream {
-            background: linear-gradient(135deg, #9c88ff 0%, #6c5ce7 100%) !important;
-        }
-
-        .theme-purple-dream .container {
-            background: rgba(108, 92, 231, 0.95) !important;
-        }
-
-        .theme-purple-dream .navbar {
-            background: linear-gradient(135deg, #6c5ce7, #5f3dc4) !important;
-        }
-
-        /* Minimal White Theme Styles */
-        .theme-minimal-white {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
-        }
-
-        .theme-minimal-white .container {
-            background: rgba(248, 249, 250, 0.95) !important;
-        }
-
-        .theme-minimal-white .navbar {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
-            color: #2c3e50 !important;
-        }
-
-        /* Comprehensive Theme System with CSS Variables */
-        :root {
-            /* Original/Default Theme Colors */
-            --primary-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --primary-bg-rgb: 102, 126, 234;
-            --secondary-bg: rgba(255, 255, 255, 0.95);
-            --text-primary: #2c3e50;
-            --text-secondary: #666;
-            --text-white: #ffffff;
-            --accent-color: #667eea;
-            --border-color: #e1e8ed;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --button-primary: linear-gradient(135deg, #667eea, #764ba2);
-            --button-hover: rgba(102, 126, 234, 0.3);
-            --input-bg: #ffffff;
-            --input-border: #e1e8ed;
-            --input-focus: #667eea;
-        }
-
-        /* Black Theme */
-        .theme-black {
-            --primary-bg: linear-gradient(135deg, #1a1a1a 0%, #000000 100%) !important;
-            --primary-bg-rgb: 26, 26, 26 !important;
-            --secondary-bg: rgba(20, 20, 20, 0.95) !important;
-            --text-primary: #ffffff !important;
-            --text-secondary: #cccccc !important;
-            --text-white: #ffffff !important;
-            --accent-color: #333333 !important;
-            --border-color: #333333 !important;
-            --shadow-color: rgba(0, 0, 0, 0.3) !important;
-            --card-bg: rgba(30, 30, 30, 0.95) !important;
-            --button-primary: linear-gradient(135deg, #333333, #1a1a1a) !important;
-            --button-hover: rgba(51, 51, 51, 0.3) !important;
-            --input-bg: #2a2a2a !important;
-            --input-border: #444444 !important;
-            --input-focus: #555555 !important;
-        }
-
-        /* White Theme */
-        .theme-white {
-            --primary-bg: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
-            --primary-bg-rgb: 255, 255, 255 !important;
-            --secondary-bg: rgba(255, 255, 255, 0.98) !important;
-            --text-primary: #2c3e50 !important;
-            --text-secondary: #666666 !important;
-            --text-white: #2c3e50 !important;
-            --accent-color: #f8f9fa !important;
-            --border-color: #e9ecef !important;
-            --shadow-color: rgba(0, 0, 0, 0.05) !important;
-            --card-bg: rgba(255, 255, 255, 0.98) !important;
-            --button-primary: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
-            --button-hover: rgba(248, 249, 250, 0.3) !important;
-            --input-bg: #ffffff !important;
-            --input-border: #dee2e6 !important;
-            --input-focus: #f8f9fa !important;
-        }
-
-        /* Apply Theme Variables */
-        .theme-original,
-        .theme-original * {
-            background: var(--primary-bg) !important;
-            color: var(--text-primary) !important;
-        }
-
-        .theme-original .container {
-            background: var(--secondary-bg) !important;
-            color: var(--text-primary) !important;
-        }
-
-        .theme-original .navbar {
-            background: var(--primary-bg) !important;
-            color: var(--text-white) !important;
-        }
-
-        .theme-original .todo-container,
-        .theme-original .task-item,
-        .theme-original .founder-card {
-            background: var(--card-bg) !important;
-            color: var(--text-primary) !important;
-            border-color: var(--border-color) !important;
-            box-shadow: 0 10px 30px var(--shadow-color) !important;
-        }
-
-        .theme-original .btn-primary,
-        .theme-original .mobile-action-btn,
-        .theme-original .founder-btn {
-            background: var(--button-primary) !important;
-            color: var(--text-white) !important;
-        }
-
-        .theme-original .btn-primary:hover,
-        .theme-original .mobile-action-btn:hover,
-        .theme-original .founder-btn:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 4px 12px var(--button-hover) !important;
-        }
-
-        .theme-original .category-select,
-        .theme-original .search-input,
-        .theme-original .bot-input,
-        .theme-original .ai-input,
-        .theme-original .customer-service-input {
-            background: var(--input-bg) !important;
-            border-color: var(--input-border) !important;
-            color: var(--text-primary) !important;
-        }
-
-        .theme-original .category-select:focus,
-        .theme-original .search-input:focus,
-        .theme-original .bot-input:focus,
-        .theme-original .ai-input:focus,
-        .theme-original .customer-service-input:focus {
-            border-color: var(--input-focus) !important;
-        }
-
-        /* Theme Switcher Styles */
-        .theme-switcher {
-            position: fixed;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px var(--shadow-color);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-        }
-
-        .theme-option {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .theme-option:hover {
-            transform: scale(1.1);
-            border-color: var(--accent-color);
-        }
-
-        .theme-option.active {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 15px var(--accent-color);
-        }
-
-        .theme-original-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .theme-black-btn {
-            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-        }
-
-        .theme-white-btn {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border: 2px solid #e9ecef;
-        }
-
-        .theme-tooltip {
-            position: absolute;
-            right: 50px;
-            background: var(--text-primary);
-            color: var(--card-bg);
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .theme-option:hover .theme-tooltip {
-            opacity: 1;
-        }
-
-        /* Enhanced UI Elements */
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .gradient-border {
-            position: relative;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 15px;
-            padding: 3px;
-        }
-
-        .gradient-border::before {
-            content: '';
-            position: absolute;
-            top: 1px;
-            left: 1px;
-            right: 1px;
-            bottom: 1px;
-            background: white;
-            border-radius: 12px;
-            z-index: -1;
-        }
-
-        /* Enhanced Task Cards */
-        .task-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .task-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Floating Elements */
-        .floating-element {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Enhanced Buttons */
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        /* Enhanced Typography */
-        .text-gradient {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .heading-xl {
-            font-size: 48px;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 20px;
-        }
-
-        .heading-lg {
-            font-size: 32px;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 15px;
-        }
-
-        .heading-md {
-            font-size: 24px;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 12px;
-        }
-
-        /* Improved Spacing */
-        .section-padding {
-            padding: 80px 0;
-        }
-
-        .container-padding {
-            padding: 40px;
-        }
-
-        /* Enhanced Animations */
-        @keyframes slideInFromLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInFromRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes bounceInUp {
-            from, 60%, 75%, 90%, to {
-                animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-            }
-            from {
-                opacity: 0;
-                transform: translate3d(0, 3000px, 0) scaleY(3);
-            }
-            60% {
-                opacity: 1;
-                transform: translate3d(0, -20px, 0) scaleY(0.9);
-            }
-            75% {
-                transform: translate3d(0, 10px, 0) scaleY(0.95);
-            }
-            90% {
-                transform: translate3d(0, -5px, 0) scaleY(0.985);
-            }
-            to {
-                opacity: 1;
-                transform: translate3d(0, 0, 0);
-            }
-        }
-
-        .slide-in-left {
-            animation: slideInFromLeft 0.8s ease-out;
-        }
-
-        .slide-in-right {
-            animation: slideInFromRight 0.8s ease-out;
-        }
-
-        .bounce-in-up {
-            animation: bounceInUp 1s ease-out;
-        }
-
-        /* Enhanced Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .theme-switcher {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                top: auto;
-                left: auto;
-                transform: none;
-                flex-direction: row;
-                background: var(--card-bg);
-                padding: 10px;
-                gap: 8px;
-            }
-
-            .theme-option {
-                width: 35px;
-                height: 35px;
-            }
-
-            .theme-tooltip {
-                display: none;
-            }
-
-            /* Enhanced mobile navbar */
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
-                padding: 20px;
-            }
-
-            .navbar-nav {
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .navbar-actions {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 1001;
-            }
-
-            /* Enhanced mobile hero section */
-            .hero {
-                padding: 40px 20px;
-                text-align: center;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-                margin-bottom: 15px;
-            }
-
-            .hero p {
-                font-size: 18px;
-                margin-bottom: 20px;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 20px;
-                margin-top: 20px;
-            }
-
-            /* Enhanced mobile input groups */
-            .input-group {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .input-group input,
-            .input-group select {
-                font-size: 16px; /* Prevent zoom on iOS */
-            }
-
-            .actions {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .filters {
-                justify-content: center;
-                gap: 8px;
-                flex-wrap: wrap;
-            }
-
-            /* Enhanced mobile todo container */
-            .todo-container {
-                padding: 20px;
-            }
-
-            .todo-header {
-                flex-direction: column;
-                gap: 15px;
-                align-items: stretch;
-            }
-
-            .search-container {
-                width: 100%;
-            }
-
-            .stats {
-                justify-content: center;
-                gap: 15px;
-            }
-
-            /* Enhanced mobile task items */
-            .task-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .task-meta {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-
-            /* Enhanced mobile categories */
-            .categories-list {
-                justify-content: center;
-            }
-
-            .categories-scroll {
-                justify-content: center;
-            }
-
-            /* Enhanced mobile buttons */
-            .action-btn {
-                padding: 12px 20px;
-                font-size: 14px;
-                min-height: 44px; /* Touch-friendly size */
-            }
-
-            .filter-btn {
-                padding: 10px 16px;
-                font-size: 14px;
-                min-height: 44px;
-            }
-
-            /* Enhanced mobile cards and containers */
-            .team-member,
-            .feature {
-                padding: 20px 15px;
-            }
-
-            /* Enhanced mobile modals */
-            .login-content,
-            .bot-content {
-                padding: 30px 20px;
-                margin: 20px;
-            }
-
-            /* Enhanced mobile chat interfaces */
-            .ai-chat,
-            .customer-service-chat {
-                width: calc(100vw - 40px);
-                height: 70vh;
-                max-height: 500px;
-                right: -20px;
-            }
-
-            /* Enhanced mobile categories menu */
-            .mobile-categories-menu {
-                width: 85vw;
-                max-width: 350px;
-                left: -100vw;
-            }
-
-            .mobile-categories-menu.show {
-                left: 0;
-            }
-
-            /* Enhanced mobile quick actions */
-            .mobile-quick-actions {
-                padding: 15px;
-            }
-
-            .mobile-action-btn {
-                padding: 12px 15px;
-                font-size: 14px;
-            }
-
-            /* Enhanced mobile founder section */
-            .mobile-founder-section {
-                padding: 15px;
-            }
-
-            .mobile-founder-btn {
-                padding: 10px 15px;
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 28px !important;
-            }
-
-            .hero p {
-                font-size: 16px !important;
-            }
-
-            .navbar-brand {
-                font-size: 20px !important;
-            }
-
-            .navbar-nav {
-                font-size: 14px;
-            }
-
-            .todo-container {
-                padding: 15px;
-            }
-
-            .task-content {
-                padding: 15px;
-            }
-
-            .ai-chat,
-            .customer-service-chat {
-                height: 60vh;
-                width: calc(100vw - 20px);
-                right: -10px;
-            }
-
-            .theme-switcher {
-                bottom: 15px;
-                right: 15px;
-                padding: 8px;
-            }
-
-            .theme-option {
-                width: 30px;
-                height: 30px;
-            }
-
-            /* Enhanced small mobile buttons */
-            .view-toggle {
-                width: 60px !important;
-                height: 60px !important;
-                font-size: 24px !important;
-            }
-
-            .add-btn {
-                padding: 15px 25px !important;
-                font-size: 18px !important;
-            }
-
-            .action-btn {
-                padding: 12px 20px !important;
-                font-size: 14px !important;
-            }
-        }
-
-        /* Touch-friendly improvements */
-        @media (hover: none) and (pointer: coarse) {
-            /* Increase touch targets for mobile */
-            .theme-option,
-            .action-btn,
-            .filter-btn,
-            .mobile-action-btn,
-            .mobile-founder-btn {
-                min-height: 44px;
-                min-width: 44px;
-            }
-
-            /* Remove hover effects on touch devices */
-            .theme-option:hover,
-            .action-btn:hover,
-            .filter-btn:hover {
-                transform: none !important;
-                box-shadow: none !important;
-            }
-
-            /* Add active states for touch feedback */
-            .theme-option:active,
-            .action-btn:active,
-            .filter-btn:active {
-                transform: scale(0.95);
-                opacity: 0.8;
-            }
-        }
-
-        /* Landscape orientation improvements */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .hero {
-                padding: 20px 20px !important;
-            }
-
-            .hero h1 {
-                font-size: 24px !important;
-            }
-
-            .hero p {
-                font-size: 14px !important;
-            }
-
-            .ai-chat,
-            .customer-service-chat {
-                height: 80vh !important;
-                max-height: 400px !important;
-            }
-        }
-
-        /* High DPI display improvements */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .theme-option,
-            .action-btn,
-            .filter-btn {
-                border-width: 0.5px;
-            }
-        }
-
-        .navbar-brand {
-            font-size: 24px;
-            font-weight: 700;
-            text-decoration: none;
-            color: white;
-        }
-
-        .navbar-nav {
-            display: flex;
-            gap: 20px;
-            list-style: none;
-        }
-
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            transition: all 0.3s;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 60px 30px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .hero p {
-            font-size: 20px;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 30px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            animation: fadeInUp 1s ease-out 0.3s both;
-        }
-
-        .stat-number {
-            font-size: 32px;
-            font-weight: 700;
-            display: block;
         }
 
         /* Main Content */
         .main-content {
-            padding: 40px 30px;
-        }
-
-        .section {
-            margin-bottom: 50px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .section:nth-child(2) { animation-delay: 0.2s; }
-        .section:nth-child(3) { animation-delay: 0.4s; }
-
-        .section h2 {
-            color: #2c3e50;
-            font-size: 32px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        /* Görev Yöneticisi */
-        .todo-container {
-            background: white;
-            border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .categories-container {
-            margin: 15px 0;
-        }
-
-        .categories-list {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .categories-label {
-            font-weight: 600;
-            color: #2c3e50;
-            white-space: nowrap;
-        }
-
-        .categories-scroll {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            max-width: 100%;
-            overflow-x: auto;
-            padding: 5px 0;
-        }
-
-        .category-tag {
-            display: inline-block;
-            padding: 4px 12px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+        /* Add Task Section */
+        .add-task-section {
+            background: white;
+            padding: 25px;
             border-radius: 15px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            white-space: nowrap;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 2px solid #f0f0f0;
         }
 
-        .category-tag:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-
-        .category-tag.add-category {
-            background: linear-gradient(135deg, #51cf66, #40c057);
-        }
-
-        .category-tag.active {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-        }
-
-        .category-select {
-            padding: 12px;
-            border: 2px solid #e1e8ed;
-            border-radius: 10px;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.3s;
-            background: white;
-            min-width: 150px;
-        }
-
-        .category-select:focus {
-            border-color: #667eea;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 2px solid #e1e8ed;
-            border-radius: 25px;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .search-input:focus {
-            border-color: #667eea;
-        }
-
-        .clear-search-btn {
-            background: #f8f9fa;
-            border: 2px solid #e1e8ed;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .clear-search-btn:hover {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 15px;
+        .add-task-section h3 {
+            color: #2c3e50;
             margin-bottom: 20px;
+            font-size: 20px;
         }
 
-        .priority-select {
-            padding: 12px;
-            border: 2px solid #e1e8ed;
-            border-radius: 10px;
-            font-size: 16px;
-            background: white;
-            min-width: 120px;
+        .task-form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+            align-items: end;
         }
 
         .task-input {
-            flex: 1;
-            padding: 12px;
+            padding: 15px;
             border: 2px solid #e1e8ed;
             border-radius: 10px;
             font-size: 16px;
-            outline: none;
             transition: border-color 0.3s;
+            min-height: 50px;
         }
 
-        .due-date-input {
-            padding: 12px;
-            border: 2px solid #e1e8ed;
-            border-radius: 10px;
-            font-size: 16px;
+        .task-input:focus {
             outline: none;
-            transition: border-color 0.3s;
-            background: white;
-            min-width: 180px;
-        }
-
-        .due-date-input:focus {
             border-color: #667eea;
         }
 
@@ -1858,12 +92,13 @@
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 15px 30px;
             border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            min-height: 50px;
         }
 
         .add-btn:hover {
@@ -1871,48 +106,7 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .actions {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .complete-all {
-            background: linear-gradient(135deg, #51cf66, #40c057);
-            color: white;
-        }
-
-        .clear-completed {
-            background: linear-gradient(135deg, #ffd43b, #fab005);
-            color: white;
-        }
-
-        .export-btn {
-            background: linear-gradient(135deg, #51cf66, #40c057);
-            color: white;
-        }
-
-        .import-btn {
-            background: linear-gradient(135deg, #ffa8a8, #fa5252);
-            color: white;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
+        /* Filters */
         .filters {
             display: flex;
             gap: 10px;
@@ -1922,72 +116,80 @@
         }
 
         .filter-btn {
-            padding: 8px 16px;
+            padding: 10px 20px;
             border: 2px solid #667eea;
             background: transparent;
             color: #667eea;
-            border-radius: 20px;
+            border-radius: 25px;
             font-size: 14px;
             cursor: pointer;
             transition: all 0.3s;
         }
 
+        .filter-btn:hover,
         .filter-btn.active {
             background: #667eea;
             color: white;
         }
 
-        .category-filters {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-
-        .category-filter-btn {
-            padding: 6px 12px;
-            border: 2px solid #667eea;
-            background: transparent;
-            color: #667eea;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .category-filter-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .category-filter-btn:hover {
-            transform: translateY(-1px);
-        }
-
+        /* Tasks List */
         .tasks-container {
-            margin-top: 20px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 2px solid #f0f0f0;
         }
 
-        .task-item {
-            background: white;
-            margin-bottom: 15px;
+        .tasks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .tasks-title {
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .task-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .stat {
+            background: #f8f9fa;
+            padding: 5px 12px;
             border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            font-weight: 500;
+        }
+
+        .stat.total { background: #e3f2fd; color: #1976d2; }
+        .stat.completed { background: #e8f5e8; color: #388e3c; }
+        .stat.pending { background: #fff3e0; color: #f57c00; }
+
+        /* Task Items */
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
             transition: all 0.3s;
-            border-left: 5px solid #667eea;
         }
 
         .task-item:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .task-content {
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
         }
 
         .task-checkbox {
@@ -1997,309 +199,51 @@
             accent-color: #667eea;
         }
 
-        .task-text {
+        .task-content {
             flex: 1;
-            font-size: 16px;
-            line-height: 1.4;
         }
 
-        .task-completed {
+        .task-text {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #2c3e50;
+        }
+
+        .task-completed .task-text {
             text-decoration: line-through;
             color: #888;
-        }
-
-        .priority-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .priority-high {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-            color: white;
-        }
-
-        .priority-medium {
-            background: linear-gradient(135deg, #ffd43b, #fab005);
-            color: white;
         }
 
         .task-meta {
             display: flex;
             gap: 10px;
-            margin-top: 5px;
+            margin-top: 8px;
+            font-size: 12px;
             flex-wrap: wrap;
-            align-items: center;
         }
+
+        .priority-badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .priority-high { background: #ffebee; color: #c62828; }
+        .priority-medium { background: #fff3e0; color: #ef6c00; }
+        .priority-low { background: #e8f5e8; color: #2e7d32; }
 
         .category-badge {
-            display: inline-block;
             padding: 2px 8px;
-            color: white;
             border-radius: 10px;
-            font-size: 10px;
-            font-weight: 500;
-        }
-
-        .task-due-date {
-            font-size: 12px;
-            color: #667eea;
-            padding: 2px 8px;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 10px;
-            display: inline-block;
-        }
-
-        .subtasks-container {
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(102, 126, 234, 0.05);
-            border-radius: 8px;
-            border-left: 3px solid #667eea;
-        }
-
-        .subtasks-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .subtasks-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: #667eea;
-        }
-
-        .add-subtask-btn {
-            background: linear-gradient(135deg, #667eea, #5a6fd8);
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 6px;
             font-size: 11px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .add-subtask-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-        }
-
-        .add-comment-btn {
-            background: linear-gradient(135deg, #74c0fc, #339af0);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 8px;
-        }
-
-        .add-comment-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(116, 192, 252, 0.3);
-        }
-
-        .add-comment-btn.standalone {
-            margin-top: 8px;
-            padding: 8px 16px;
-            font-size: 13px;
-        }
-
-        .comments-container {
-            margin-top: 15px;
-            padding: 15px;
-            background: rgba(116, 192, 252, 0.05);
-            border-radius: 10px;
-            border-left: 3px solid #74c0fc;
-        }
-
-        .comments-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .comments-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #74c0fc;
-        }
-
-        .comments-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .comment-item {
-            background: white;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 1px solid #e1e8ed;
-            transition: all 0.3s;
-        }
-
-        .comment-item:hover {
-            background: #f8f9fa;
-            transform: translateX(2px);
-        }
-
-        .comment-content {
-            display: flex;
-            gap: 10px;
-        }
-
-        .comment-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            font-size: 12px;
-            flex-shrink: 0;
-        }
-
-        .comment-text {
-            flex: 1;
-            font-size: 13px;
-            line-height: 1.4;
-            color: #2c3e50;
-        }
-
-        .comment-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 5px;
-            font-size: 11px;
-            color: #666;
-        }
-
-        .comment-author {
-            font-weight: 600;
-            color: #74c0fc;
-        }
-
-        .comment-date {
-            color: #999;
-        }
-
-        .comment-actions {
-            display: flex;
-            gap: 5px;
-        }
-
-        .comment-btn {
-            background: none;
-            border: none;
-            font-size: 10px;
-            cursor: pointer;
-            padding: 2px 5px;
-            border-radius: 3px;
-            transition: all 0.3s;
-        }
-
-        .comment-edit-btn {
-            color: #74c0fc;
-        }
-
-        .comment-edit-btn:hover {
-            background: rgba(116, 192, 252, 0.1);
-        }
-
-        .comment-delete-btn {
-            color: #ff6b6b;
-        }
-
-        .comment-delete-btn:hover {
-            background: rgba(255, 107, 107, 0.1);
-        }
-
-        .subtasks-list {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .subtask-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 8px;
-            background: white;
-            border-radius: 6px;
-            border: 1px solid #e1e8ed;
-            transition: all 0.3s;
-        }
-
-        .subtask-item:hover {
-            background: #f8f9fa;
-            transform: translateX(2px);
-        }
-
-        .subtask-checkbox {
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-            accent-color: #667eea;
-        }
-
-        .subtask-text {
-            flex: 1;
-            font-size: 13px;
-            line-height: 1.3;
-        }
-
-        .subtask-completed {
-            text-decoration: line-through;
-            color: #888;
-        }
-
-        .subtask-actions {
-            display: flex;
-            gap: 4px;
-        }
-
-        .subtask-btn {
-            background: none;
-            border: none;
-            font-size: 12px;
-            cursor: pointer;
-            padding: 2px 4px;
-            border-radius: 3px;
-            transition: all 0.3s;
-        }
-
-        .subtask-edit-btn {
-            color: #667eea;
-        }
-
-        .subtask-edit-btn:hover {
-            background: rgba(102, 126, 234, 0.1);
-        }
-
-        .subtask-delete-btn {
-            color: #ff6b6b;
-        }
-
-        .subtask-delete-btn:hover {
-            background: rgba(255, 107, 107, 0.1);
+            background: #e3f2fd;
+            color: #1976d2;
         }
 
         .task-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .task-btn {
@@ -2308,743 +252,170 @@
             border-radius: 8px;
             font-size: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
         }
 
         .edit-btn {
-            background: linear-gradient(135deg, #667eea, #5a6fd8);
+            background: #2196f3;
             color: white;
+        }
+
+        .edit-btn:hover {
+            background: #1976d2;
         }
 
         .delete-btn {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            background: #f44336;
             color: white;
         }
 
-        /* Yapımcılar Bölümü */
-        .team {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
+        .delete-btn:hover {
+            background: #d32f2f;
         }
 
-        .team-member {
+        /* Categories Section */
+        .categories-section {
             background: white;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-        }
-
-        .team-member:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .member-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            color: white;
-        }
-
-        .member-name {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .member-role {
-            color: #667eea;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .member-bio {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* Hakkında Bölümü */
-        .about {
-            text-align: center;
-            padding: 50px 30px;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            margin: 50px 0;
-            border-radius: 20px;
-        }
-
-        .about h2 {
-            color: #2c3e50;
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .about p {
-            font-size: 18px;
-            color: #666;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .feature {
-            background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 2px solid #f0f0f0;
         }
 
-        .feature:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .feature-icon {
-            font-size: 48px;
+        .categories-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
         }
 
-        .feature h3 {
-            color: #2c3e50;
+        .categories-title {
             font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        .feature p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        .footer {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
-            text-align: center;
-            padding: 40px 30px;
-        }
-
-        .footer p {
-            margin-bottom: 20px;
-        }
-
-        .contact-info {
-            margin: 20px 0;
-        }
-
-        .contact-info p {
-            margin: 10px 0;
-            font-size: 16px;
-        }
-
-        .contact-link {
-            color: #74c0fc;
-            text-decoration: none;
+            color: #2c3e50;
             font-weight: 600;
-            transition: color 0.3s;
         }
 
-        .contact-link:hover {
-            color: #339af0;
-            text-decoration: underline;
-        }
-
-        .social-link {
+        .add-category-btn {
+            background: #4caf50;
             color: white;
-            text-decoration: none;
+            border: none;
             padding: 10px 20px;
-            border-radius: 25px;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
         }
 
-        .social-link:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .add-category-btn:hover {
+            background: #388e3c;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .category-item {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .category-item:hover {
+            background: #e0e0e0;
             transform: translateY(-2px);
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Enhanced Animations */
-        @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.3);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.3); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.3); }
-            70% { transform: scale(1); }
-        }
-
-        .bounce-in {
-            animation: bounceIn 0.8s ease-out;
-        }
-
-        .slide-in-left {
-            animation: slideInLeft 0.6s ease-out;
-        }
-
-        .heartbeat {
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        /* Enhanced task styling */
-        .task-item {
-            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-            margin-bottom: 15px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: all 0.3s;
-            border-left: 5px solid #667eea;
-            position: relative;
-        }
-
-        .task-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-        }
-
-        .task-item:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
-        }
-
-        .task-item.completed {
-            background: linear-gradient(135deg, #f8fff8 0%, #e8f5e8 100%);
-            border-left-color: #51cf66;
-        }
-
-        .task-item.completed::before {
-            background: linear-gradient(90deg, #51cf66, #40c057);
-        }
-
-        /* Priority indicators */
-        .priority-high {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        .category-item.active {
+            background: #667eea;
             color: white;
-            position: relative;
+            border-color: #5a6fd8;
         }
 
-        .priority-high::after {
-            content: '🔥';
-            position: absolute;
-            right: -5px;
-            top: -5px;
-            font-size: 12px;
+        .category-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
         }
 
-        .priority-medium {
-            background: linear-gradient(135deg, #ffd43b, #fab005);
-            color: white;
-        }
-
-        .priority-low {
-            background: linear-gradient(135deg, #51cf66, #40c057);
-            color: white;
-        }
-
-        /* Enhanced buttons */
-        .action-btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 25px;
+        .category-name {
             font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
+            font-weight: 500;
         }
 
-        .action-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s;
-        }
-
-        .action-btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        /* Notification badge animation */
-        .notification-badge {
-            position: relative;
-        }
-
-        .notification-badge::after {
-            content: '';
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 8px;
-            height: 8px;
-            background: #ff6b6b;
-            border-radius: 50%;
-            animation: pulse 1s infinite;
-        }
-
-        /* Enhanced Mobile Interface */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
 
             .container {
-                margin: 0;
-                border-radius: 20px;
-                max-width: 100%;
+                border-radius: 15px;
             }
 
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .header p {
+                font-size: 16px;
+            }
+
+            .main-content {
                 padding: 20px;
             }
 
-            .navbar-nav {
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
+            .task-form {
+                grid-template-columns: 1fr;
             }
 
-            .navbar-actions {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 1001;
-            }
-
-            .hamburger-menu {
-                display: flex;
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-            }
-
-            .hero {
-                padding: 40px 20px;
-                text-align: center;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-                margin-bottom: 15px;
-            }
-
-            .hero p {
-                font-size: 18px;
-                margin-bottom: 20px;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 20px;
-                margin-top: 20px;
-            }
-
-            .input-group {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .input-group input,
-            .input-group select {
-                font-size: 16px; /* Prevent zoom on iOS */
-            }
-
-            .actions {
-                flex-direction: column;
-                gap: 10px;
+            .task-input,
+            .add-btn {
+                min-height: 48px;
             }
 
             .filters {
-                justify-content: center;
                 gap: 8px;
             }
 
-            .team {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 13px;
             }
 
-            .todo-container {
-                padding: 20px;
-            }
-
-            .task-content {
+            .task-item {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
             }
 
-            .task-meta {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
+            .task-actions {
+                align-self: stretch;
             }
 
-            .ai-assistant,
-            .customer-service {
-                bottom: 20px;
-                right: 20px;
-            }
-
-            .ai-chat,
-            .customer-service-chat {
-                width: calc(100vw - 40px);
-                height: 70vh;
-                max-height: 500px;
-                right: -20px;
-            }
-
-            .mobile-categories-menu {
-                width: 85vw;
-                max-width: 350px;
-                left: -100vw;
-            }
-
-            .mobile-categories-menu.show {
-                left: 0;
+            .categories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 10px;
             }
         }
 
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 28px !important;
-            }
-
-            .hero p {
-                font-size: 16px !important;
-            }
-
-            .navbar-brand {
-                font-size: 20px !important;
-            }
-
-            .navbar-nav {
-                font-size: 14px;
-            }
-
-            .todo-container {
-                padding: 15px;
-            }
-
-            .task-content {
-                padding: 15px;
-            }
-
-            .ai-chat,
-            .customer-service-chat {
-                height: 60vh;
-                width: calc(100vw - 20px);
-                right: -10px;
-            }
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* View Mode Toggle */
-        .view-toggle {
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s;
-            z-index: 1000;
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
         }
 
-        .view-toggle:hover {
-            transform: scale(1.1);
-        }
-
-        /* Desktop View Mode */
-        .desktop-mode {
-            max-width: 1200px !important;
-            margin: 0 auto !important;
-        }
-
-        .desktop-mode .container {
-            max-width: 1200px !important;
-        }
-
-        /* Mobile View Mode */
-        .mobile-mode {
-            max-width: 480px !important;
-            margin: 0 auto !important;
-        }
-
-        .mobile-mode .container {
-            max-width: 100% !important;
-            border-radius: 0 !important;
-            margin: 0 !important;
-        }
-
-        .mobile-mode .navbar {
-            flex-direction: column !important;
-            gap: 15px !important;
-            padding: 15px 20px !important;
-        }
-
-        .mobile-mode .navbar-nav {
-            gap: 10px !important;
-            flex-wrap: wrap !important;
-            justify-content: center !important;
-        }
-
-        .mobile-mode .hero h1 {
-            font-size: 28px !important;
-        }
-
-        .mobile-mode .hero p {
-            font-size: 16px !important;
-        }
-
-        .mobile-mode .categories-list {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            gap: 8px !important;
-        }
-
-        .mobile-mode .categories-scroll {
-            max-width: 100% !important;
-            overflow-x: auto !important;
-        }
-
-        .mobile-mode .input-group {
-            flex-direction: column !important;
-            gap: 10px !important;
-        }
-
-        .mobile-mode .input-group select,
-        .mobile-mode .input-group input {
-            font-size: 16px !important; /* Prevent zoom on iOS */
-        }
-
-        .mobile-mode .category-select {
-            min-width: 100% !important;
-        }
-
-        .mobile-mode .task-meta {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            gap: 5px !important;
-        }
-
-        .mobile-mode .subtasks-container {
-            padding: 8px !important;
-        }
-
-        .mobile-mode .subtasks-header {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            gap: 8px !important;
-        }
-
-        .mobile-mode .subtasks-title {
-            font-size: 11px !important;
-        }
-
-        .mobile-mode .add-subtask-btn {
-            padding: 3px 6px !important;
-            font-size: 10px !important;
-        }
-
-        .mobile-mode .subtask-item {
-            padding: 4px 6px !important;
-        }
-
-        .mobile-mode .subtask-text {
-            font-size: 12px !important;
-        }
-
-        .mobile-mode .subtask-actions {
-            gap: 2px !important;
-        }
-
-        .mobile-mode .subtask-btn {
-            padding: 1px 3px !important;
-            font-size: 10px !important;
-        }
-
-        .mobile-mode .filters {
-            justify-content: center !important;
-            gap: 8px !important;
-        }
-
-        .mobile-mode .team {
-            grid-template-columns: 1fr !important;
-            gap: 20px !important;
-        }
-
-        .mobile-mode .features {
-            grid-template-columns: 1fr !important;
-            gap: 20px !important;
-        }
-
-        .mobile-mode .todo-header {
-            flex-direction: column !important;
-            gap: 10px !important;
-            align-items: flex-start !important;
-        }
-
-        .mobile-mode .stats {
-            font-size: 12px !important;
-        }
-
-        .mobile-mode .task-content {
-            flex-direction: column !important;
-            gap: 10px !important;
-            align-items: flex-start !important;
-        }
-
-        .mobile-mode .task-actions {
-            align-self: stretch !important;
-        }
-
-        .mobile-mode .footer {
-            padding: 30px 15px !important;
-        }
-
-        .mobile-mode .main-content {
-            padding: 20px 15px !important;
-        }
-
-        .mobile-mode .todo-container {
-            padding: 20px 15px !important;
-        }
-
-        .mobile-mode .team-member {
-            padding: 20px 15px !important;
-        }
-
-        .mobile-mode .filter-btn {
-            padding: 10px 16px !important;
-            font-size: 14px !important;
-        }
-
-        .mobile-mode .action-btn {
-            padding: 12px 20px !important;
-            font-size: 14px !important;
-        }
-
-        .mobile-mode .social-links {
-            flex-direction: column !important;
-            gap: 10px !important;
-        }
-
-        /* Touch-friendly button sizes for mobile */
-        @media (max-width: 480px) {
-            .mobile-mode .view-toggle {
-                width: 60px !important;
-                height: 60px !important;
-                font-size: 24px !important;
-            }
-
-            .mobile-mode .add-btn {
-                padding: 15px 25px !important;
-                font-size: 18px !important;
-            }
-        }
-
-        /* Loading animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Toast mesajları */
+        /* Toast Messages */
         .toast {
             position: fixed;
             top: 20px;
@@ -3054,620 +425,121 @@
             padding: 15px 20px;
             border-radius: 10px;
             z-index: 1000;
-            animation: slideInRight 0.3s ease-out;
-            max-width: 300px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
         }
 
-        /* Login Modal Styles */
-        .login-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .login-modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .login-content {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
-            width: 90%;
-            transform: scale(0.8) translateY(50px);
-            transition: all 0.3s ease;
-        }
-
-        .login-modal.show .login-content {
-            transform: scale(1) translateY(0);
-        }
-
-        .login-logo {
-            font-size: 48px;
-            margin-bottom: 20px;
-            animation: bounceIn 1s ease-out;
-        }
-
-        .login-title {
-            font-size: 28px;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .login-subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 16px;
-        }
-
-        .google-login-btn {
-            background: #4285f4;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 250px;
-            justify-content: center;
-        }
-
-        .google-login-btn:hover {
-            background: #357ae8;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.4);
-        }
-
-        .google-login-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .login-footer {
-            margin-top: 30px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .user-profile {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 10px 15px;
-            border-radius: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
-        }
-
-        .user-profile.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .user-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            font-size: 16px;
-        }
-
-        .user-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .user-name {
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 14px;
-        }
-
-        .user-email {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .logout-btn {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: #ee5a52;
-        }
-
-        /* Welcome Animation */
-        .welcome-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 1;
-            visibility: visible;
-            transition: all 0.5s ease;
-        }
-
-        .welcome-animation.hide {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .welcome-content {
-            text-align: center;
-            color: white;
-            transform: scale(0.8);
-            transition: all 0.5s ease;
-        }
-
-        .welcome-animation.show .welcome-content {
-            transform: scale(1);
-        }
-
-        .welcome-title {
-            font-size: 48px;
-            margin-bottom: 20px;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .welcome-subtitle {
-            font-size: 24px;
-            opacity: 0.9;
-            animation: fadeInUp 1s ease-out 0.3s both;
-        }
-
-        .welcome-countdown {
-            font-size: 18px;
-            margin-top: 30px;
-            opacity: 0.8;
-            animation: fadeInUp 1s ease-out 0.6s both;
-        }
-
-        /* Hide main content initially when login is required */
-        .main-content {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .main-content.show {
-            opacity: 1;
+        .toast.show {
+            transform: translateX(0);
         }
     </style>
 </head>
 <body>
-    <!-- Theme Switcher -->
-    <div class="theme-switcher">
-        <div class="theme-option theme-original-btn active" onclick="setTheme('original')" title="Orijinal Tema">
-            <span class="theme-tooltip">Orijinal</span>
-        </div>
-        <div class="theme-option theme-black-btn" onclick="setTheme('black')" title="Siyah Tema">
-            <span class="theme-tooltip">Siyah</span>
-        </div>
-        <div class="theme-option theme-white-btn" onclick="setTheme('white')" title="Beyaz Tema">
-            <span class="theme-tooltip">Beyaz</span>
-        </div>
-    </div>
-
-    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-
-    <!-- Login Modal -->
-    <div class="login-modal" id="login-modal">
-        <div class="login-content">
-            <div class="login-logo">🚀</div>
-            <div class="login-title">To-Do PRO'ya Giriş</div>
-            <div class="login-subtitle">Devam etmek için Google hesabınızla giriş yapın</div>
-            <button class="google-login-btn" onclick="loginWithGoogle()" id="google-login-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-                Google ile Giriş Yap
-            </button>
-            <div class="login-footer">
-                Güvenli giriş için Google OAuth kullanıyoruz
-            </div>
-        </div>
-    </div>
-
-    <!-- User Profile -->
-    <div class="user-profile" id="user-profile">
-        <div class="user-avatar" id="user-avatar">U</div>
-        <div class="user-info">
-            <div class="user-name" id="user-name">Kullanıcı</div>
-            <div class="user-email" id="user-email">kullanici@example.com</div>
-        </div>
-        <button class="logout-btn" onclick="logout()">Çıkış</button>
-    </div>
-
-    <!-- AI Assistant -->
-    <div class="ai-assistant" id="ai-assistant">
-        <button class="ai-toggle" onclick="toggleAIAssistant()" id="ai-toggle-btn">
-            <span class="ai-icon">🤖</span>
-            <span class="ai-text">AI Asistan</span>
-            <span class="new-badge">YENİ</span>
-        </button>
-
-        <div class="ai-chat" id="ai-chat">
-            <div class="ai-chat-header">
-                <h3>🤖 AI Asistan</h3>
-                <button class="ai-chat-close" onclick="toggleAIAssistant()">✕</button>
-            </div>
-            <div class="ai-chat-messages" id="ai-chat-messages">
-                <div class="ai-message ai-welcome">
-                    <div class="ai-message-avatar">🤖</div>
-                    <div class="ai-message-content">
-                        <div class="ai-message-text">Merhaba! Ben To-Do PRO AI asistanıyım. Görev yönetimi, kategoriler ve uygulama hakkında size yardımcı olabilirim. Ne sormak istiyorsunuz?</div>
-                        <div class="ai-message-time">Şimdi</div>
-                    </div>
-                </div>
-            </div>
-            <div class="ai-chat-input-area">
-                <input type="text" id="ai-input" class="ai-input" placeholder="AI asistana sorun sorun..." onkeypress="handleAIKeyPress(event)">
-                <button class="ai-send-btn" onclick="sendAIMessage()">Gönder</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Customer Service -->
-    <div class="customer-service" id="customer-service">
-        <button class="customer-service-toggle" onclick="toggleCustomerService()" id="customer-service-toggle-btn">
-            <span class="customer-service-icon">💬</span>
-            <span class="customer-service-text">Destek</span>
-            <span class="new-badge">YENİ</span>
-        </button>
-
-        <div class="customer-service-chat" id="customer-service-chat">
-            <div class="customer-service-header">
-                <h3>💬 Müşteri Hizmetleri</h3>
-                <button class="customer-service-close" onclick="toggleCustomerService()">✕</button>
-            </div>
-            <div class="customer-service-messages" id="customer-service-messages">
-                <div class="customer-service-message support-welcome">
-                    <div class="customer-service-avatar">🛎️</div>
-                    <div class="customer-service-content">
-                        <div class="customer-service-text">Merhaba! To-Do PRO Müşteri Hizmetleri'ne hoş geldiniz. Size nasıl yardımcı olabiliriz?</div>
-                        <div class="customer-service-time">Şimdi</div>
-                    </div>
-                </div>
-            </div>
-            <div class="customer-service-input-area">
-                <input type="text" id="customer-service-input" class="customer-service-input" placeholder="Sorunuzu yazın..." onkeypress="handleCustomerServiceKeyPress(event)">
-                <button class="customer-service-send-btn" onclick="sendCustomerServiceMessage()">Gönder</button>
-            </div>
-        </div>
-    </div>
-    <div class="bot-modal" id="bot-modal">
-        <div class="bot-content">
-            <div class="bot-header">
-                <h2 class="bot-title">🤖 Bot Sistemi</h2>
-                <button class="close-bot-modal" onclick="hideBotModal()">✕</button>
-            </div>
-
-            <div class="bot-input-group">
-                <label for="bot-command">Bot Komutu:</label>
-                <input type="text" id="bot-command" class="bot-input" placeholder="Bot komutunu girin...">
-            </div>
-
-            <div class="bot-input-group">
-                <button class="bot-btn" onclick="executeBotCommand()">Komutu Çalıştır</button>
-                <button class="bot-btn" onclick="clearBotOutput()">Temizle</button>
-            </div>
-
-            <div class="bot-output" id="bot-output">
-                <pre>Bot çıktısı burada görünecek...</pre>
-            </div>
-        </div>
-    </div>
-
     <div class="container">
-        <!-- Navigation -->
-        <nav class="navbar">
-            <a href="#" class="navbar-brand">🚀 To-Do PRO</a>
-            <ul class="navbar-nav">
-                <li><a href="#home" class="nav-link active">Ana Sayfa</a></li>
-                <li><a href="#todo" class="nav-link">Görev Yöneticisi</a></li>
-                <li><a href="#team" class="nav-link">Yapımcılar</a></li>
-                <li><a href="#about" class="nav-link">Hakkında</a></li>
-            </ul>
-            <div class="navbar-actions">
-                <button class="hamburger-menu" onclick="toggleCategoriesMenu()" id="hamburger-btn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span class="new-badge">YENİ</span>
-                </button>
-                <button class="view-toggle" onclick="toggleViewMode()" id="view-toggle-btn">📱</button>
-            </div>
-        </nav>
-
-        <!-- Mobile Categories Menu -->
-        <div class="mobile-categories-menu" id="mobile-categories-menu">
-            <div class="mobile-categories-header">
-                <h3>📂 Menü</h3>
-                <button class="close-categories-menu" onclick="toggleCategoriesMenu()">✕</button>
-            </div>
-            <div class="mobile-categories-content">
-                <div class="mobile-categories-scroll" id="mobile-categories-list">
-                    <!-- Categories will be loaded here -->
-                </div>
-
-                <!-- Founder Section -->
-                <div class="mobile-founder-section">
-                    <h4 class="mobile-founder-title">👑 Kurucu Özel</h4>
-                    <button class="mobile-founder-btn" onclick="showFounderPasswordPrompt()">Kurucu Paneli</button>
-                    <button class="mobile-founder-btn" onclick="showThemeManager()">🎨 Tema Değiştir</button>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="mobile-quick-actions">
-                    <h4 class="mobile-actions-title">⚡ Hızlı İşlemler</h4>
-                    <button class="mobile-action-btn" onclick="exportTasks()">📤 Dışa Aktar</button>
-                    <button class="mobile-action-btn" onclick="clearCompletedTasks()">🧹 Temizle</button>
-                    <button class="mobile-action-btn" onclick="showAdvancedStats()">📊 İstatistikler</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hero Section -->
-        <section class="hero">
+        <!-- Header -->
+        <div class="header">
             <h1>🚀 To-Do PRO</h1>
-            <p>Profesyonel Görev Yöneticisi - Modern ve Güçlü</p>
-            <div class="hero-stats">
-                <div class="stat-card">
-                    <span class="stat-number" id="hero-total">0</span>
-                    <span>Toplam Görev</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" id="hero-completed">0</span>
-                    <span>Tamamlanan</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" id="hero-pending">0</span>
-                    <span>Bekleyen</span>
-                </div>
-            </div>
-        </section>
+            <p>Profesyonel Görev Yöneticisi</p>
+        </div>
 
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Görev Yöneticisi -->
-            <section id="todo" class="section">
-                <h2>📋 Görev Yöneticisi</h2>
-                <div class="todo-container">
-                    <div class="todo-header">
-                        <h3>Yeni Görev Ekle</h3>
-                        <div class="categories-container">
-                            <div class="categories-list">
-                                <span class="categories-label">Kategoriler:</span>
-                                <div class="categories-scroll">
-                                    <span class="category-tag add-category" onclick="showAddCategoryDialog()">➕ Kategori Ekle</span>
-                                    <div id="categories-display"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="search-container">
-                            <input type="text" id="search-input" class="search-input" placeholder="Görev ara..." onkeyup="filterTasks()">
-                            <button onclick="clearSearch()" class="clear-search-btn">✕</button>
-                        </div>
-                        <div class="stats">
-                            <span>📊 Toplam: <strong id="total-count">0</strong></span>
-                            <span>✅ Tamamlanan: <strong id="completed-count">0</strong></span>
-                            <span>⏳ Bekleyen: <strong id="pending-count">0</strong></span>
-                        </div>
-                    </div>
+            <!-- Add Task Section -->
+            <div class="add-task-section fade-in">
+                <h3>✨ Yeni Görev Ekle</h3>
+                <div class="task-form">
+                    <input type="text" id="task-input" class="task-input" placeholder="Görev açıklamasını yazın...">
+                    <button onclick="addTask()" class="add-btn">➕ EKLE</button>
+                </div>
+            </div>
 
-                    <div class="input-group">
-                        <select id="priority-select" class="priority-select">
-                            <option value="Yüksek">🔴 Yüksek Öncelik</option>
-                            <option value="Orta" selected>🟡 Orta Öncelik</option>
-                            <option value="Düşük">🟢 Düşük Öncelik</option>
-                        </select>
-                        <select id="category-select" class="category-select">
-                            <option value="">📂 Kategori Seçin (Opsiyonel)</option>
-                        </select>
-                        <input type="text" id="task-input" class="task-input" placeholder="Görev açıklamasını yazın..." onkeypress="handleKeyPress(event)">
-                        <input type="datetime-local" id="due-date-input" class="due-date-input" title="Vade tarihi (opsiyonel)">
-                        <button onclick="addTask()" class="add-btn">
-                            ➕ EKLE
-                        </button>
-                    </div>
+            <!-- Categories Section -->
+            <div class="categories-section fade-in">
+                <div class="categories-header">
+                    <h3 class="categories-title">📂 Kategoriler</h3>
+                    <button onclick="showAddCategoryDialog()" class="add-category-btn">+ Kategori Ekle</button>
+                </div>
+                <div class="categories-grid" id="categories-container">
+                    <!-- Categories will be loaded here -->
+                </div>
+            </div>
 
-                    <div class="actions">
-                        <button class="action-btn complete-all" onclick="completeAllTasks()">
-                            ✓ TÜMÜNÜ TAMAMLA
-                        </button>
-                        <button class="action-btn clear-completed" onclick="clearCompletedTasks()">
-                            🧹 TAMAMLANANLARI TEMİZLE
-                        </button>
-                        <button class="action-btn sort-tasks" onclick="sortTasks()">
-                            🔄 ÖNCELİĞE GÖRE SIRALA
-                        </button>
-                        <button class="action-btn notification-btn" onclick="requestNotificationPermission()" id="notification-btn">
-                            🔔 BİLDİRİM İZİNLERİ
-                        </button>
-                        <button class="action-btn export-btn" onclick="exportTasks()">
-                            📤 DIŞA AKTAR
-                        </button>
-                        <button class="action-btn import-btn" onclick="importTasks()">
-                            📥 İÇE AKTAR
-                        </button>
-                    </div>
+            <!-- Filters -->
+            <div class="filters fade-in">
+                <button class="filter-btn active" onclick="setFilter('all')">Tümü</button>
+                <button class="filter-btn" onclick="setFilter('pending')">Bekleyen</button>
+                <button class="filter-btn" onclick="setFilter('completed')">Tamamlanan</button>
+                <button class="filter-btn" onclick="setFilter('high')">Yüksek Öncelik</button>
+                <button class="filter-btn" onclick="setFilter('medium')">Orta Öncelik</button>
+                <button class="filter-btn" onclick="setFilter('low')">Düşük Öncelik</button>
+            </div>
 
-                    <div class="filters">
-                        <button class="filter-btn active" onclick="setFilter('all')">Tümü</button>
-                        <button class="filter-btn" onclick="setFilter('high')">Yüksek Öncelik</button>
-                        <button class="filter-btn" onclick="setFilter('medium')">Orta Öncelik</button>
-                        <button class="filter-btn" onclick="setFilter('low')">Düşük Öncelik</button>
-                        <button class="filter-btn" onclick="setFilter('completed')">Tamamlanan</button>
-                        <button class="filter-btn" onclick="setFilter('pending')">Bekleyen</button>
-                        <button class="filter-btn" onclick="setFilter('today')">Bugün</button>
-                        <button class="filter-btn" onclick="setFilter('overdue')">Geciken</button>
-                        <div class="category-filters" id="category-filters"></div>
-                    </div>
-
-                    <div class="tasks-container">
-                        <div id="tasks-list">
-                            <!-- Görevler buraya eklenecek -->
-                        </div>
+            <!-- Tasks Section -->
+            <div class="tasks-container fade-in">
+                <div class="tasks-header">
+                    <div class="tasks-title">📋 Görevlerim</div>
+                    <div class="task-stats">
+                        <span class="stat total">Toplam: <span id="total-count">0</span></span>
+                        <span class="stat completed">✅ <span id="completed-count">0</span></span>
+                        <span class="stat pending">⏳ <span id="pending-count">0</span></span>
                     </div>
                 </div>
-            </section>
-
-            <!-- Yapımcılar Bölümü -->
-            <section id="team" class="section">
-                <h2>👥 Yapımcılar</h2>
-                <div class="team">
-                    <div class="team-member">
-                        <div class="member-avatar">MC</div>
-                        <div class="member-name">Melih Can Çiğdem</div>
-                        <div class="member-role">Full-Stack Developer</div>
-                        <div class="member-bio">
-                            Modern web teknolojileri konusunda uzmanlaşmış deneyimli geliştirici.
-                            Kullanıcı deneyimini ön planda tutan, responsive ve performanslı uygulamalar geliştirir.
-                        </div>
-                    </div>
-
-                    <div class="team-member">
-                        <div class="member-avatar">🚀</div>
-                        <div class="member-name">Yapay Zeka Asistanı</div>
-                        <div class="member-role">AI Code Assistant</div>
-                        <div class="member-bio">
-                            Gelişmiş kodlama yetenekleri ile projeleri hızlandıran,
-                            modern teknolojileri ustalıkla kullanan yapay zeka destekli geliştirme asistanı.
-                        </div>
-                    </div>
+                <div id="tasks-list">
+                    <!-- Tasks will be loaded here -->
                 </div>
-            </section>
-
-            <!-- Hakkında Bölümü -->
-            <section id="about" class="section">
-                <div class="about">
-                    <h2>💡 Hakkında</h2>
-                    <p>
-                        <strong>To-Do PRO</strong>, modern web teknolojileri kullanılarak geliştirilmiş
-                        profesyonel bir görev yönetim uygulamasıdır. Kullanıcı dostu arayüzü ve güçlü
-                        özellikleriyle hem kişisel hem de profesyonel kullanım için idealdir.
-                    </p>
-
-                    <div class="features">
-                        <div class="feature">
-                            <div class="feature-icon">⚡</div>
-                            <h3>Hızlı ve Performanslı</h3>
-                            <p>Modern JavaScript teknolojisi ile geliştirilmiş, hızlı yükleme süreleri ve akıcı animasyonlar.</p>
-                        </div>
-
-                        <div class="feature">
-                            <div class="feature-icon">📱</div>
-                            <h3>Mobil Uyumlu</h3>
-                            <p>Responsive tasarım sayesinde tüm cihazlarda mükemmel çalışır. Dokunmatik kontroller optimize edilmiştir.</p>
-                        </div>
-
-                        <div class="feature">
-                            <div class="feature-icon">🔒</div>
-                            <h3>Güvenli ve Offline</h3>
-                            <p>Verileriniz tarayıcıda yerel olarak saklanır. İnternet bağlantısı olmadan da çalışır.</p>
-                        </div>
-
-                        <div class="feature">
-                            <div class="feature-icon">🎨</div>
-                            <h3>Modern Tasarım</h3>
-                            <p>Gradient background, smooth animasyonlar ve kullanıcı dostu arayüz tasarımı.</p>
-                        </div>
-
-                        <div class="feature">
-                            <div class="feature-icon">🚀</div>
-                            <h3>GitHub Pages Desteği</h3>
-                            <p>Statik site olarak GitHub Pages'te ücretsiz olarak barındırılabilir.</p>
-                        </div>
-
-                        <div class="feature">
-                            <div class="feature-icon">🌟</div>
-                            <h3>Özelleştirilebilir</h3>
-                            <p>Koyu/açık tema seçenekleri ve kullanıcı tercihlerine göre ayarlanabilir arayüz.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
         </div>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2024 To-Do PRO - Profesyonel Görev Yöneticisi</p>
-            <p>Yapımcı: Melih Can Çiğdem</p>
-            <div class="contact-info">
-                <p>📧 E-posta: <a href="mailto:adamol31ggez@gmail.com" class="contact-link">adamol31ggez@gmail.com</a></p>
-                <p>📱 Telefon: <a href="tel:+905555555555" class="contact-link">+90 555 555 55 55</a></p>
-            </div>
-            <div class="social-links">
-                <a href="https://github.com" class="social-link">GitHub</a>
-                <a href="https://linkedin.com" class="social-link">LinkedIn</a>
-                <a href="mailto:adamol31ggez@gmail.com" class="social-link">E-posta</a>
-            </div>
-        </footer>
     </div>
 
-    <script>
-        // MELİH TO-DO - Profesyonel Site Uygulaması
-        // Yapımcı: Melih Can Çiğdem
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
 
+    <script>
         // Veri yönetimi
         let tasks = [];
         let categories = [];
         let currentFilter = 'all';
-        let currentCategoryFilter = 'all';
-        let currentUser = null;
-        let welcomeTimer = null;
+
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTasks();
+            loadCategories();
+            renderTasks();
+            updateStats();
+            setupEventListeners();
+        });
+
+        // Event listeners
+        function setupEventListeners() {
+            const taskInput = document.getElementById('task-input');
+            taskInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addTask();
+                }
+            });
+        }
+
+        // Görevleri yükle
+        function loadTasks() {
+            try {
+                const saved = localStorage.getItem('todo_pro_tasks');
+                if (saved) {
+                    tasks = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.error('Görevler yüklenemedi:', e);
+                tasks = [];
+            }
+        }
+
+        // Görevleri kaydet
+        function saveTasks() {
+            try {
+                localStorage.setItem('todo_pro_tasks', JSON.stringify(tasks));
+            } catch (e) {
+                console.error('Görevler kaydedilemedi:', e);
+            }
+        }
 
         // Kategorileri yükle
         function loadCategories() {
@@ -3679,9 +551,9 @@
                     // Varsayılan kategoriler
                     categories = [
                         { id: '1', name: 'İş', color: '#667eea' },
-                        { id: '2', name: 'Kişisel', color: '#51cf66' },
-                        { id: '3', name: 'Alışveriş', color: '#ffd43b' },
-                        { id: '4', name: 'Sağlık', color: '#ff6b6b' }
+                        { id: '2', name: 'Kişisel', color: '#4caf50' },
+                        { id: '3', name: 'Alışveriş', color: '#ff9800' },
+                        { id: '4', name: 'Sağlık', color: '#e91e63' }
                     ];
                     saveCategories();
                 }
@@ -3700,619 +572,104 @@
             }
         }
 
-        // Kategori ekleme dialog'u göster
-        function showAddCategoryDialog() {
-            const categoryName = prompt('Yeni kategori adını girin:');
-            if (categoryName && categoryName.trim()) {
-                const newCategory = {
-                    id: Date.now().toString(),
-                    name: categoryName.trim(),
-                    color: getRandomColor()
-                };
-                categories.push(newCategory);
-                saveCategories();
-                updateCategoriesDisplay();
-                updateCategorySelect();
-                updateCategoryFilterButtons();
-                updateMobileCategories();
-                showToast(`✅ "${newCategory.name}" kategorisi eklendi!`);
-            }
-        }
-
-        // Rastgele renk al
-        function getRandomColor() {
-            const colors = ['#667eea', '#51cf66', '#ffd43b', '#ff6b6b', '#74c0fc', '#ffa8a8', '#a8e6cf', '#ffd93d'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-
-        // Kategorileri göster
-        function updateCategoriesDisplay() {
-            const container = document.getElementById('categories-display');
-            container.innerHTML = '';
-
-            categories.forEach(category => {
-                const categoryElement = document.createElement('span');
-                categoryElement.className = 'category-tag';
-                categoryElement.style.background = category.color;
-                categoryElement.textContent = category.name;
-                categoryElement.onclick = () => {
-                    if (category.id === 'founder') {
-                        showFounderPasswordPrompt();
-                    } else {
-                        setCategoryFilter(category.id);
-                    }
-                };
-                categoryElement.title = `Bu kategoriye filtrele: ${category.name}`;
-
-                container.appendChild(categoryElement);
-            });
-        }
-
-        // Kategori seçimi güncelle
-        function updateCategorySelect() {
-            const select = document.getElementById('category-select');
-            select.innerHTML = '<option value="">📂 Kategori Seçin (Opsiyonel)</option>';
-
-            categories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category.id;
-                option.textContent = category.name;
-                option.style.color = category.color;
-                select.appendChild(option);
-            });
-        }
-
-        // Kategori filtresi uygula
-        function setCategoryFilter(categoryId) {
-            currentCategoryFilter = categoryId;
-
-            // Aktif kategori butonunu işaretle
-            document.querySelectorAll('.category-tag').forEach(tag => {
-                tag.classList.remove('active');
-            });
-
-            if (categoryId !== 'all') {
-                const activeTag = document.querySelector(`[onclick="setCategoryFilter('${categoryId}')"]`);
-                if (activeTag) activeTag.classList.add('active');
-            }
-
-            renderTasks();
-        }
-
-        // Kategori filtre butonlarını göster
-        function updateCategoryFilterButtons() {
-            const container = document.getElementById('category-filters');
-            container.innerHTML = '<button class="category-filter-btn active" onclick="setCategoryFilter(\'all\')">Tüm Kategoriler</button>';
-
-            categories.forEach(category => {
-                const button = document.createElement('button');
-                button.className = 'category-filter-btn';
-                button.textContent = category.name;
-                button.style.borderColor = category.color;
-                button.style.color = category.color;
-                button.onclick = () => setCategoryFilter(category.id);
-
-                container.appendChild(button);
-            });
-        }
-
-        // Bildirim izni iste
-        function requestNotificationPermission() {
-            if ('Notification' in window && Notification.permission === 'default') {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        showToast('🔔 Bildirimler aktif! Vade tarihi yaklaşan görevler için hatırlatma alacaksınız.');
-                    }
-                });
-            }
-        }
-
-        // Karanlık mod toggle
-        function toggleTheme() {
-            const body = document.body;
-            body.classList.toggle('dark-theme');
-            const theme = body.classList.contains('dark-theme') ? 'dark' : 'light';
-            localStorage.setItem('todo_pro_theme', theme);
-            const toggleBtn = document.querySelector('.theme-toggle');
-            toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
-        }
-
-        // Tema değiştirme fonksiyonu
-        function setTheme(theme) {
-            // Tüm tema sınıflarını kaldır
-            document.body.classList.remove('theme-original', 'theme-black', 'theme-white');
-
-            // Yeni temayı uygula
-            document.body.classList.add(`theme-${theme}`);
-
-            // Aktif tema butonunu güncelle
-            document.querySelectorAll('.theme-option').forEach(option => {
-                option.classList.remove('active');
-            });
-            document.querySelector(`.theme-${theme}-btn`).classList.add('active');
-
-            // Tema bilgisini kaydet
-            localStorage.setItem('todo_pro_theme', theme);
-
-            // Toast mesajı göster
-            const themeNames = {
-                'original': 'Orijinal',
-                'black': 'Siyah',
-                'white': 'Beyaz'
-            };
-            showToast(`🎨 ${themeNames[theme]} tema uygulandı!`);
-        }
-
-        // Mevcut temayı yükle
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('todo_pro_theme') || 'original';
-
-            // Eski tema sistemini temizle (dark-theme sınıfı varsa)
-            document.body.classList.remove('dark-theme');
-
-            // Yeni tema sistemini uygula
-            setTheme(savedTheme);
-
-            // Tema toggle butonunu güncelle (eski sistem için)
-            const toggleBtn = document.querySelector('.theme-toggle');
-            if (toggleBtn) {
-                toggleBtn.textContent = savedTheme === 'black' ? '☀️' : '🌙';
-            }
-        }
-
-        // Eski tema toggle fonksiyonunu güncelle
-        function toggleTheme() {
-            const currentTheme = localStorage.getItem('todo_pro_theme') || 'original';
-            const newTheme = currentTheme === 'black' ? 'original' : 'black';
-            setTheme(newTheme);
-
-            // Toggle butonunu güncelle
-            const toggleBtn = document.querySelector('.theme-toggle');
-            toggleBtn.textContent = newTheme === 'black' ? '☀️' : '🌙';
-        }
-
-        // Mobile kategoriler menüsünü aç/kapat
-        function toggleCategoriesMenu() {
-            const menu = document.getElementById('mobile-categories-menu');
-            const hamburger = document.getElementById('hamburger-btn');
-
-            menu.classList.toggle('show');
-            hamburger.classList.toggle('active');
-        }
-
-        // Mobile kategorileri güncelle
-        function updateMobileCategories() {
-            const container = document.getElementById('mobile-categories-list');
-            if (!container) return;
-
-            container.innerHTML = '';
-
-            // Tüm kategoriler seçeneği
-            const allCategory = document.createElement('div');
-            allCategory.className = 'mobile-category-item';
-            allCategory.onclick = () => {
-                setCategoryFilter('all');
-                toggleCategoriesMenu();
-            };
-
-            allCategory.innerHTML = `
-                <div class="mobile-category-color" style="background: linear-gradient(135deg, #667eea, #764ba2);"></div>
-                <div class="mobile-category-name">Tüm Kategoriler</div>
-                <div class="mobile-category-count">${tasks.length}</div>
-            `;
-
-            if (currentCategoryFilter === 'all') {
-                allCategory.classList.add('active');
-            }
-
-            container.appendChild(allCategory);
-
-            // Diğer kategoriler
-            categories.forEach(category => {
-                const taskCount = tasks.filter(task => task.categoryId === category.id).length;
-
-                const categoryElement = document.createElement('div');
-                categoryElement.className = 'mobile-category-item';
-                categoryElement.onclick = () => {
-                    if (category.id === 'founder') {
-                        showFounderPasswordPrompt();
-                    } else {
-                        setCategoryFilter(category.id);
-                        toggleCategoriesMenu();
-                    }
-                };
-
-                categoryElement.innerHTML = `
-                    <div class="mobile-category-color" style="background: ${category.color};"></div>
-                    <div class="mobile-category-name">${category.name}</div>
-                    <div class="mobile-category-count">${taskCount}</div>
-                `;
-
-        });
-}
-
-// Google Login Functions
-function loginWithGoogle() {
-    const loginBtn = document.getElementById('google-login-btn');
-    loginBtn.disabled = true;
-    loginBtn.textContent = 'Google ile giriş yapılıyor...';
-
-    // Google OAuth configuration
-    const clientId = 'YOUR_GOOGLE_CLIENT_ID'; // Replace with actual Google Client ID
-
-    // Check if Google Auth API is loaded
-    if (typeof google !== 'undefined') {
-        google.accounts.id.initialize({
-            client_id: clientId,
-            callback: handleCredentialResponse,
-            auto_select: false,
-            cancel_on_tap_outside: true
-        });
-
-        google.accounts.id.prompt((notification) => {
-            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                // Fallback to demo mode if Google OAuth fails
-                setTimeout(() => {
-                    demoLogin();
-                }, 2000);
-            }
-        });
-    } else {
-        // Fallback for when Google API is not loaded
-        demoLogin();
-    }
-}
-
-function handleCredentialResponse(response) {
-    // Decode the JWT token to get user info
-    const decodedToken = JSON.parse(atob(response.credential.split('.')[1]));
-
-    const user = {
-        name: decodedToken.name,
-        email: decodedToken.email,
-        avatar: decodedToken.picture,
-        id: decodedToken.sub
-    };
-
-    currentUser = user;
-    localStorage.setItem('todo_pro_user', JSON.stringify(user));
-
-    // Show personalized welcome animation
-    showWelcomeAnimation(user.name);
-
-    // Update UI
-    hideLoginModal();
-    showUserProfile(user);
-    showMainContent();
-
-    showToast(`🎉 Hoş geldiniz, ${user.name}!`);
-}
-
-function demoLogin() {
-    // Demo login for development
-    const demoUser = {
-        name: 'Demo Kullanıcı',
-        email: 'demo@example.com',
-        avatar: 'D',
-        id: 'demo-user'
-    };
-
-    currentUser = demoUser;
-    localStorage.setItem('todo_pro_user', JSON.stringify(demoUser));
-    showWelcomeAnimation(demoUser.name);
-    hideLoginModal();
-    showUserProfile(demoUser);
-    showMainContent();
-
-    showToast('🔧 Demo modunda giriş yapıldı');
-}
-
-function showLoginModal() {
-    const modal = document.getElementById('login-modal');
-    modal.classList.add('show');
-}
-
-function hideLoginModal() {
-    const modal = document.getElementById('login-modal');
-    modal.classList.remove('show');
-}
-
-function showUserProfile(user) {
-    const profile = document.getElementById('user-profile');
-    const avatar = document.getElementById('user-avatar');
-    const name = document.getElementById('user-name');
-    const email = document.getElementById('user-email');
-
-    avatar.textContent = user.name.charAt(0).toUpperCase();
-    name.textContent = user.name;
-    email.textContent = user.email;
-
-    profile.classList.add('show');
-}
-
-function hideUserProfile() {
-    const profile = document.getElementById('user-profile');
-    profile.classList.remove('show');
-}
-
-function showWelcomeAnimation(userName) {
-    const welcomeAnimation = document.getElementById('welcome-animation');
-    const welcomeTitle = document.getElementById('welcome-title');
-    const countdown = document.getElementById('welcome-countdown');
-
-    welcomeTitle.textContent = `Merhaba, ${userName}!`;
-    welcomeAnimation.classList.add('show');
-
-    // Countdown'ı gizle ve direkt ana içeriği göster
-    countdown.style.display = 'none';
-
-    setTimeout(() => {
-        hideWelcomeAnimation();
-        showMainContent();
-    }, 2000); // 2 saniye sonra ana içeriği göster
-}
-
-function hideWelcomeAnimation() {
-    const welcomeAnimation = document.getElementById('welcome-animation');
-    welcomeAnimation.classList.remove('show');
-    welcomeAnimation.classList.add('hide');
-}
-
-function showMainContent() {
-    const mainContent = document.querySelector('.main-content');
-    mainContent.classList.add('show');
-}
-
-function hideMainContent() {
-    const mainContent = document.querySelector('.main-content');
-    mainContent.classList.remove('show');
-}
-
-function checkUserLogin() {
-    const savedUser = localStorage.getItem('todo_pro_user');
-    if (savedUser) {
-        try {
-            currentUser = JSON.parse(savedUser);
-            showUserProfile(currentUser);
-            showMainContent();
-        } catch (e) {
-            console.error('Kullanıcı bilgileri yüklenemedi:', e);
-            showLoginModal();
-        }
-    } else {
-        showLoginModal();
-    }
-}
-
-// Sayfa yüklendiğinde
-document.addEventListener('DOMContentLoaded', function() {
-    loadTasks();
-    loadCategories();
-    loadTheme();
-    updateCategoriesDisplay();
-    updateCategorySelect();
-    updateCategoryFilterButtons();
-    updateMobileCategories();
-    renderTasks();
-    updateAllStats();
-    initializeViewMode();
-    checkUserLogin();
-
-    // Smooth scroll için navigation
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = this.getAttribute('href').substring(1);
-            document.getElementById(target).scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        });
-    });
-
-    // Intersection Observer ile animasyonlar
-    observeElements();
-
-    // Başlangıç animasyonu
-    setTimeout(() => {
-        document.querySelector('.hero h1').classList.add('pulse');
-    }, 1000);
-});
-
-// Tarih formatla
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = date.getTime() - now.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays < 0) {
-        return `Geçmiş: ${Math.abs(diffDays)} gün önce`;
-    } else if (diffDays === 0) {
-        return 'Bugün';
-    } else if (diffDays === 1) {
-        return 'Yarın';
-    } else {
-        return `${diffDays} gün sonra`;
-    }
-}
-
-// Vade tarihi geçmiş mi kontrol et
-function isOverdue(dateString) {
-    if (!dateString) return false;
-    return new Date(dateString) < new Date();
-}
-
-// Arama ve filtreleme
-function filterTasks() {
-    renderTasks();
-}
-
-// Aramayı temizle
-function clearSearch() {
-    document.getElementById('search-input').value = '';
-    renderTasks();
-}
-
-// Görevleri dışa aktar
-function exportTasks() {
-    const dataStr = JSON.stringify(tasks, null, 2);
-    const dataBlob = new Blob([dataStr], {type: 'application/json'});
-    const url = URL.createObjectURL(dataBlob);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `melih-todo-backup-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-
-    showToast('📤 Görevler dışa aktarıldı!');
-}
-
-// Görevleri içe aktar
-function importTasks() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    input.onchange = function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const importedTasks = JSON.parse(e.target.result);
-                    if (Array.isArray(importedTasks)) {
-                        if (confirm(`${importedTasks.length} görev içe aktarılacak. Mevcut görevler korunacak mı?`)) {
-                            tasks = [...tasks, ...importedTasks];
-                            saveTasks();
-                            renderTasks();
-                            updateAllStats();
-                            showToast(`✅ ${importedTasks.length} görev başarıyla içe aktarıldı!`);
-                        }
-                    } else {
-                        showToast('❌ Geçersiz dosya formatı!');
-                    }
-                } catch (error) {
-                    showToast('❌ Dosya okunamadı!');
-                }
-            };
-            reader.readAsText(file);
-        }
-    };
-    input.click();
-}
-
-// LocalStorage'dan görevleri yükle
-function loadTasks() {
-    try {
-        const saved = localStorage.getItem('todo_pro_tasks');
-        if (saved) {
-            tasks = JSON.parse(saved);
-        }
-    } catch (e) {
-        console.error('Görevler yüklenemedi:', e);
-        tasks = [];
-    }
-}
-
-// Görevleri kaydet
-function saveTasks() {
-    try {
-        localStorage.setItem('todo_pro_tasks', JSON.stringify(tasks));
-    } catch (e) {
-        console.error('Görevler kaydedilemedi:', e);
-    }
-}
-
         // Görev ekle
         function addTask() {
             const input = document.getElementById('task-input');
-            const prioritySelect = document.getElementById('priority-select');
-            const categorySelect = document.getElementById('category-select');
-            const dueDateInput = document.getElementById('due-date-input');
-
             const taskText = input.value.trim();
-            const priority = prioritySelect.value;
-            const categoryId = categorySelect.value;
-            const dueDate = dueDateInput.value ? new Date(dueDateInput.value).toISOString() : null;
 
             if (taskText) {
-                const category = categories.find(c => c.id === categoryId);
                 const newTask = {
                     id: Date.now().toString(),
                     text: taskText,
                     completed: false,
-                    priority: priority,
-                    categoryId: categoryId,
-                    categoryName: category ? category.name : '',
-                    categoryColor: category ? category.color : '',
-                    dueDate: dueDate,
-                    created: new Date().toISOString(),
-                    notificationsEnabled: true
+                    priority: 'medium',
+                    categoryId: '',
+                    created: new Date().toISOString()
                 };
 
-                tasks.push(newTask);
+                tasks.unshift(newTask); // En üste ekle
                 saveTasks();
                 renderTasks();
-                updateAllStats();
-
-                // Input'ları temizle
+                updateStats();
                 input.value = '';
-                categorySelect.value = '';
-                dueDateInput.value = '';
 
-                // Bildirim izni iste ve zamanla
-                requestNotificationPermission();
+                showToast('✅ Görev eklendi!');
             }
         }
 
-        // Enter tuşu ile görev ekleme
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                addTask();
+        // Görevleri göster
+        function renderTasks() {
+            const container = document.getElementById('tasks-list');
+            const filteredTasks = getFilteredTasks();
+
+            container.innerHTML = '';
+
+            if (filteredTasks.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">Henüz görev yok. Yeni görev eklemek için yukarıyı kullanın!</p>';
+                return;
             }
-        }
 
-        // Tüm görevleri tamamla
-        function completeAllTasks() {
-            const pendingTasks = tasks.filter(task => !task.completed);
-            if (pendingTasks.length > 0) {
-                tasks.forEach(task => task.completed = true);
-                saveTasks();
-                renderTasks();
-                updateAllStats();
-                showToast(`✅ ${pendingTasks.length} görev tamamlandı!`);
-            }
-        }
+            filteredTasks.forEach(task => {
+                const taskElement = document.createElement('div');
+                taskElement.className = `task-item fade-in ${task.completed ? 'task-completed' : ''}`;
 
-        // Tamamlanan görevleri temizle
-        function clearCompletedTasks() {
-            const completedCount = tasks.filter(task => task.completed).length;
-            if (completedCount > 0) {
-                tasks = tasks.filter(task => !task.completed);
-                saveTasks();
-                renderTasks();
-                updateAllStats();
-                showToast(`🧹 ${completedCount} tamamlanmış görev temizlendi!`);
-            }
-        }
+                const priorityClass = `priority-${task.priority || 'medium'}`;
 
-        // Görevleri sırala
-        function sortTasks() {
-            const priorityOrder = { 'Yüksek': 3, 'Orta': 2, 'Düşük': 1 };
+                taskElement.innerHTML = `
+                    <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask('${task.id}')">
+                    <div class="task-content">
+                        <div class="task-text">${task.text}</div>
+                        <div class="task-meta">
+                            <span class="priority-badge ${priorityClass}">${getPriorityText(task.priority)}</span>
+                            ${task.categoryId ? `<span class="category-badge">${getCategoryName(task.categoryId)}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="task-actions">
+                        <button class="task-btn edit-btn" onclick="editTask('${task.id}')">✏️</button>
+                        <button class="task-btn delete-btn" onclick="deleteTask('${task.id}')">🗑️</button>
+                    </div>
+                `;
 
-            tasks.sort((a, b) => {
-                if (a.completed !== b.completed) {
-                    return a.completed ? 1 : -1;
-                }
-                return priorityOrder[b.priority] - priorityOrder[a.priority];
+                container.appendChild(taskElement);
             });
+        }
 
-            saveTasks();
+        // Filtrelenmiş görevleri al
+        function getFilteredTasks() {
+            let filtered = [...tasks];
+
+            switch (currentFilter) {
+                case 'completed':
+                    filtered = tasks.filter(task => task.completed);
+                    break;
+                case 'pending':
+                    filtered = tasks.filter(task => !task.completed);
+                    break;
+                case 'high':
+                    filtered = tasks.filter(task => task.priority === 'high');
+                    break;
+                case 'medium':
+                    filtered = tasks.filter(task => task.priority === 'medium');
+                    break;
+                case 'low':
+                    filtered = tasks.filter(task => task.priority === 'low');
+                    break;
+            }
+
+            return filtered;
+        }
+
+        // Filtre ayarla
+        function setFilter(filter) {
+            currentFilter = filter;
+
+            // Aktif butonu güncelle
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
             renderTasks();
-            showToast('🔄 Görevler önceliğe göre sıralandı!');
         }
 
         // Görevi tamamla/tamamlanmamış yap
@@ -4322,21 +679,8 @@ function saveTasks() {
                 task.completed = !task.completed;
                 saveTasks();
                 renderTasks();
-                updateAllStats();
-            }
-        }
-
-        // Görevi sil
-        function deleteTask(taskId) {
-            if (confirm('Bu görevi silmek istediğinizden emin misiniz?')) {
-                const taskIndex = tasks.findIndex(t => t.id === taskId);
-                if (taskIndex > -1) {
-                    tasks.splice(taskIndex, 1);
-                    saveTasks();
-                    renderTasks();
-                    updateAllStats();
-                    showToast('🗑️ Görev silindi!');
-                }
+                updateStats();
+                showToast(task.completed ? '✅ Görev tamamlandı!' : '⏳ Görev aktif!');
             }
         }
 
@@ -4344,7 +688,7 @@ function saveTasks() {
         function editTask(taskId) {
             const task = tasks.find(t => t.id === taskId);
             if (task) {
-                const newText = prompt('Görev metnini düzenleyin:', task.text);
+                const newText = prompt('Görevi düzenleyin:', task.text);
                 if (newText && newText.trim()) {
                     task.text = newText.trim();
                     saveTasks();
@@ -4354,964 +698,42 @@ function saveTasks() {
             }
         }
 
-        // Filtreleme
-        function setFilter(filterType) {
-            currentFilter = filterType;
-
-            // Aktif butonu işaretle
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            renderTasks();
-        }
-
-        // Tüm istatistikleri güncelle
-        function updateAllStats() {
-            const total = tasks.length;
-            const completed = tasks.filter(task => task.completed).length;
-            const pending = total - completed;
-
-            // Ana sayfa istatistikleri
-            document.getElementById('total-count').textContent = total;
-            document.getElementById('completed-count').textContent = completed;
-            document.getElementById('pending-count').textContent = pending;
-
-            // Hero bölümü istatistikleri
-            document.getElementById('hero-total').textContent = total;
-            document.getElementById('hero-completed').textContent = completed;
-            document.getElementById('hero-pending').textContent = pending;
-
-            // Hero animasyonu
-            animateStats();
-        }
-
-        // Alt görev ekleme dialog'u göster
-        function showAddSubtaskDialog(taskId) {
-            const subtaskText = prompt('Alt görev açıklamasını girin:');
-            if (subtaskText && subtaskText.trim()) {
-                addSubtask(taskId, subtaskText.trim());
-            }
-        }
-
-        // Alt görev ekle
-        function addSubtask(taskId, text) {
-            const task = tasks.find(t => t.id === taskId);
-            if (task) {
-                if (!task.subtasks) task.subtasks = [];
-
-                const newSubtask = {
-                    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-                    text: text,
-                    completed: false,
-                    created: new Date().toISOString()
-                };
-
-                task.subtasks.push(newSubtask);
+        // Görevi sil
+        function deleteTask(taskId) {
+            if (confirm('Bu görevi silmek istediğinizden emin misiniz?')) {
+                tasks = tasks.filter(t => t.id !== taskId);
                 saveTasks();
-                renderSubtasks(taskId);
-                updateAllStats();
-
-                // Eğer tüm alt görevler tamamlandıysa ana görevi de tamamla
-                checkSubtaskCompletion(taskId);
-
-                showToast('✅ Alt görev eklendi!');
+                renderTasks();
+                updateStats();
+                showToast('🗑️ Görev silindi!');
             }
         }
 
-        // Alt görevleri göster
-        function renderSubtasks(taskId) {
-            const container = document.getElementById(`subtasks-${taskId}`);
-            if (!container) return;
+        // İstatistikleri güncelle
+        function updateStats() {
+            const totalCount = document.getElementById('total-count');
+            const completedCount = document.getElementById('completed-count');
+            const pendingCount = document.getElementById('pending-count');
 
-            const task = tasks.find(t => t.id === taskId);
-            if (!task || !task.subtasks) {
-                container.innerHTML = '';
-                return;
-            }
-
-            container.innerHTML = '';
-
-            task.subtasks.forEach(subtask => {
-                const subtaskElement = document.createElement('div');
-                subtaskElement.className = 'subtask-item';
-
-                subtaskElement.innerHTML = `
-                    <input type="checkbox" class="subtask-checkbox" ${subtask.completed ? 'checked' : ''}
-                           onchange="toggleSubtask('${taskId}', '${subtask.id}')">
-                    <div class="subtask-text ${subtask.completed ? 'subtask-completed' : ''}">
-                        ${subtask.text}
-                    </div>
-                    <div class="subtask-actions">
-                        <button class="subtask-btn subtask-edit-btn" onclick="editSubtask('${taskId}', '${subtask.id}')">
-                            ✏️
-                        </button>
-                        <button class="subtask-btn subtask-delete-btn" onclick="deleteSubtask('${taskId}', '${subtask.id}')">
-                            🗑️
-                        </button>
-                    </div>
-                `;
-
-                container.appendChild(subtaskElement);
-            });
+            totalCount.textContent = tasks.length;
+            completedCount.textContent = tasks.filter(t => t.completed).length;
+            pendingCount.textContent = tasks.filter(t => !t.completed).length;
         }
 
-        // Alt görevi tamamla/tamamlanmamış yap
-        function toggleSubtask(taskId, subtaskId) {
-            const task = tasks.find(t => t.id === taskId);
-            if (task && task.subtasks) {
-                const subtask = task.subtasks.find(st => st.id === subtaskId);
-                if (subtask) {
-                    subtask.completed = !subtask.completed;
-                    saveTasks();
-                    renderSubtasks(taskId);
-                    updateAllStats();
-
-                    // Eğer tüm alt görevler tamamlandıysa ana görevi de tamamla
-                    checkSubtaskCompletion(taskId);
-                }
-            }
-        }
-
-        // Alt görevi düzenle
-        function editSubtask(taskId, subtaskId) {
-            const task = tasks.find(t => t.id === taskId);
-            if (task && task.subtasks) {
-                const subtask = task.subtasks.find(st => st.id === subtaskId);
-                if (subtask) {
-                    const newText = prompt('Alt görev metnini düzenleyin:', subtask.text);
-                    if (newText && newText.trim()) {
-                        subtask.text = newText.trim();
-                        saveTasks();
-                        renderSubtasks(taskId);
-                        showToast('✏️ Alt görev güncellendi!');
-                    }
-                }
-            }
-        }
-
-        // Alt görevi sil
-        function deleteSubtask(taskId, subtaskId) {
-            if (confirm('Bu alt görevi silmek istediğinizden emin misiniz?')) {
-                const task = tasks.find(t => t.id === taskId);
-                if (task && task.subtasks) {
-                    task.subtasks = task.subtasks.filter(st => st.id !== subtaskId);
-                    saveTasks();
-                    renderSubtasks(taskId);
-                    updateAllStats();
-                    showToast('🗑️ Alt görev silindi!');
-                }
-            }
-        }
-
-        // Yorum ekleme dialog'u göster
-        function showAddCommentDialog(taskId) {
-            const commentText = prompt('Yorumunuzu yazın:');
-            if (commentText && commentText.trim()) {
-                addComment(taskId, commentText.trim());
-            }
-        }
-
-        // Yorum ekle
-        function addComment(taskId, text) {
-            const task = tasks.find(t => t.id === taskId);
-            if (task) {
-                if (!task.comments) task.comments = [];
-
-                const newComment = {
-                    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-                    text: text,
-                    author: currentUser ? currentUser.name : 'Anonim',
-                    authorEmail: currentUser ? currentUser.email : '',
-                    created: new Date().toISOString()
-                };
-
-                task.comments.push(newComment);
-                saveTasks();
-                renderComments(taskId);
-                updateAllStats();
-
-                showToast('💬 Yorum eklendi!');
-            }
-        }
-
-        // Yorumları göster
-        function renderComments(taskId) {
-            const container = document.getElementById(`comments-${taskId}`);
-            if (!container) return;
-
-            const task = tasks.find(t => t.id === taskId);
-            if (!task || !task.comments) {
-                container.innerHTML = '';
-                return;
-            }
-
-            container.innerHTML = '';
-
-            task.comments.forEach(comment => {
-                const commentElement = document.createElement('div');
-                commentElement.className = 'comment-item';
-
-                const commentDate = new Date(comment.created).toLocaleDateString('tr-TR', {
-                    day: 'numeric',
-                    month: 'short',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-
-                commentElement.innerHTML = `
-                    <div class="comment-content">
-                        <div class="comment-avatar">${comment.author.charAt(0).toUpperCase()}</div>
-                        <div style="flex: 1;">
-                            <div class="comment-text">${comment.text}</div>
-                            <div class="comment-meta">
-                                <span class="comment-author">${comment.author}</span>
-                                <span class="comment-date">${commentDate}</span>
-                                <div class="comment-actions">
-                                    <button class="comment-btn comment-edit-btn" onclick="editComment('${taskId}', '${comment.id}')">
-                                        ✏️
-                                    </button>
-                                    <button class="comment-btn comment-delete-btn" onclick="deleteComment('${taskId}', '${comment.id}')">
-                                        🗑️
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                container.appendChild(commentElement);
-            });
-        }
-
-        // Yorumu düzenle
-        function editComment(taskId, commentId) {
-            const task = tasks.find(t => t.id === taskId);
-            if (task && task.comments) {
-                const comment = task.comments.find(c => c.id === commentId);
-                if (comment) {
-                    const newText = prompt('Yorumu düzenleyin:', comment.text);
-                    if (newText && newText.trim()) {
-                        comment.text = newText.trim();
-                        comment.created = new Date().toISOString(); // Güncelleme zamanını kaydet
-                        saveTasks();
-                        renderComments(taskId);
-                        showToast('✏️ Yorum güncellendi!');
-                    }
-                }
-            }
-        }
-
-        // Kurucu şifresi göster
-        function showFounderPasswordPrompt() {
-            const password = prompt('Kurucu şifresini girin:');
-            if (password === 'WelcomeOwner') {
-                showFounderSection();
-                showToast('🔓 Kurucu paneline erişim sağlandı!');
-            } else if (password !== null) {
-                showToast('❌ Geçersiz şifre!');
-            }
-        }
-
-        // Kurucu bölümünü göster
-        function showFounderSection() {
-            const mainContent = document.querySelector('.main-content');
-
-            // Kurucu bölümü zaten varsa göster
-            let founderSection = document.getElementById('founder-section');
-            if (founderSection) {
-                founderSection.style.display = 'block';
-                founderSection.scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-
-            // Yeni kurucu bölümü oluştur
-            founderSection = document.createElement('section');
-            founderSection.id = 'founder-section';
-            founderSection.className = 'section';
-            founderSection.innerHTML = `
-                <h2>👑 Kurucu Paneli</h2>
-                <div class="founder-container">
-                    <div class="founder-card">
-                        <h3>🔔 Bildirim Sistemi Test</h3>
-                        <p>Bildirim sistemi test araçları</p>
-                        <button class="founder-btn" onclick="testNotificationSystem()">Bildirim Sistemi Testi</button>
-                    </div>
-
-                    <div class="founder-card">
-                        <h3>🤖 Bot Sistemi</h3>
-                        <p>Belirli kodlarla çalışan bot sistemi</p>
-                        <button class="founder-btn" onclick="showBotSystem()">Bot Sistemini Aç</button>
-                    </div>
-
-                    <div class="founder-card">
-                        <h3>🎨 Tema Yönetimi</h3>
-                        <p>Yeni temaları yönet ve uygula</p>
-                        <button class="founder-btn" onclick="showThemeManager()">Tema Yöneticisini Aç</button>
-                    </div>
-
-                    <div class="founder-card">
-                        <h3>📊 Gelişmiş İstatistikler</h3>
-                        <p>Detaylı uygulama istatistikleri</p>
-                        <button class="founder-btn" onclick="showAdvancedStats()">Gelişmiş İstatistikleri Görüntüle</button>
-                    </div>
-                </div>
-            `;
-
-            mainContent.appendChild(founderSection);
-
-            // Kurucu bölümünü göster
-            founderSection.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Bildirim sistemi testi
-        function testNotificationSystem() {
-            if ('Notification' in window) {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        // Test bildirimleri gönder
-                        const notifications = [
-                            { title: 'Test Bildirimi 1', body: 'Bu bir test bildirimidir.' },
-                            { title: 'Test Bildirimi 2', body: 'Bildirim sistemi çalışıyor!' },
-                            { title: 'Test Bildirimi 3', body: 'Başarıyla test edildi.' }
-                        ];
-
-                        notifications.forEach((notif, index) => {
-                            setTimeout(() => {
-                                new Notification(notif.title, {
-                                    body: notif.body,
-                                    icon: '/favicon.ico'
-                                });
-                            }, index * 2000);
-                        });
-
-                        showToast('🔔 Test bildirimleri gönderildi!');
-                    } else {
-                        showToast('❌ Bildirim izni reddedildi!');
-                    }
-                });
-            } else {
-                showToast('❌ Bu tarayıcı bildirimleri desteklemiyor!');
-            }
-        }
-
-        // Bot sistemini göster
-        function showBotSystem() {
-            showBotModal();
-        }
-
-        // Tema yöneticisini göster
-        function showThemeManager() {
-            // Tema modalı zaten varsa göster
-            let themeModal = document.getElementById('theme-modal');
-            if (themeModal) {
-                themeModal.classList.add('show');
-                return;
-            }
-
-            // Yeni tema modalı oluştur
-            themeModal = document.createElement('div');
-            themeModal.id = 'theme-modal';
-            themeModal.className = 'bot-modal';
-            themeModal.innerHTML = `
-                <div class="bot-content" style="max-width: 800px;">
-                    <div class="bot-header">
-                        <h2 class="bot-title">🎨 Tema Yöneticisi</h2>
-                        <button class="close-bot-modal" onclick="hideThemeModal()">✕</button>
-                    </div>
-
-                    <div class="theme-categories">
-                        <div class="theme-category">
-                            <h3>🌈 Klasik Temalar</h3>
-                            <div class="theme-grid">
-                                <div class="theme-item" onclick="applyTheme('classic-blue')">
-                                    <div class="theme-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
-                                    <div class="theme-name">Klasik Mavi</div>
-                                    <div class="theme-status">🔵 Aktif</div>
-                                </div>
-                                <div class="theme-item" onclick="applyTheme('nature-green')">
-                                    <div class="theme-preview" style="background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);"></div>
-                                    <div class="theme-name">Doğa Yeşili</div>
-                                    <div class="theme-status">🟢 Yeni</div>
-                                </div>
-                                <div class="theme-item" onclick="applyTheme('sunset-orange')">
-                                    <div class="theme-preview" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);"></div>
-                                    <div class="theme-name">Gün Batımı</div>
-                                    <div class="theme-status">🟠 Yeni</div>
-                                </div>
-                                <div class="theme-item" onclick="applyTheme('purple-dream')">
-                                    <div class="theme-preview" style="background: linear-gradient(135deg, #9c88ff 0%, #6c5ce7 100%);"></div>
-                                    <div class="theme-name">Mor Rüya</div>
-                                    <div class="theme-status">🟣 Yeni</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="theme-category">
-                            <h3>🎯 Özel Temalar</h3>
-                            <div class="theme-grid">
-                                <div class="theme-item" onclick="applyTheme('dark-mode')">
-                                    <div class="theme-preview dark-preview" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); color: white;">
-                                        <div style="padding: 20px; text-align: center;">
-                                            <div style="font-size: 24px; margin-bottom: 10px;">🌙</div>
-                                            <div>Koyu Tema</div>
-                                        </div>
-                                    </div>
-                                    <div class="theme-name">Koyu Mod</div>
-                                    <div class="theme-status">⚫ Yeni</div>
-                                </div>
-                                <div class="theme-item" onclick="applyTheme('minimal-white')">
-                                    <div class="theme-preview" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border: 2px solid #e1e8ed;">
-                                        <div style="padding: 20px; text-align: center; color: #2c3e50;">
-                                            <div style="font-size: 24px; margin-bottom: 10px;">☀️</div>
-                                            <div>Minimal Beyaz</div>
-                                        </div>
-                                    </div>
-                                    <div class="theme-name">Minimal</div>
-                                    <div class="theme-status">⚪ Yeni</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="theme-actions">
-                        <button class="bot-btn" onclick="applyAllThemes()">Tüm Yeni Temaları Uygula</button>
-                        <button class="bot-btn" onclick="resetToDefaultTheme()">Varsayılan Temaya Dön</button>
-                        <button class="bot-btn" onclick="createCustomTheme()">Özel Tema Oluştur</button>
-                    </div>
-
-                    <div class="theme-info">
-                        <p><strong>📝 Not:</strong> Yeni temalar "Yeni" etiketiyle işaretlenmiştir. Tüm yeni temaları uygulamak için "Tüm Yeni Temaları Uygula" butonunu kullanın.</p>
-                    </div>
-                </div>
-            `;
-
-            document.body.appendChild(themeModal);
-            themeModal.classList.add('show');
-        }
-
-        // Tema modalını gizle
-        function hideThemeModal() {
-            const modal = document.getElementById('theme-modal');
-            if (modal) {
-                modal.classList.remove('show');
-            }
-        }
-
-        // Tema uygula
-        function applyTheme(themeName) {
-            const body = document.body;
-
-            // Mevcut tema sınıflarını temizle
-            body.classList.remove('theme-classic-blue', 'theme-nature-green', 'theme-sunset-orange', 'theme-purple-dream', 'theme-dark-mode', 'theme-minimal-white');
-
-            // Yeni temayı uygula
-            switch(themeName) {
-                case 'classic-blue':
-                    body.classList.add('theme-classic-blue');
-                    break;
-                case 'nature-green':
-                    body.classList.add('theme-nature-green');
-                    break;
-                case 'sunset-orange':
-                    body.classList.add('theme-sunset-orange');
-                    break;
-                case 'purple-dream':
-                    body.classList.add('theme-purple-dream');
-                    break;
-                case 'dark-mode':
-                    body.classList.add('theme-dark-mode');
-                    break;
-                case 'minimal-white':
-                    body.classList.add('theme-minimal-white');
-                    break;
-            }
-
-            localStorage.setItem('todo_pro_theme', themeName);
-            showToast(`🎨 ${themeName} teması uygulandı!`);
-        }
-
-        // Tüm yeni temaları uygula
-        function applyAllThemes() {
-            // Tüm yeni tema sınıflarını ekle
-            const body = document.body;
-            body.classList.add('theme-nature-green', 'theme-sunset-orange', 'theme-purple-dream', 'theme-dark-mode', 'theme-minimal-white');
-
-            localStorage.setItem('todo_pro_theme', 'all-new-themes');
-            showToast('🎨 Tüm yeni temalar uygulandı!');
-        }
-
-        // Varsayılan temaya dön
-        function resetToDefaultTheme() {
-            const body = document.body;
-            body.classList.remove('theme-classic-blue', 'theme-nature-green', 'theme-sunset-orange', 'theme-purple-dream', 'theme-dark-mode', 'theme-minimal-white');
-
-            localStorage.removeItem('todo_pro_theme');
-            showToast('🎨 Varsayılan temaya dönüldü!');
-        }
-
-        // Özel tema oluştur
-        function createCustomTheme() {
-            showToast('🎨 Özel tema oluşturucu yakında eklenecek!');
-        }
-
-        // Gelişmiş istatistikleri göster
-        function showAdvancedStats() {
-            const stats = {
-                totalTasks: tasks.length,
-                completedTasks: tasks.filter(t => t.completed).length,
-                pendingTasks: tasks.filter(t => !t.completed).length,
-                categoriesCount: categories.length,
-                tasksWithComments: tasks.filter(t => t.comments && t.comments.length > 0).length,
-                overdueTasks: tasks.filter(t => isOverdue(t.dueDate)).length
+        // Öncelik metnini al
+        function getPriorityText(priority) {
+            const priorities = {
+                'high': '🔴 Yüksek',
+                'medium': '🟡 Orta',
+                'low': '🟢 Düşük'
             };
-
-            const statsText = `
-📊 GELİŞMİŞ İSTATİSTİKLER
-
-Toplam Görev: ${stats.totalTasks}
-Tamamlanan Görevler: ${stats.completedTasks}
-Bekleyen Görevler: ${stats.pendingTasks}
-Kategori Sayısı: ${stats.categoriesCount}
-Yorumlu Görevler: ${stats.tasksWithComments}
-Geciken Görevler: ${stats.overdueTasks}
-
-Ortalama Tamamlanma Süresi: ${stats.completedTasks > 0 ? Math.round(stats.completedTasks / tasks.length * 100) : 0}%
-            `;
-
-            alert(statsText);
-        }
-        function showBotModal() {
-            const modal = document.getElementById('bot-modal');
-            modal.classList.add('show');
+            return priorities[priority] || '🟡 Orta';
         }
 
-        // Bot modalını gizle
-        function hideBotModal() {
-            const modal = document.getElementById('bot-modal');
-            modal.classList.remove('show');
-        }
-
-        // Bot komutunu çalıştır
-        function executeBotCommand() {
-            const commandInput = document.getElementById('bot-command');
-            const outputDiv = document.getElementById('bot-output');
-            const command = commandInput.value.trim();
-
-            if (!command) {
-                outputDiv.innerHTML = '<pre style="color: #ff6b6b;">❌ Komut boş olamaz!</pre>';
-                return;
-            }
-
-            // Basit bot komutları
-            let response = '';
-
-            if (command.toLowerCase().includes('merhaba') || command.toLowerCase().includes('selam')) {
-                response = '🤖 Merhaba! Ben To-Do PRO botuyum. Size nasıl yardımcı olabilirim?';
-            } else if (command.toLowerCase().includes('görev') && command.toLowerCase().includes('sayısı')) {
-                response = `📊 Şu anda ${tasks.length} görev var. ${tasks.filter(t => t.completed).length} tamamlanmış, ${tasks.filter(t => !t.completed).length} bekliyor.`;
-            } else if (command.toLowerCase().includes('kategori') && command.toLowerCase().includes('sayısı')) {
-                response = `📂 Şu anda ${categories.length} kategori var.`;
-            } else if (command.toLowerCase().includes('temizle')) {
-                response = '🧹 Tüm tamamlanmış görevler temizlendi!';
-                clearCompletedTasks();
-            } else if (command.toLowerCase().includes('istatistik')) {
-                showAdvancedStats();
-                response = '📊 İstatistikler gösterildi!';
-            } else if (command.toLowerCase().includes('yardım')) {
-                response = `🤖 Kullanılabilir komutlar:
-• Merhaba/Selam - Selamlaşma
-• Görev sayısı - Toplam görev sayısını göster
-• Kategori sayısı - Kategori sayısını göster
-• İstatistik - Detaylı istatistikleri göster
-• Temizle - Tamamlanmış görevleri temizle
-• Yardım - Bu yardım mesajını göster`;
-            } else {
-                response = `❓ "${command}" komutunu anlamadım. "yardım" yazarak kullanılabilir komutları görebilirsiniz.`;
-            }
-
-            outputDiv.innerHTML = `<pre>🤖 Bot: ${response}</pre>`;
-            commandInput.value = '';
-        }
-
-        // AI Asistan Functions
-        function toggleAIAssistant() {
-            const chat = document.getElementById('ai-chat');
-            const toggleBtn = document.getElementById('ai-toggle-btn');
-
-            chat.classList.toggle('show');
-
-            if (chat.classList.contains('show')) {
-                toggleBtn.style.opacity = '0.8';
-                document.getElementById('ai-input').focus();
-            } else {
-                toggleBtn.style.opacity = '1';
-            }
-        }
-
-        function handleAIKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendAIMessage();
-            }
-        }
-
-        function sendAIMessage() {
-            const input = document.getElementById('ai-input');
-            const messages = document.getElementById('ai-chat-messages');
-            const message = input.value.trim();
-
-            if (!message) return;
-
-            // Kullanıcı mesajını ekle
-            addAIMessage('user', message);
-
-            // AI yanıtını oluştur
-            setTimeout(() => {
-                const response = generateAIResponse(message);
-                addAIMessage('ai', response);
-            }, 1000);
-
-            input.value = '';
-        }
-
-        function addAIMessage(type, text) {
-            const messages = document.getElementById('ai-chat-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `ai-message ${type}`;
-
-            const now = new Date();
-            const time = now.toLocaleTimeString('tr-TR', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-
-            messageDiv.innerHTML = `
-                <div class="ai-message-avatar">${type === 'user' ? '👤' : '🤖'}</div>
-                <div class="ai-message-content">
-                    <div class="ai-message-text">${text}</div>
-                    <div class="ai-message-time">${time}</div>
-                </div>
-            `;
-
-            messages.appendChild(messageDiv);
-            messages.scrollTop = messages.scrollHeight;
-        }
-
-        function generateAIResponse(message) {
-            const lowerMessage = message.toLowerCase();
-
-            // AI yanıtları
-            if (lowerMessage.includes('merhaba') || lowerMessage.includes('selam')) {
-                return 'Merhaba! Size nasıl yardımcı olabilirim? Görev yönetimi hakkında bir sorunuz mu var?';
-            } else if (lowerMessage.includes('görev') && lowerMessage.includes('ekle')) {
-                return 'Yeni görev eklemek için üst kısımdaki "Görev açıklamasını yazın" alanına görev metninizi yazıp "EKLE" butonuna basın.';
-            } else if (lowerMessage.includes('kategori') && lowerMessage.includes('ekle')) {
-                return 'Yeni kategori eklemek için kategori butonlarından birine tıklayın veya kategori listesinin yanındaki "+" butonunu kullanın.';
-            } else if (lowerMessage.includes('yorum') && lowerMessage.includes('ekle')) {
-                return 'Görevlere yorum eklemek için görevin yanındaki "💬 Yorum Ekle" butonunu kullanabilirsiniz.';
-            } else if (lowerMessage.includes('tema') || lowerMessage.includes('görünüm')) {
-                return 'Tema değiştirmek için sağ üst köşedeki 🌙 butonunu kullanabilirsiniz. Ayrıca kurucu panelinden gelişmiş tema yönetimi yapabilirsiniz.';
-            } else if (lowerMessage.includes('dışa aktar') || lowerMessage.includes('yedekle')) {
-                return 'Görevlerinizi dışa aktarmak için "DIŞA AKTAR" butonunu kullanın. Tüm görevleriniz JSON formatında indirilir.';
-            } else if (lowerMessage.includes('yardım') || lowerMessage.includes('ne yapabilirim')) {
-                return 'Size şu konularda yardımcı olabilirim: görev ekleme, kategori yönetimi, yorum sistemi, tema değiştirme, dışa aktarma ve genel uygulama kullanımı hakkında bilgiler verebilirim.';
-            } else if (lowerMessage.includes('kurucu') || lowerMessage.includes('admin')) {
-                return 'Kurucu paneline erişmek için kategori listesinden "Kurucu" kategorisine tıklayıp "WelcomeOwner" şifresini girmeniz gerekiyor.';
-            } else {
-                return 'Bu konuda size yardımcı olabilmek için daha fazla detay verebilir misiniz? Görev yönetimi, kategoriler veya uygulama özellikleri hakkında soru sorun.';
-            }
-        }
-        function toggleCustomerService() {
-            const chat = document.getElementById('customer-service-chat');
-            const toggleBtn = document.getElementById('customer-service-toggle-btn');
-
-            chat.classList.toggle('show');
-
-            if (chat.classList.contains('show')) {
-                toggleBtn.style.opacity = '0.8';
-                document.getElementById('customer-service-input').focus();
-            } else {
-                toggleBtn.style.opacity = '1';
-            }
-        }
-
-        function handleCustomerServiceKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendCustomerServiceMessage();
-            }
-        }
-
-        function sendCustomerServiceMessage() {
-            const input = document.getElementById('customer-service-input');
-            const messages = document.getElementById('customer-service-messages');
-            const message = input.value.trim();
-
-            if (!message) return;
-
-            // Kullanıcı mesajını ekle
-            addCustomerServiceMessage('user', message);
-
-            // Destek yanıtını oluştur
-            setTimeout(() => {
-                const response = generateCustomerServiceResponse(message);
-                addCustomerServiceMessage('support', response);
-            }, 1500);
-
-            input.value = '';
-        }
-
-        function addCustomerServiceMessage(type, text) {
-            const messages = document.getElementById('customer-service-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `customer-service-message ${type}`;
-
-            const now = new Date();
-            const time = now.toLocaleTimeString('tr-TR', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-
-            messageDiv.innerHTML = `
-                <div class="customer-service-avatar">${type === 'user' ? '👤' : '🛎️'}</div>
-                <div class="customer-service-content">
-                    <div class="customer-service-text">${text}</div>
-                    <div class="customer-service-time">${time}</div>
-                </div>
-            `;
-
-            messages.appendChild(messageDiv);
-            messages.scrollTop = messages.scrollHeight;
-        }
-
-        function generateCustomerServiceResponse(message) {
-            const lowerMessage = message.toLowerCase();
-
-            // Destek yanıtları
-            if (lowerMessage.includes('merhaba') || lowerMessage.includes('selam')) {
-                return 'Merhaba! Size nasıl yardımcı olabiliriz?';
-            } else if (lowerMessage.includes('teknik') || lowerMessage.includes('sorun') || lowerMessage.includes('hata')) {
-                return 'Teknik sorunlarınız için lütfen adamol31ggez@gmail.com adresine e-posta gönderin. Sorununuzu detaylıca açıklayın.';
-            } else if (lowerMessage.includes('özellik') || lowerMessage.includes('ekleme') || lowerMessage.includes('istiyorum')) {
-                return 'Yeni özellik önerileriniz için teşekkürler! Önerilerinizi adamol31ggez@gmail.com adresine gönderebilirsiniz.';
-            } else if (lowerMessage.includes('kullanım') || lowerMessage.includes('nasıl')) {
-                return 'Uygulama kullanımı hakkında detaylı bilgi için sağ üst köşedeki AI asistanı kullanabilirsiniz. Size adım adım yardımcı olacaktır.';
-            } else if (lowerMessage.includes('iletişim') || lowerMessage.includes('telefon')) {
-                return 'İletişim bilgilerimiz: E-posta: adamol31ggez@gmail.com, Telefon: +90 555 555 55 55';
-            } else if (lowerMessage.includes('teşekkür') || lowerMessage.includes('güzel')) {
-                return 'Güzel sözleriniz için teşekkür ederiz! 😊 Sizin memnuniyetiniz bizim için önemli.';
-            } else {
-                return 'Sorunuzu anlıyorum. Daha detaylı bilgi için lütfen e-posta adresimizden (adamol31ggez@gmail.com) iletişime geçin veya AI asistanımızı kullanın.';
-            }
-        }
-
-        // Görevleri göster
-        function renderTasks() {
-            const container = document.getElementById('tasks-list');
-            const searchInput = document.getElementById('search-input');
-            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-
-            // Filtreleme uygula
-            let filteredTasks = tasks;
-
-            switch(currentFilter) {
-                case 'high':
-                    filteredTasks = tasks.filter(task => task.priority === 'Yüksek');
-                    break;
-                case 'medium':
-                    filteredTasks = tasks.filter(task => task.priority === 'Orta');
-                    break;
-                case 'low':
-                    filteredTasks = tasks.filter(task => task.priority === 'Düşük');
-                    break;
-                case 'completed':
-                    filteredTasks = tasks.filter(task => task.completed);
-                    break;
-                case 'pending':
-                    filteredTasks = tasks.filter(task => !task.completed);
-                    break;
-                case 'today':
-                    filteredTasks = tasks.filter(task => {
-                        if (!task.dueDate) return false;
-                        const dueDate = new Date(task.dueDate);
-                        const today = new Date();
-                        return dueDate.toDateString() === today.toDateString();
-                    });
-                    break;
-                case 'overdue':
-                    filteredTasks = tasks.filter(task => isOverdue(task.dueDate));
-                    break;
-            }
-
-            // Kategori filtresi uygula
-            if (currentCategoryFilter !== 'all') {
-                filteredTasks = filteredTasks.filter(task => task.categoryId === currentCategoryFilter);
-            }
-
-            // Arama uygula
-            if (searchTerm) {
-                filteredTasks = filteredTasks.filter(task =>
-                    task.text.toLowerCase().includes(searchTerm)
-                );
-            }
-
-            // Öncelik sırasına göre sırala
-            const priorityOrder = { 'Yüksek': 3, 'Orta': 2, 'Düşük': 1 };
-            filteredTasks.sort((a, b) => {
-                if (a.completed !== b.completed) {
-                    return a.completed ? 1 : -1;
-                }
-                return priorityOrder[b.priority] - priorityOrder[a.priority];
-            });
-
-            // HTML oluştur
-            container.innerHTML = '';
-
-            if (filteredTasks.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; color: #666; padding: 40px;">
-                        <h3>📝 ${searchTerm ? 'Arama sonucu bulunamadı' : 'Henüz görev yok'}</h3>
-                        <p>${searchTerm ? 'Farklı kelimelerle tekrar deneyin!' : 'Yukarıdaki alana görev eklemeye başlayın!'}</p>
-                    </div>
-                `;
-                return;
-            }
-
-            filteredTasks.forEach((task, index) => {
-                const taskElement = document.createElement('div');
-                taskElement.className = 'task-item';
-                taskElement.style.opacity = '0';
-                taskElement.style.transform = 'translateY(20px)';
-
-                const priorityClass = `priority-${task.priority.toLowerCase()}`;
-
-                taskElement.innerHTML = `
-                    <div class="task-content">
-                        <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}
-                               onchange="toggleTask('${task.id}')">
-
-                        <div style="flex: 1;">
-                            <div class="task-text ${task.completed ? 'task-completed' : ''}">
-                                ${task.text}
-                            </div>
-                            <div class="task-meta">
-                                ${task.categoryName ? `
-                                    <span class="category-badge" style="background: ${task.categoryColor}">
-                                        ${task.categoryName}
-                                    </span>
-                                ` : ''}
-                                ${task.dueDate ? `
-                                    <div class="task-due-date ${isOverdue(task.dueDate) ? 'overdue' : ''}">
-                                        📅 ${formatDate(task.dueDate)}
-                                    </div>
-                                ` : ''}
-                            </div>
-
-                            ${task.subtasks && task.subtasks.length > 0 ? `
-                                <div class="subtasks-container">
-                                    <div class="subtasks-header">
-                                        <span class="subtasks-title">Alt Görevler (${task.subtasks.filter(st => st.completed).length}/${task.subtasks.length})</span>
-                                        <button class="add-subtask-btn" onclick="showAddSubtaskDialog('${task.id}')">+ Alt Görev</button>
-                                    </div>
-                                    <div class="subtasks-list" id="subtasks-${task.id}">
-                                    </div>
-                                </div>
-                            ` : `
-                                <button class="add-subtask-btn standalone" onclick="showAddSubtaskDialog('${task.id}')">
-                                    + Alt Görev Ekle
-                                </button>
-                            `}
-
-                            ${task.comments && task.comments.length > 0 ? `
-                                <div class="comments-container">
-                                    <div class="comments-header">
-                                        <span class="comments-title">💬 Yorumlar (${task.comments.length})</span>
-                                        <button class="add-comment-btn" onclick="showAddCommentDialog('${task.id}')">💬 Yorum Ekle</button>
-                                    </div>
-                                    <div class="comments-list" id="comments-${task.id}">
-                                    </div>
-                                </div>
-                            ` : `
-                                <button class="add-comment-btn standalone" onclick="showAddCommentDialog('${task.id}')">
-                                    💬 Yorum Ekle
-                                </button>
-                            `}
-                        </div>
-
-                        <span class="priority-badge ${priorityClass}">
-                            ${task.priority}
-                        </span>
-
-                        <div class="task-actions">
-                            <button class="task-btn edit-btn" onclick="editTask('${task.id}')">
-                                ✏️ Düzenle
-                            </button>
-                            <button class="task-btn delete-btn" onclick="deleteTask('${task.id}')">
-                                🗑️ Sil
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-                container.appendChild(taskElement);
-
-                // Animasyonlu giriş
-                setTimeout(() => {
-                    taskElement.style.transition = 'all 0.5s ease-out';
-                    taskElement.style.opacity = '1';
-                    taskElement.style.transform = 'translateY(0)';
-                }, index * 100);
-
-                // Alt görevleri varsa göster
-                if (task.subtasks && task.subtasks.length > 0) {
-                    renderSubtasks(task.id);
-                }
-
-                // Yorumları varsa göster
-                if (task.comments && task.comments.length > 0) {
-                    renderComments(task.id);
-                }
-            });
-        }
-
-        // View mode değişimi
-        function toggleViewMode() {
-            const body = document.body;
-            const toggleBtn = document.getElementById('view-toggle-btn');
-            const isMobile = body.classList.contains('mobile-mode');
-
-            if (isMobile) {
-                // Desktop moduna geç
-                body.classList.remove('mobile-mode');
-                body.classList.add('desktop-mode');
-                toggleBtn.textContent = '💻';
-                toggleBtn.title = 'Desktop Görünümü';
-                showToast('💻 Desktop görünümüne geçildi');
-            } else {
-                // Mobile moduna geç
-                body.classList.remove('desktop-mode');
-                body.classList.add('mobile-mode');
-                toggleBtn.textContent = '📱';
-                toggleBtn.title = 'Mobil Görünümü';
-                showToast('📱 Mobil görünümüne geçildi');
-            }
-
-            // Geçiş animasyonu
-            body.style.transition = 'all 0.5s ease';
-            setTimeout(() => {
-                body.style.transition = '';
-            }, 500);
-        }
-
-        // Sayfa yüklendiğinde varsayılan görünümü ayarla
-        function initializeViewMode() {
-            const body = document.body;
-            const toggleBtn = document.getElementById('view-toggle-btn');
-
-            // Varsayılan olarak desktop mode
-            body.classList.add('desktop-mode');
-            toggleBtn.textContent = '💻';
-            toggleBtn.title = 'Desktop Görünümü (geçerli)';
+        // Kategori adını al
+        function getCategoryName(categoryId) {
+            const category = categories.find(c => c.id === categoryId);
+            return category ? category.name : '';
         }
 
         // Toast mesajı göster
@@ -5320,71 +742,65 @@ Ortalama Tamamlanma Süresi: ${stats.completedTasks > 0 ? Math.round(stats.compl
             toast.className = 'toast';
             toast.textContent = message;
 
-            document.body.appendChild(toast);
+            document.getElementById('toast-container').appendChild(toast);
 
             setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(100%)';
+                toast.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                toast.classList.remove('show');
                 setTimeout(() => {
                     toast.remove();
                 }, 300);
-            }, 2500);
+            }, 3000);
         }
 
-        // Intersection Observer ile animasyonlar
-        function observeElements() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
+        // Kategori ekleme dialog'u
+        function showAddCategoryDialog() {
+            const categoryName = prompt('Yeni kategori adını girin:');
+            if (categoryName && categoryName.trim()) {
+                const colors = ['#667eea', '#4caf50', '#ff9800', '#e91e63', '#9c27b0', '#2196f3'];
+                const newCategory = {
+                    id: Date.now().toString(),
+                    name: categoryName.trim(),
+                    color: colors[Math.floor(Math.random() * colors.length)]
+                };
 
-            document.querySelectorAll('.section').forEach(section => {
-                observer.observe(section);
-            });
-        }
-
-        // İstatistik animasyonu
-        function animateStats() {
-            const stats = document.querySelectorAll('.stat-number');
-            stats.forEach(stat => {
-                const target = parseInt(stat.textContent);
-                let current = 0;
-                const increment = target / 50;
-
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        stat.textContent = target;
-                        clearInterval(timer);
-                    } else {
-                        stat.textContent = Math.floor(current);
-                    }
-                }, 20);
-            });
-        }
-
-        // Görev ekleme animasyonu
-        function animateTaskAddition() {
-            const tasksContainer = document.getElementById('tasks-list');
-            if (tasksContainer.children.length > 0) {
-                const lastTask = tasksContainer.children[tasksContainer.children.length - 1];
-                lastTask.style.background = 'linear-gradient(135deg, #51cf66, #40c057)';
-                setTimeout(() => {
-                    lastTask.style.background = '';
-                }, 1000);
+                categories.push(newCategory);
+                saveCategories();
+                renderCategories();
+                showToast(`✅ "${newCategory.name}" kategorisi eklendi!`);
             }
         }
 
-        // Performans izleme
-        console.log('🚀 To-Do PRO Site Uygulaması Başlatıldı!');
-        console.log('📊 Yapımcı: Melih Can Çiğdem');
-        console.log('⚡ Sayfa yükleme süresi:', performance.now().toFixed(2), 'ms');
+        // Kategorileri göster
+        function renderCategories() {
+            const container = document.getElementById('categories-container');
+            container.innerHTML = '';
+
+            categories.forEach(category => {
+                const categoryElement = document.createElement('div');
+                categoryElement.className = 'category-item';
+                categoryElement.onclick = () => setCategoryFilter(category.id);
+
+                categoryElement.innerHTML = `
+                    <div class="category-color" style="background: ${category.color};"></div>
+                    <div class="category-name">${category.name}</div>
+                `;
+
+                container.appendChild(categoryElement);
+            });
+        }
+
+        // Kategori filtresi
+        function setCategoryFilter(categoryId) {
+            // Bu fonksiyon eklenebilir - şimdilik basit tutuyorum
+            showToast('Kategori filtresi yakında eklenecek!');
+        }
+
+        // Başlangıçta kategorileri göster
+        renderCategories();
     </script>
 </body>
 </html>
