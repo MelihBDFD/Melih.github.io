@@ -172,6 +172,83 @@
             font-weight: 600;
         }
 
+        .mobile-category-item.active .mobile-category-count {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Mobile Founder Section */
+        .mobile-founder-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #667eea;
+        }
+
+        .mobile-founder-title {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .mobile-founder-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+
+        .mobile-founder-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Mobile Quick Actions */
+        .mobile-quick-actions {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .mobile-actions-title {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .mobile-action-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+
+        .mobile-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(81, 207, 102, 0.3);
+        }
+
+        .mobile-action-btn:last-child {
+            margin-bottom: 0;
+        }
+
         /* Founder Section */
         .founder-container {
             display: grid;
@@ -2118,51 +2195,161 @@
             animation: pulse 1s infinite;
         }
 
-        /* Responsive */
+        /* Enhanced Mobile Interface */
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                margin: 0;
+                border-radius: 20px;
+                max-width: 100%;
+            }
+
             .navbar {
                 flex-direction: column;
                 gap: 15px;
+                padding: 20px;
             }
 
             .navbar-nav {
-                gap: 10px;
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .navbar-actions {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1001;
             }
 
             .hamburger-menu {
                 display: flex;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
             }
 
-            .navbar-actions {
-                position: absolute;
-                top: 15px;
-                right: 20px;
+            .hero {
+                padding: 40px 20px;
+                text-align: center;
             }
 
             .hero h1 {
-                font-size: 36px;
+                font-size: 32px;
+                margin-bottom: 15px;
+            }
+
+            .hero p {
+                font-size: 18px;
+                margin-bottom: 20px;
             }
 
             .hero-stats {
                 flex-direction: column;
                 gap: 20px;
+                margin-top: 20px;
             }
 
             .input-group {
                 flex-direction: column;
-                gap: 10px;
+                gap: 15px;
+            }
+
+            .input-group input,
+            .input-group select {
+                font-size: 16px; /* Prevent zoom on iOS */
             }
 
             .actions {
                 flex-direction: column;
+                gap: 10px;
             }
 
             .filters {
                 justify-content: center;
+                gap: 8px;
             }
 
             .team {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .todo-container {
+                padding: 20px;
+            }
+
+            .task-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .task-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .ai-assistant,
+            .customer-service {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .ai-chat,
+            .customer-service-chat {
+                width: calc(100vw - 40px);
+                height: 70vh;
+                max-height: 500px;
+                right: -20px;
+            }
+
+            .mobile-categories-menu {
+                width: 85vw;
+                max-width: 350px;
+                left: -100vw;
+            }
+
+            .mobile-categories-menu.show {
+                left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 28px !important;
+            }
+
+            .hero p {
+                font-size: 16px !important;
+            }
+
+            .navbar-brand {
+                font-size: 20px !important;
+            }
+
+            .navbar-nav {
+                font-size: 14px;
+            }
+
+            .todo-container {
+                padding: 15px;
+            }
+
+            .task-content {
+                padding: 15px;
+            }
+
+            .ai-chat,
+            .customer-service-chat {
+                height: 60vh;
+                width: calc(100vw - 20px);
+                right: -10px;
             }
         }
 
@@ -2775,12 +2962,27 @@
         <!-- Mobile Categories Menu -->
         <div class="mobile-categories-menu" id="mobile-categories-menu">
             <div class="mobile-categories-header">
-                <h3>📂 Kategoriler</h3>
+                <h3>📂 Menü</h3>
                 <button class="close-categories-menu" onclick="toggleCategoriesMenu()">✕</button>
             </div>
             <div class="mobile-categories-content">
                 <div class="mobile-categories-scroll" id="mobile-categories-list">
-                    <!-- Mobile kategoriler buraya eklenecek -->
+                    <!-- Categories will be loaded here -->
+                </div>
+
+                <!-- Founder Section -->
+                <div class="mobile-founder-section">
+                    <h4 class="mobile-founder-title">👑 Kurucu Özel</h4>
+                    <button class="mobile-founder-btn" onclick="showFounderPasswordPrompt()">Kurucu Paneli</button>
+                    <button class="mobile-founder-btn" onclick="showThemeManager()">🎨 Tema Değiştir</button>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="mobile-quick-actions">
+                    <h4 class="mobile-actions-title">⚡ Hızlı İşlemler</h4>
+                    <button class="mobile-action-btn" onclick="exportTasks()">📤 Dışa Aktar</button>
+                    <button class="mobile-action-btn" onclick="clearCompletedTasks()">🧹 Temizle</button>
+                    <button class="mobile-action-btn" onclick="showAdvancedStats()">📊 İstatistikler</button>
                 </div>
             </div>
         </div>
@@ -3210,270 +3412,310 @@
                     <div class="mobile-category-count">${taskCount}</div>
                 `;
 
-                if (currentCategoryFilter === category.id) {
-                    categoryElement.classList.add('active');
-                }
-
-                container.appendChild(categoryElement);
-            });
-        }
-        function loginWithGoogle() {
-            const loginBtn = document.getElementById('google-login-btn');
-            loginBtn.disabled = true;
-            loginBtn.textContent = 'Giriş yapılıyor...';
-
-            // Google OAuth configuration
-            const clientId = 'YOUR_GOOGLE_CLIENT_ID'; // You need to replace this with actual client ID
-
-            // For demo purposes, we'll simulate login
-            setTimeout(() => {
-                const demoUser = {
-                    name: 'Demo Kullanıcı',
-                    email: 'demo@example.com',
-                    avatar: 'D'
-                };
-
-                currentUser = demoUser;
-                localStorage.setItem('todo_pro_user', JSON.stringify(demoUser));
-                showWelcomeAnimation(demoUser.name);
-                hideLoginModal();
-                showUserProfile(demoUser);
-                showMainContent();
-            }, 2000);
         }
 
-        function logout() {
-            if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
-                currentUser = null;
-                localStorage.removeItem('todo_pro_user');
-                hideUserProfile();
-                showLoginModal();
-                hideMainContent();
-            }
-        }
+        container.appendChild(categoryElement);
+    });
+}
 
-        function showLoginModal() {
-            const modal = document.getElementById('login-modal');
-            modal.classList.add('show');
-        }
+// Google Login Functions
+function loginWithGoogle() {
+    const loginBtn = document.getElementById('google-login-btn');
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Google ile giriş yapılıyor...';
 
-        function hideLoginModal() {
-            const modal = document.getElementById('login-modal');
-            modal.classList.remove('show');
-        }
+    // Google OAuth configuration
+    const clientId = 'YOUR_GOOGLE_CLIENT_ID'; // Replace with actual Google Client ID
 
-        function showUserProfile(user) {
-            const profile = document.getElementById('user-profile');
-            const avatar = document.getElementById('user-avatar');
-            const name = document.getElementById('user-name');
-            const email = document.getElementById('user-email');
-
-            avatar.textContent = user.name.charAt(0).toUpperCase();
-            name.textContent = user.name;
-            email.textContent = user.email;
-
-            profile.classList.add('show');
-        }
-
-        function hideUserProfile() {
-            const profile = document.getElementById('user-profile');
-            profile.classList.remove('show');
-        }
-
-        function showWelcomeAnimation(userName) {
-            const welcomeAnimation = document.getElementById('welcome-animation');
-            const welcomeTitle = document.getElementById('welcome-title');
-            const countdown = document.getElementById('welcome-countdown');
-
-            welcomeTitle.textContent = `Merhaba, ${userName}!`;
-            welcomeAnimation.classList.add('show');
-
-            let count = 5;
-            const countdownInterval = setInterval(() => {
-                countdown.textContent = count;
-                count--;
-
-                if (count < 0) {
-                    clearInterval(countdownInterval);
-                    hideWelcomeAnimation();
-                    showMainContent();
-                }
-            }, 1000);
-        }
-
-        function hideWelcomeAnimation() {
-            const welcomeAnimation = document.getElementById('welcome-animation');
-            welcomeAnimation.classList.remove('show');
-            welcomeAnimation.classList.add('hide');
-        }
-
-        function showMainContent() {
-            const mainContent = document.querySelector('.main-content');
-            mainContent.classList.add('show');
-        }
-
-        function hideMainContent() {
-            const mainContent = document.querySelector('.main-content');
-            mainContent.classList.remove('show');
-        }
-
-        function checkUserLogin() {
-            const savedUser = localStorage.getItem('todo_pro_user');
-            if (savedUser) {
-                try {
-                    currentUser = JSON.parse(savedUser);
-                    showUserProfile(currentUser);
-                    showMainContent();
-                } catch (e) {
-                    console.error('Kullanıcı bilgileri yüklenemedi:', e);
-                    showLoginModal();
-                }
-            } else {
-                showLoginModal();
-            }
-        }
-
-        // Sayfa yüklendiğinde
-        document.addEventListener('DOMContentLoaded', function() {
-            loadTasks();
-            loadCategories();
-            loadTheme();
-            updateCategoriesDisplay();
-            updateCategorySelect();
-            updateCategoryFilterButtons();
-            updateMobileCategories();
-            renderTasks();
-            updateAllStats();
-            initializeViewMode();
-            checkUserLogin();
-
-            // Smooth scroll için navigation
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const target = this.getAttribute('href').substring(1);
-                    document.getElementById(target).scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                });
-            });
-
-            // Intersection Observer ile animasyonlar
-            observeElements();
-
-            // Başlangıç animasyonu
-            setTimeout(() => {
-                document.querySelector('.hero h1').classList.add('pulse');
-            }, 1000);
+    // Check if Google Auth API is loaded
+    if (typeof google !== 'undefined') {
+        google.accounts.id.initialize({
+            client_id: clientId,
+            callback: handleCredentialResponse,
+            auto_select: false,
+            cancel_on_tap_outside: true
         });
 
-        // Tarih formatla
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const now = new Date();
-            const diffTime = date.getTime() - now.getTime();
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-            if (diffDays < 0) {
-                return `Geçmiş: ${Math.abs(diffDays)} gün önce`;
-            } else if (diffDays === 0) {
-                return 'Bugün';
-            } else if (diffDays === 1) {
-                return 'Yarın';
-            } else {
-                return `${diffDays} gün sonra`;
+        google.accounts.id.prompt((notification) => {
+            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                // Fallback to demo mode if Google OAuth fails
+                setTimeout(() => {
+                    demoLogin();
+                }, 2000);
             }
+        });
+    } else {
+        // Fallback for when Google API is not loaded
+        demoLogin();
+    }
+}
+
+function handleCredentialResponse(response) {
+    // Decode the JWT token to get user info
+    const decodedToken = JSON.parse(atob(response.credential.split('.')[1]));
+
+    const user = {
+        name: decodedToken.name,
+        email: decodedToken.email,
+        avatar: decodedToken.picture,
+        id: decodedToken.sub
+    };
+
+    currentUser = user;
+    localStorage.setItem('todo_pro_user', JSON.stringify(user));
+
+    // Show personalized welcome animation
+    showWelcomeAnimation(user.name);
+
+    // Update UI
+    hideLoginModal();
+    showUserProfile(user);
+    showMainContent();
+
+    showToast(`🎉 Hoş geldiniz, ${user.name}!`);
+}
+
+function demoLogin() {
+    // Demo login for development
+    const demoUser = {
+        name: 'Demo Kullanıcı',
+        email: 'demo@example.com',
+        avatar: 'D',
+        id: 'demo-user'
+    };
+
+    currentUser = demoUser;
+    localStorage.setItem('todo_pro_user', JSON.stringify(demoUser));
+    showWelcomeAnimation(demoUser.name);
+    hideLoginModal();
+    showUserProfile(demoUser);
+    showMainContent();
+
+    showToast('🔧 Demo modunda giriş yapıldı');
+}
+
+function showLoginModal() {
+    const modal = document.getElementById('login-modal');
+    modal.classList.add('show');
+}
+
+function hideLoginModal() {
+    const modal = document.getElementById('login-modal');
+    modal.classList.remove('show');
+}
+
+function showUserProfile(user) {
+    const profile = document.getElementById('user-profile');
+    const avatar = document.getElementById('user-avatar');
+    const name = document.getElementById('user-name');
+    const email = document.getElementById('user-email');
+
+    avatar.textContent = user.name.charAt(0).toUpperCase();
+    name.textContent = user.name;
+    email.textContent = user.email;
+
+    profile.classList.add('show');
+}
+
+function hideUserProfile() {
+    const profile = document.getElementById('user-profile');
+    profile.classList.remove('show');
+}
+
+function showWelcomeAnimation(userName) {
+    const welcomeAnimation = document.getElementById('welcome-animation');
+    const welcomeTitle = document.getElementById('welcome-title');
+    const countdown = document.getElementById('welcome-countdown');
+
+    welcomeTitle.textContent = `Merhaba, ${userName}!`;
+    welcomeAnimation.classList.add('show');
+
+    let count = 5;
+    const countdownInterval = setInterval(() => {
+        countdown.textContent = count;
+        count--;
+
+        if (count < 0) {
+            clearInterval(countdownInterval);
+            hideWelcomeAnimation();
+            showMainContent();
         }
+    }, 1000);
+}
 
-        // Vade tarihi geçmiş mi kontrol et
-        function isOverdue(dateString) {
-            if (!dateString) return false;
-            return new Date(dateString) < new Date();
+function hideWelcomeAnimation() {
+    const welcomeAnimation = document.getElementById('welcome-animation');
+    welcomeAnimation.classList.remove('show');
+    welcomeAnimation.classList.add('hide');
+}
+
+function showMainContent() {
+    const mainContent = document.querySelector('.main-content');
+    mainContent.classList.add('show');
+}
+
+function hideMainContent() {
+    const mainContent = document.querySelector('.main-content');
+    mainContent.classList.remove('show');
+}
+
+function checkUserLogin() {
+    const savedUser = localStorage.getItem('todo_pro_user');
+    if (savedUser) {
+        try {
+            currentUser = JSON.parse(savedUser);
+            showUserProfile(currentUser);
+            showMainContent();
+        } catch (e) {
+            console.error('Kullanıcı bilgileri yüklenemedi:', e);
+            showLoginModal();
         }
+    } else {
+        showLoginModal();
+    }
+}
 
-        // Arama ve filtreleme
-        function filterTasks() {
-            renderTasks();
-        }
+// Sayfa yüklendiğinde
+document.addEventListener('DOMContentLoaded', function() {
+    loadTasks();
+    loadCategories();
+    loadTheme();
+    updateCategoriesDisplay();
+    updateCategorySelect();
+    updateCategoryFilterButtons();
+    updateMobileCategories();
+    renderTasks();
+    updateAllStats();
+    initializeViewMode();
+    checkUserLogin();
 
-        // Aramayı temizle
-        function clearSearch() {
-            document.getElementById('search-input').value = '';
-            renderTasks();
-        }
+    // Smooth scroll için navigation
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = this.getAttribute('href').substring(1);
+            document.getElementById(target).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    });
 
-        // Görevleri dışa aktar
-        function exportTasks() {
-            const dataStr = JSON.stringify(tasks, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(dataBlob);
+    // Intersection Observer ile animasyonlar
+    observeElements();
 
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `melih-todo-backup-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
+    // Başlangıç animasyonu
+    setTimeout(() => {
+        document.querySelector('.hero h1').classList.add('pulse');
+    }, 1000);
+});
 
-            showToast('📤 Görevler dışa aktarıldı!');
-        }
+// Tarih formatla
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = date.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-        // Görevleri içe aktar
-        function importTasks() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        try {
-                            const importedTasks = JSON.parse(e.target.result);
-                            if (Array.isArray(importedTasks)) {
-                                if (confirm(`${importedTasks.length} görev içe aktarılacak. Mevcut görevler korunacak mı?`)) {
-                                    tasks = [...tasks, ...importedTasks];
-                                    saveTasks();
-                                    renderTasks();
-                                    updateAllStats();
-                                    showToast(`✅ ${importedTasks.length} görev başarıyla içe aktarıldı!`);
-                                }
-                            } else {
-                                showToast('❌ Geçersiz dosya formatı!');
-                            }
-                        } catch (error) {
-                            showToast('❌ Dosya okunamadı!');
+    if (diffDays < 0) {
+        return `Geçmiş: ${Math.abs(diffDays)} gün önce`;
+    } else if (diffDays === 0) {
+        return 'Bugün';
+    } else if (diffDays === 1) {
+        return 'Yarın';
+    } else {
+        return `${diffDays} gün sonra`;
+    }
+}
+
+// Vade tarihi geçmiş mi kontrol et
+function isOverdue(dateString) {
+    if (!dateString) return false;
+    return new Date(dateString) < new Date();
+}
+
+// Arama ve filtreleme
+function filterTasks() {
+    renderTasks();
+}
+
+// Aramayı temizle
+function clearSearch() {
+    document.getElementById('search-input').value = '';
+    renderTasks();
+}
+
+// Görevleri dışa aktar
+function exportTasks() {
+    const dataStr = JSON.stringify(tasks, null, 2);
+    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+    const url = URL.createObjectURL(dataBlob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `melih-todo-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    showToast('📤 Görevler dışa aktarıldı!');
+}
+
+// Görevleri içe aktar
+function importTasks() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedTasks = JSON.parse(e.target.result);
+                    if (Array.isArray(importedTasks)) {
+                        if (confirm(`${importedTasks.length} görev içe aktarılacak. Mevcut görevler korunacak mı?`)) {
+                            tasks = [...tasks, ...importedTasks];
+                            saveTasks();
+                            renderTasks();
+                            updateAllStats();
+                            showToast(`✅ ${importedTasks.length} görev başarıyla içe aktarıldı!`);
                         }
-                    };
-                    reader.readAsText(file);
+                    } else {
+                        showToast('❌ Geçersiz dosya formatı!');
+                    }
+                } catch (error) {
+                    showToast('❌ Dosya okunamadı!');
                 }
             };
-            input.click();
+            reader.readAsText(file);
         }
+    };
+    input.click();
+}
 
-        // LocalStorage'dan görevleri yükle
-        function loadTasks() {
-            try {
-                const saved = localStorage.getItem('todo_pro_tasks');
-                if (saved) {
-                    tasks = JSON.parse(saved);
-                }
-            } catch (e) {
-                console.error('Görevler yüklenemedi:', e);
-                tasks = [];
-            }
+// LocalStorage'dan görevleri yükle
+function loadTasks() {
+    try {
+        const saved = localStorage.getItem('todo_pro_tasks');
+        if (saved) {
+            tasks = JSON.parse(saved);
         }
+    } catch (e) {
+        console.error('Görevler yüklenemedi:', e);
+        tasks = [];
+    }
+}
 
-        // Görevleri kaydet
-        function saveTasks() {
-            try {
-                localStorage.setItem('todo_pro_tasks', JSON.stringify(tasks));
-            } catch (e) {
-                console.error('Görevler kaydedilemedi:', e);
-            }
-        }
+// Görevleri kaydet
+function saveTasks() {
+    try {
+        localStorage.setItem('todo_pro_tasks', JSON.stringify(tasks));
+    } catch (e) {
+        console.error('Görevler kaydedilemedi:', e);
+    }
+}
 
         // Görev ekle
         function addTask() {
