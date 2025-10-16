@@ -1569,6 +1569,58 @@ body {
     }
 }
 
+/* Theme Switcher - Mobile Support */
+@media (max-width: 768px) {
+    .theme-switcher {
+        position: fixed !important;
+        top: 50% !important;
+        right: 10px !important;
+        transform: translateY(-50%) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        z-index: 997 !important;
+        opacity: 0.8 !important;
+    }
+
+    .theme-switcher:hover {
+        opacity: 1 !important;
+    }
+
+    .theme-option {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-switcher {
+        right: 8px !important;
+        gap: 6px !important;
+    }
+
+    .theme-option {
+        width: 36px !important;
+        height: 36px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .theme-switcher {
+        right: 5px !important;
+        gap: 4px !important;
+    }
+
+    .theme-option {
+        width: 32px !important;
+        height: 32px !important;
+    }
+}
+
 /* Toast Messages */
 .toast {
     position: fixed;
@@ -2588,6 +2640,39 @@ body {
         margin: 3px 0;
     }
 
+    /* Help Button - Mobile Support */
+@media (max-width: 768px) {
+    .help-btn {
+        position: fixed !important;
+        bottom: 80px !important;
+        right: 15px !important;
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 50% !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        z-index: 995 !important;
+        transition: all 0.2s ease !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .help-btn {
+        bottom: 70px !important;
+        right: 10px !important;
+        width: 44px !important;
+        height: 44px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .help-btn {
+        bottom: 60px !important;
+        right: 8px !important;
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
     /* FAB Container Small Mobile - Improved Positioning */
     .fab-container {
         bottom: 10px;
@@ -2705,36 +2790,72 @@ body {
         font-size: 14px;
     }
 
+/* AI Assistant - Mobile Support */
+@media (max-width: 768px) {
     .ai-assistant {
-        bottom: 8px;
-        right: 8px;
+        position: fixed !important;
+        bottom: 15px !important;
+        left: 15px !important;
+        z-index: 996 !important;
     }
 
     .ai-toggle {
-        width: 40px;
-        height: 40px;
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 50% !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        transition: all 0.2s ease !important;
     }
 
-    .help-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 14px;
-        bottom: 8px;
-        right: 8px;
+    .ai-chat {
+        position: fixed !important;
+        bottom: 70px !important;
+        left: 15px !important;
+        width: calc(100vw - 30px) !important;
+        max-width: 350px !important;
+        height: auto !important;
+        max-height: 60vh !important;
+        z-index: 999 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .ai-assistant {
+        bottom: 10px !important;
+        left: 10px !important;
     }
 
-    .toast {
-        bottom: 60px;
-        left: 50%;
-        transform: translateX(-50%) translateY(100px);
-        max-width: calc(100vw - 16px);
-        font-size: 11px;
-        padding: 10px 14px;
+    .ai-toggle {
+        width: 44px !important;
+        height: 44px !important;
     }
 
-    .toast.show {
-        transform: translateX(-50%) translateY(0);
+    .ai-chat {
+        bottom: 65px !important;
+        left: 10px !important;
+        width: calc(100vw - 20px) !important;
+        max-height: 50vh !important;
     }
+}
+
+@media (max-width: 360px) {
+    .ai-assistant {
+        bottom: 8px !important;
+        left: 8px !important;
+    }
+
+    .ai-toggle {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .ai-chat {
+        bottom: 55px !important;
+        left: 8px !important;
+        width: calc(100vw - 16px) !important;
+        max-height: 40vh !important;
+    }
+}
 }
 
 /* FAB Container Positioning Fix - Complete Rewrite */
@@ -2742,7 +2863,7 @@ body {
     .fab-container {
         position: fixed !important;
         bottom: 15px !important;
-        left: 15px !important;
+        right: 15px !important; /* Bilgisayardaki gibi sağa alındı */
         display: flex !important;
         flex-direction: column !important;
         gap: 8px !important;
@@ -2779,7 +2900,7 @@ body {
 @media (max-width: 480px) {
     .fab-container {
         bottom: 10px !important;
-        left: 10px !important;
+        right: 10px !important; /* Sağda kalmaya devam et */
         gap: 6px !important;
     }
 
@@ -2793,7 +2914,7 @@ body {
 @media (max-width: 360px) {
     .fab-container {
         bottom: 8px !important;
-        left: 8px !important;
+        right: 8px !important; /* Sağda kalmaya devam et */
         gap: 4px !important;
     }
 
