@@ -2,8 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 MELİH TO-DO - Profesyonel Görev Yöneticisi</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         * {
             margin: 0;
@@ -29,14 +28,1051 @@
             backdrop-filter: blur(10px);
         }
 
-        /* Navigation */
-        .navbar {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            padding: 15px 30px;
+        /* Navbar Actions */
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            gap: 3px;
+            position: relative;
+        }
+
+        .hamburger-menu span {
+            width: 20px;
+            height: 2px;
+            background: white;
+            transition: all 0.3s;
+            border-radius: 1px;
+        }
+
+        .hamburger-menu.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu .new-badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: #ff6b6b;
+            color: white;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Mobile Categories Menu */
+        .mobile-categories-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-categories-menu.show {
+            left: 0;
+        }
+
+        .mobile-categories-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .mobile-categories-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .close-categories-menu {
+            background: none;
+            border: none;
             color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-categories-content {
+            padding: 20px;
+        }
+
+        .mobile-categories-scroll {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mobile-category-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .mobile-category-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .mobile-category-item.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .mobile-category-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .mobile-category-name {
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .mobile-category-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Founder Section */
+        .founder-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .founder-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+        }
+
+        .founder-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .founder-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .founder-card p {
+            margin-bottom: 25px;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .founder-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .founder-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Bot System Modal */
+        .bot-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .bot-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .bot-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .bot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .bot-title {
+            font-size: 28px;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .close-bot-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .bot-input-group {
+            margin-bottom: 20px;
+        }
+
+        .bot-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .bot-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .bot-input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        .bot-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .bot-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .bot-output {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        /* AI Assistant */
+        .ai-assistant {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .ai-toggle {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulse 2s infinite;
+            position: relative;
+        }
+
+        .ai-toggle .new-badge {
+            position: absolute;
+            top: -5px;
+            right: -15px;
+            background: #ff6b6b;
+            color: white;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .ai-chat {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .ai-chat.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .ai-chat-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-chat-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .ai-chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .ai-chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .ai-message {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 15px;
+            animation: slideInLeft 0.3s ease-out;
+        }
+
+        .ai-message.ai-welcome {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .ai-message.user {
+            background: #e3f2fd;
+            flex-direction: row-reverse;
+        }
+
+        .ai-message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .ai-message.user .ai-message-avatar {
+            background: #2196f3;
+        }
+
+        .ai-message-content {
+            flex: 1;
+        }
+
+        .ai-message-text {
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .ai-message-time {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
+        .ai-chat-input-area {
+            padding: 20px;
+            border-top: 1px solid #e1e8ed;
+            display: flex;
+            gap: 10px;
+            background: white;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .ai-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .ai-input:focus {
+            border-color: #667eea;
+        }
+
+        .ai-send-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        /* Customer Service */
+        .customer-service {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 1000;
+        }
+
+        .customer-service-toggle {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(81, 207, 102, 0.3);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .customer-service-toggle .new-badge {
+            position: absolute;
+            top: -5px;
+            right: -15px;
+            background: #ff6b6b;
+            color: white;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .customer-service-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(81, 207, 102, 0.4);
+        }
+
+        .customer-service-chat {
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .customer-service-chat.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .customer-service-header {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .customer-service-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .customer-service-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .customer-service-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .customer-service-message {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 15px;
+            animation: slideInLeft 0.3s ease-out;
+        }
+
+        .customer-service-message.support-welcome {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: white;
+        }
+
+        .customer-service-message.user {
+            background: #e3f2fd;
+            flex-direction: row-reverse;
+        }
+
+        .customer-service-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .customer-service-message.user .customer-service-avatar {
+            background: #2196f3;
+        }
+
+        .customer-service-content {
+            flex: 1;
+        }
+
+        .customer-service-text {
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .customer-service-time {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
+        .customer-service-input-area {
+            padding: 20px;
+            border-top: 1px solid #e1e8ed;
+            display: flex;
+            gap: 10px;
+            background: white;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .customer-service-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .customer-service-input:focus {
+            border-color: #51cf66;
+        }
+
+        .customer-service-send-btn {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .customer-service-send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(81, 207, 102, 0.3);
+        }
+
+        /* Theme Manager Styles */
+        .theme-categories {
+            margin-bottom: 30px;
+        }
+
+        .theme-category {
+            margin-bottom: 30px;
+        }
+
+        .theme-category h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .theme-item {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #e1e8ed;
+        }
+
+        .theme-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .theme-preview {
+            width: 100%;
+            height: 100px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .theme-status {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            color: #666;
+            display: inline-block;
+        }
+
+        .theme-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .theme-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .theme-info p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Dark Theme Styles */
+        .theme-dark-mode {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+            color: #ecf0f1 !important;
+        }
+
+        .theme-dark-mode .container {
+            background: rgba(52, 73, 94, 0.95) !important;
+        }
+
+        .theme-dark-mode .navbar {
+            background: linear-gradient(135deg, #34495e, #2c3e50) !important;
+        }
+
+        .theme-dark-mode .todo-container {
+            background: #34495e !important;
+            color: #ecf0f1 !important;
+        }
+
+        .theme-dark-mode .task-item {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%) !important;
+            color: #ecf0f1 !important;
+        }
+
+        /* Green Theme Styles */
+        .theme-nature-green {
+            background: linear-gradient(135deg, #51cf66 0%, #40c057 100%) !important;
+        }
+
+        .theme-nature-green .container {
+            background: rgba(64, 192, 87, 0.95) !important;
+        }
+
+        .theme-nature-green .navbar {
+            background: linear-gradient(135deg, #40c057, #37a747) !important;
+        }
+
+        /* Orange Theme Styles */
+        .theme-sunset-orange {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%) !important;
+        }
+
+        .theme-sunset-orange .container {
+            background: rgba(238, 90, 82, 0.95) !important;
+        }
+
+        .theme-sunset-orange .navbar {
+            background: linear-gradient(135deg, #ee5a52, #d63031) !important;
+        }
+
+        /* Purple Theme Styles */
+        .theme-purple-dream {
+            background: linear-gradient(135deg, #9c88ff 0%, #6c5ce7 100%) !important;
+        }
+
+        .theme-purple-dream .container {
+            background: rgba(108, 92, 231, 0.95) !important;
+        }
+
+        .theme-purple-dream .navbar {
+            background: linear-gradient(135deg, #6c5ce7, #5f3dc4) !important;
+        }
+
+        /* Minimal White Theme Styles */
+        .theme-minimal-white {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+        }
+
+        .theme-minimal-white .container {
+            background: rgba(248, 249, 250, 0.95) !important;
+        }
+
+        .theme-minimal-white .navbar {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
+            color: #2c3e50 !important;
+        }
+
+        /* Enhanced UI Elements */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            padding: 3px;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            bottom: 1px;
+            background: white;
+            border-radius: 12px;
+            z-index: -1;
+        }
+
+        /* Enhanced Task Cards */
+        .task-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .task-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Enhanced Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Enhanced Typography */
+        .text-gradient {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .heading-xl {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .heading-lg {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 15px;
+        }
+
+        .heading-md {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        /* Improved Spacing */
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .container-padding {
+            padding: 40px;
+        }
+
+        /* Enhanced Animations */
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes bounceInUp {
+            from, 60%, 75%, 90%, to {
+                animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            }
+            from {
+                opacity: 0;
+                transform: translate3d(0, 3000px, 0) scaleY(3);
+            }
+            60% {
+                opacity: 1;
+                transform: translate3d(0, -20px, 0) scaleY(0.9);
+            }
+            75% {
+                transform: translate3d(0, 10px, 0) scaleY(0.95);
+            }
+            90% {
+                transform: translate3d(0, -5px, 0) scaleY(0.985);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        .slide-in-left {
+            animation: slideInFromLeft 0.8s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slideInFromRight 0.8s ease-out;
+        }
+
+        .bounce-in-up {
+            animation: bounceInUp 1s ease-out;
+        }
+
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .hero h1 {
+                font-size: 28px !important;
+            }
+
+            .ai-assistant,
+            .customer-service {
+                bottom: 20px;
+                right: 20px;
+                left: auto;
+            }
+
+            .ai-chat,
+            .customer-service-chat {
+                width: calc(100vw - 40px);
+                right: -20px;
+                height: 400px;
+            }
+
+            .mobile-categories-menu {
+                width: calc(100vw - 40px);
+                left: -100vw;
+            }
         }
 
         .navbar-brand {
@@ -507,10 +1543,142 @@
             box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
         }
 
-        .add-subtask-btn.standalone {
-            margin-top: 8px;
+        .add-comment-btn {
+            background: linear-gradient(135deg, #74c0fc, #339af0);
+            color: white;
+            border: none;
             padding: 6px 12px;
+            border-radius: 15px;
             font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 8px;
+        }
+
+        .add-comment-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(116, 192, 252, 0.3);
+        }
+
+        .add-comment-btn.standalone {
+            margin-top: 8px;
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .comments-container {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(116, 192, 252, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid #74c0fc;
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .comments-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #74c0fc;
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .comment-item {
+            background: white;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #e1e8ed;
+            transition: all 0.3s;
+        }
+
+        .comment-item:hover {
+            background: #f8f9fa;
+            transform: translateX(2px);
+        }
+
+        .comment-content {
+            display: flex;
+            gap: 10px;
+        }
+
+        .comment-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .comment-text {
+            flex: 1;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #2c3e50;
+        }
+
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #74c0fc;
+        }
+
+        .comment-date {
+            color: #999;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .comment-btn {
+            background: none;
+            border: none;
+            font-size: 10px;
+            cursor: pointer;
+            padding: 2px 5px;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .comment-edit-btn {
+            color: #74c0fc;
+        }
+
+        .comment-edit-btn:hover {
+            background: rgba(116, 192, 252, 0.1);
+        }
+
+        .comment-delete-btn {
+            color: #ff6b6b;
+        }
+
+        .comment-delete-btn:hover {
+            background: rgba(255, 107, 107, 0.1);
         }
 
         .subtasks-list {
@@ -733,10 +1901,25 @@
             margin-bottom: 20px;
         }
 
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        .contact-info {
+            margin: 20px 0;
+        }
+
+        .contact-info p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .contact-link {
+            color: #74c0fc;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .contact-link:hover {
+            color: #339af0;
+            text-decoration: underline;
         }
 
         .social-link {
@@ -944,6 +2127,16 @@
 
             .navbar-nav {
                 gap: 10px;
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+
+            .navbar-actions {
+                position: absolute;
+                top: 15px;
+                right: 20px;
             }
 
             .hero h1 {
@@ -1210,37 +2403,391 @@
             max-width: 300px;
         }
 
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        /* Login Modal Styles */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .login-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .login-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.8) translateY(50px);
+            transition: all 0.3s ease;
+        }
+
+        .login-modal.show .login-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .login-logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: bounceIn 1s ease-out;
+        }
+
+        .login-title {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .login-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .google-login-btn {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 250px;
+            justify-content: center;
+        }
+
+        .google-login-btn:hover {
+            background: #357ae8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.4);
+        }
+
+        .google-login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-footer {
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .user-profile {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 15px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .user-profile.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ee5a52;
+        }
+
+        /* Welcome Animation */
+        .welcome-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            visibility: visible;
+            transition: all 0.5s ease;
+        }
+
+        .welcome-animation.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .welcome-content {
+            text-align: center;
+            color: white;
+            transform: scale(0.8);
+            transition: all 0.5s ease;
+        }
+
+        .welcome-animation.show .welcome-content {
+            transform: scale(1);
+        }
+
+        .welcome-title {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .welcome-subtitle {
+            font-size: 24px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .welcome-countdown {
+            font-size: 18px;
+            margin-top: 30px;
+            opacity: 0.8;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        /* Hide main content initially when login is required */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .main-content.show {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
     <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
 
+    <!-- Welcome Animation -->
+    <div class="welcome-animation" id="welcome-animation">
+        <div class="welcome-content">
+            <div class="welcome-title" id="welcome-title">Merhaba, [İsim]!</div>
+            <div class="welcome-subtitle">To-Do PRO'ya hoş geldiniz</div>
+            <div class="welcome-countdown" id="welcome-countdown">5</div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="login-modal">
+        <div class="login-content">
+            <div class="login-logo">🚀</div>
+            <div class="login-title">To-Do PRO'ya Giriş</div>
+            <div class="login-subtitle">Devam etmek için Google hesabınızla giriş yapın</div>
+            <button class="google-login-btn" onclick="loginWithGoogle()" id="google-login-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Google ile Giriş Yap
+            </button>
+            <div class="login-footer">
+                Güvenli giriş için Google OAuth kullanıyoruz
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile -->
+    <div class="user-profile" id="user-profile">
+        <div class="user-avatar" id="user-avatar">U</div>
+        <div class="user-info">
+            <div class="user-name" id="user-name">Kullanıcı</div>
+            <div class="user-email" id="user-email">kullanici@example.com</div>
+        </div>
+        <button class="logout-btn" onclick="logout()">Çıkış</button>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant" id="ai-assistant">
+        <button class="ai-toggle" onclick="toggleAIAssistant()" id="ai-toggle-btn">
+            <span class="ai-icon">🤖</span>
+            <span class="ai-text">AI Asistan</span>
+            <span class="new-badge">YENİ</span>
+        </button>
+
+        <div class="ai-chat" id="ai-chat">
+            <div class="ai-chat-header">
+                <h3>🤖 AI Asistan</h3>
+                <button class="ai-chat-close" onclick="toggleAIAssistant()">✕</button>
+            </div>
+            <div class="ai-chat-messages" id="ai-chat-messages">
+                <div class="ai-message ai-welcome">
+                    <div class="ai-message-avatar">🤖</div>
+                    <div class="ai-message-content">
+                        <div class="ai-message-text">Merhaba! Ben To-Do PRO AI asistanıyım. Görev yönetimi, kategoriler ve uygulama hakkında size yardımcı olabilirim. Ne sormak istiyorsunuz?</div>
+                        <div class="ai-message-time">Şimdi</div>
+                    </div>
+                </div>
+            </div>
+            <div class="ai-chat-input-area">
+                <input type="text" id="ai-input" class="ai-input" placeholder="AI asistana sorun sorun..." onkeypress="handleAIKeyPress(event)">
+                <button class="ai-send-btn" onclick="sendAIMessage()">Gönder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Service -->
+    <div class="customer-service" id="customer-service">
+        <button class="customer-service-toggle" onclick="toggleCustomerService()" id="customer-service-toggle-btn">
+            <span class="customer-service-icon">💬</span>
+            <span class="customer-service-text">Destek</span>
+            <span class="new-badge">YENİ</span>
+        </button>
+
+        <div class="customer-service-chat" id="customer-service-chat">
+            <div class="customer-service-header">
+                <h3>💬 Müşteri Hizmetleri</h3>
+                <button class="customer-service-close" onclick="toggleCustomerService()">✕</button>
+            </div>
+            <div class="customer-service-messages" id="customer-service-messages">
+                <div class="customer-service-message support-welcome">
+                    <div class="customer-service-avatar">🛎️</div>
+                    <div class="customer-service-content">
+                        <div class="customer-service-text">Merhaba! To-Do PRO Müşteri Hizmetleri'ne hoş geldiniz. Size nasıl yardımcı olabiliriz?</div>
+                        <div class="customer-service-time">Şimdi</div>
+                    </div>
+                </div>
+            </div>
+            <div class="customer-service-input-area">
+                <input type="text" id="customer-service-input" class="customer-service-input" placeholder="Sorunuzu yazın..." onkeypress="handleCustomerServiceKeyPress(event)">
+                <button class="customer-service-send-btn" onclick="sendCustomerServiceMessage()">Gönder</button>
+            </div>
+        </div>
+    </div>
+    <div class="bot-modal" id="bot-modal">
+        <div class="bot-content">
+            <div class="bot-header">
+                <h2 class="bot-title">🤖 Bot Sistemi</h2>
+                <button class="close-bot-modal" onclick="hideBotModal()">✕</button>
+            </div>
+
+            <div class="bot-input-group">
+                <label for="bot-command">Bot Komutu:</label>
+                <input type="text" id="bot-command" class="bot-input" placeholder="Bot komutunu girin...">
+            </div>
+
+            <div class="bot-input-group">
+                <button class="bot-btn" onclick="executeBotCommand()">Komutu Çalıştır</button>
+                <button class="bot-btn" onclick="clearBotOutput()">Temizle</button>
+            </div>
+
+            <div class="bot-output" id="bot-output">
+                <pre>Bot çıktısı burada görünecek...</pre>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Navigation -->
         <nav class="navbar">
-            <a href="#" class="navbar-brand">🚀 MELİH TO-DO</a>
+            <a href="#" class="navbar-brand">🚀 To-Do PRO</a>
             <ul class="navbar-nav">
                 <li><a href="#home" class="nav-link active">Ana Sayfa</a></li>
                 <li><a href="#todo" class="nav-link">Görev Yöneticisi</a></li>
                 <li><a href="#team" class="nav-link">Yapımcılar</a></li>
                 <li><a href="#about" class="nav-link">Hakkında</a></li>
             </ul>
-            <button class="view-toggle" onclick="toggleViewMode()" id="view-toggle-btn">📱</button>
+            <div class="navbar-actions">
+                <button class="hamburger-menu" onclick="toggleCategoriesMenu()" id="hamburger-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span class="new-badge">YENİ</span>
+                </button>
+                <button class="view-toggle" onclick="toggleViewMode()" id="view-toggle-btn">📱</button>
+            </div>
         </nav>
+
+        <!-- Mobile Categories Menu -->
+        <div class="mobile-categories-menu" id="mobile-categories-menu">
+            <div class="mobile-categories-header">
+                <h3>📂 Kategoriler</h3>
+                <button class="close-categories-menu" onclick="toggleCategoriesMenu()">✕</button>
+            </div>
+            <div class="mobile-categories-content">
+                <div class="mobile-categories-scroll" id="mobile-categories-list">
+                    <!-- Mobile kategoriler buraya eklenecek -->
+                </div>
+            </div>
+        </div>
 
         <!-- Hero Section -->
         <section class="hero">
-            <h1>🚀 MELİH TO-DO</h1>
+            <h1>🚀 To-Do PRO</h1>
             <p>Profesyonel Görev Yöneticisi - Modern ve Güçlü</p>
             <div class="hero-stats">
                 <div class="stat-card">
@@ -1316,7 +2863,7 @@
                             🔔 BİLDİRİM İZİNLERİ
                         </button>
                         <button class="action-btn export-btn" onclick="exportTasks()">
-                            📤 DİĞA AKTAR
+                            📤 DIŞA AKTAR
                         </button>
                         <button class="action-btn import-btn" onclick="importTasks()">
                             📥 İÇE AKTAR
@@ -1374,7 +2921,7 @@
                 <div class="about">
                     <h2>💡 Hakkında</h2>
                     <p>
-                        <strong>MELİH TO-DO</strong>, modern web teknolojileri kullanılarak geliştirilmiş
+                        <strong>To-Do PRO</strong>, modern web teknolojileri kullanılarak geliştirilmiş
                         profesyonel bir görev yönetim uygulamasıdır. Kullanıcı dostu arayüzü ve güçlü
                         özellikleriyle hem kişisel hem de profesyonel kullanım için idealdir.
                     </p>
@@ -1422,12 +2969,16 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>&copy; 2024 MELİH TO-DO - Profesyonel Görev Yöneticisi</p>
+            <p>&copy; 2024 To-Do PRO - Profesyonel Görev Yöneticisi</p>
             <p>Yapımcı: Melih Can Çiğdem</p>
+            <div class="contact-info">
+                <p>📧 E-posta: <a href="mailto:adamol31ggez@gmail.com" class="contact-link">adamol31ggez@gmail.com</a></p>
+                <p>📱 Telefon: <a href="tel:+905555555555" class="contact-link">+90 555 555 55 55</a></p>
+            </div>
             <div class="social-links">
                 <a href="https://github.com" class="social-link">GitHub</a>
                 <a href="https://linkedin.com" class="social-link">LinkedIn</a>
-                <a href="mailto:melih@example.com" class="social-link">E-posta</a>
+                <a href="mailto:adamol31ggez@gmail.com" class="social-link">E-posta</a>
             </div>
         </footer>
     </div>
@@ -1441,11 +2992,13 @@
         let categories = [];
         let currentFilter = 'all';
         let currentCategoryFilter = 'all';
+        let currentUser = null;
+        let welcomeTimer = null;
 
         // Kategorileri yükle
         function loadCategories() {
             try {
-                const saved = localStorage.getItem('melih_professional_todo_categories');
+                const saved = localStorage.getItem('todo_pro_categories');
                 if (saved) {
                     categories = JSON.parse(saved);
                 } else {
@@ -1467,7 +3020,7 @@
         // Kategorileri kaydet
         function saveCategories() {
             try {
-                localStorage.setItem('melih_professional_todo_categories', JSON.stringify(categories));
+                localStorage.setItem('todo_pro_categories', JSON.stringify(categories));
             } catch (e) {
                 console.error('Kategoriler kaydedilemedi:', e);
             }
@@ -1486,6 +3039,8 @@
                 saveCategories();
                 updateCategoriesDisplay();
                 updateCategorySelect();
+                updateCategoryFilterButtons();
+                updateMobileCategories();
                 showToast(`✅ "${newCategory.name}" kategorisi eklendi!`);
             }
         }
@@ -1506,7 +3061,13 @@
                 categoryElement.className = 'category-tag';
                 categoryElement.style.background = category.color;
                 categoryElement.textContent = category.name;
-                categoryElement.onclick = () => setCategoryFilter(category.id);
+                categoryElement.onclick = () => {
+                    if (category.id === 'founder') {
+                        showFounderPasswordPrompt();
+                    } else {
+                        setCategoryFilter(category.id);
+                    }
+                };
                 categoryElement.title = `Bu kategoriye filtrele: ${category.name}`;
 
                 container.appendChild(categoryElement);
@@ -1577,18 +3138,198 @@
             const body = document.body;
             body.classList.toggle('dark-theme');
             const theme = body.classList.contains('dark-theme') ? 'dark' : 'light';
-            localStorage.setItem('melih_todo_theme', theme);
+            localStorage.setItem('todo_pro_theme', theme);
             const toggleBtn = document.querySelector('.theme-toggle');
             toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
         }
 
         // Tema yükleme
         function loadTheme() {
-            const savedTheme = localStorage.getItem('melih_todo_theme');
+            const savedTheme = localStorage.getItem('todo_pro_theme');
             if (savedTheme === 'dark') {
                 document.body.classList.add('dark-theme');
                 const toggleBtn = document.querySelector('.theme-toggle');
                 if (toggleBtn) toggleBtn.textContent = '☀️';
+            }
+        }
+
+        // Mobile kategoriler menüsünü aç/kapat
+        function toggleCategoriesMenu() {
+            const menu = document.getElementById('mobile-categories-menu');
+            const hamburger = document.getElementById('hamburger-btn');
+
+            menu.classList.toggle('show');
+            hamburger.classList.toggle('active');
+        }
+
+        // Mobile kategorileri güncelle
+        function updateMobileCategories() {
+            const container = document.getElementById('mobile-categories-list');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            // Tüm kategoriler seçeneği
+            const allCategory = document.createElement('div');
+            allCategory.className = 'mobile-category-item';
+            allCategory.onclick = () => {
+                setCategoryFilter('all');
+                toggleCategoriesMenu();
+            };
+
+            allCategory.innerHTML = `
+                <div class="mobile-category-color" style="background: linear-gradient(135deg, #667eea, #764ba2);"></div>
+                <div class="mobile-category-name">Tüm Kategoriler</div>
+                <div class="mobile-category-count">${tasks.length}</div>
+            `;
+
+            if (currentCategoryFilter === 'all') {
+                allCategory.classList.add('active');
+            }
+
+            container.appendChild(allCategory);
+
+            // Diğer kategoriler
+            categories.forEach(category => {
+                const taskCount = tasks.filter(task => task.categoryId === category.id).length;
+
+                const categoryElement = document.createElement('div');
+                categoryElement.className = 'mobile-category-item';
+                categoryElement.onclick = () => {
+                    if (category.id === 'founder') {
+                        showFounderPasswordPrompt();
+                    } else {
+                        setCategoryFilter(category.id);
+                        toggleCategoriesMenu();
+                    }
+                };
+
+                categoryElement.innerHTML = `
+                    <div class="mobile-category-color" style="background: ${category.color};"></div>
+                    <div class="mobile-category-name">${category.name}</div>
+                    <div class="mobile-category-count">${taskCount}</div>
+                `;
+
+                if (currentCategoryFilter === category.id) {
+                    categoryElement.classList.add('active');
+                }
+
+                container.appendChild(categoryElement);
+            });
+        }
+        function loginWithGoogle() {
+            const loginBtn = document.getElementById('google-login-btn');
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Giriş yapılıyor...';
+
+            // Google OAuth configuration
+            const clientId = 'YOUR_GOOGLE_CLIENT_ID'; // You need to replace this with actual client ID
+
+            // For demo purposes, we'll simulate login
+            setTimeout(() => {
+                const demoUser = {
+                    name: 'Demo Kullanıcı',
+                    email: 'demo@example.com',
+                    avatar: 'D'
+                };
+
+                currentUser = demoUser;
+                localStorage.setItem('todo_pro_user', JSON.stringify(demoUser));
+                showWelcomeAnimation(demoUser.name);
+                hideLoginModal();
+                showUserProfile(demoUser);
+                showMainContent();
+            }, 2000);
+        }
+
+        function logout() {
+            if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
+                currentUser = null;
+                localStorage.removeItem('todo_pro_user');
+                hideUserProfile();
+                showLoginModal();
+                hideMainContent();
+            }
+        }
+
+        function showLoginModal() {
+            const modal = document.getElementById('login-modal');
+            modal.classList.add('show');
+        }
+
+        function hideLoginModal() {
+            const modal = document.getElementById('login-modal');
+            modal.classList.remove('show');
+        }
+
+        function showUserProfile(user) {
+            const profile = document.getElementById('user-profile');
+            const avatar = document.getElementById('user-avatar');
+            const name = document.getElementById('user-name');
+            const email = document.getElementById('user-email');
+
+            avatar.textContent = user.name.charAt(0).toUpperCase();
+            name.textContent = user.name;
+            email.textContent = user.email;
+
+            profile.classList.add('show');
+        }
+
+        function hideUserProfile() {
+            const profile = document.getElementById('user-profile');
+            profile.classList.remove('show');
+        }
+
+        function showWelcomeAnimation(userName) {
+            const welcomeAnimation = document.getElementById('welcome-animation');
+            const welcomeTitle = document.getElementById('welcome-title');
+            const countdown = document.getElementById('welcome-countdown');
+
+            welcomeTitle.textContent = `Merhaba, ${userName}!`;
+            welcomeAnimation.classList.add('show');
+
+            let count = 5;
+            const countdownInterval = setInterval(() => {
+                countdown.textContent = count;
+                count--;
+
+                if (count < 0) {
+                    clearInterval(countdownInterval);
+                    hideWelcomeAnimation();
+                    showMainContent();
+                }
+            }, 1000);
+        }
+
+        function hideWelcomeAnimation() {
+            const welcomeAnimation = document.getElementById('welcome-animation');
+            welcomeAnimation.classList.remove('show');
+            welcomeAnimation.classList.add('hide');
+        }
+
+        function showMainContent() {
+            const mainContent = document.querySelector('.main-content');
+            mainContent.classList.add('show');
+        }
+
+        function hideMainContent() {
+            const mainContent = document.querySelector('.main-content');
+            mainContent.classList.remove('show');
+        }
+
+        function checkUserLogin() {
+            const savedUser = localStorage.getItem('todo_pro_user');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    showUserProfile(currentUser);
+                    showMainContent();
+                } catch (e) {
+                    console.error('Kullanıcı bilgileri yüklenemedi:', e);
+                    showLoginModal();
+                }
+            } else {
+                showLoginModal();
             }
         }
 
@@ -1600,9 +3341,11 @@
             updateCategoriesDisplay();
             updateCategorySelect();
             updateCategoryFilterButtons();
+            updateMobileCategories();
             renderTasks();
             updateAllStats();
             initializeViewMode();
+            checkUserLogin();
 
             // Smooth scroll için navigation
             document.querySelectorAll('.nav-link').forEach(link => {
@@ -1713,7 +3456,7 @@
         // LocalStorage'dan görevleri yükle
         function loadTasks() {
             try {
-                const saved = localStorage.getItem('melih_professional_todo_tasks');
+                const saved = localStorage.getItem('todo_pro_tasks');
                 if (saved) {
                     tasks = JSON.parse(saved);
                 }
@@ -1726,7 +3469,7 @@
         // Görevleri kaydet
         function saveTasks() {
             try {
-                localStorage.setItem('melih_professional_todo_tasks', JSON.stringify(tasks));
+                localStorage.setItem('todo_pro_tasks', JSON.stringify(tasks));
             } catch (e) {
                 console.error('Görevler kaydedilemedi:', e);
             }
@@ -2011,18 +3754,603 @@
             }
         }
 
-        // Alt görev tamamlama kontrolü
-        function checkSubtaskCompletion(taskId) {
+        // Yorum ekleme dialog'u göster
+        function showAddCommentDialog(taskId) {
+            const commentText = prompt('Yorumunuzu yazın:');
+            if (commentText && commentText.trim()) {
+                addComment(taskId, commentText.trim());
+            }
+        }
+
+        // Yorum ekle
+        function addComment(taskId, text) {
             const task = tasks.find(t => t.id === taskId);
-            if (task && task.subtasks && task.subtasks.length > 0) {
-                const allCompleted = task.subtasks.every(st => st.completed);
-                if (allCompleted && !task.completed) {
-                    task.completed = true;
-                    saveTasks();
-                    renderTasks();
-                    updateAllStats();
-                    showToast('🎉 Tüm alt görevler tamamlandı! Ana görev otomatik tamamlandı.');
+            if (task) {
+                if (!task.comments) task.comments = [];
+
+                const newComment = {
+                    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                    text: text,
+                    author: currentUser ? currentUser.name : 'Anonim',
+                    authorEmail: currentUser ? currentUser.email : '',
+                    created: new Date().toISOString()
+                };
+
+                task.comments.push(newComment);
+                saveTasks();
+                renderComments(taskId);
+                updateAllStats();
+
+                showToast('💬 Yorum eklendi!');
+            }
+        }
+
+        // Yorumları göster
+        function renderComments(taskId) {
+            const container = document.getElementById(`comments-${taskId}`);
+            if (!container) return;
+
+            const task = tasks.find(t => t.id === taskId);
+            if (!task || !task.comments) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = '';
+
+            task.comments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment-item';
+
+                const commentDate = new Date(comment.created).toLocaleDateString('tr-TR', {
+                    day: 'numeric',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                commentElement.innerHTML = `
+                    <div class="comment-content">
+                        <div class="comment-avatar">${comment.author.charAt(0).toUpperCase()}</div>
+                        <div style="flex: 1;">
+                            <div class="comment-text">${comment.text}</div>
+                            <div class="comment-meta">
+                                <span class="comment-author">${comment.author}</span>
+                                <span class="comment-date">${commentDate}</span>
+                                <div class="comment-actions">
+                                    <button class="comment-btn comment-edit-btn" onclick="editComment('${taskId}', '${comment.id}')">
+                                        ✏️
+                                    </button>
+                                    <button class="comment-btn comment-delete-btn" onclick="deleteComment('${taskId}', '${comment.id}')">
+                                        🗑️
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(commentElement);
+            });
+        }
+
+        // Yorumu düzenle
+        function editComment(taskId, commentId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task && task.comments) {
+                const comment = task.comments.find(c => c.id === commentId);
+                if (comment) {
+                    const newText = prompt('Yorumu düzenleyin:', comment.text);
+                    if (newText && newText.trim()) {
+                        comment.text = newText.trim();
+                        comment.created = new Date().toISOString(); // Güncelleme zamanını kaydet
+                        saveTasks();
+                        renderComments(taskId);
+                        showToast('✏️ Yorum güncellendi!');
+                    }
                 }
+            }
+        }
+
+        // Kurucu şifresi göster
+        function showFounderPasswordPrompt() {
+            const password = prompt('Kurucu şifresini girin:');
+            if (password === 'WelcomeOwner') {
+                showFounderSection();
+                showToast('🔓 Kurucu paneline erişim sağlandı!');
+            } else if (password !== null) {
+                showToast('❌ Geçersiz şifre!');
+            }
+        }
+
+        // Kurucu bölümünü göster
+        function showFounderSection() {
+            const mainContent = document.querySelector('.main-content');
+
+            // Kurucu bölümü zaten varsa göster
+            let founderSection = document.getElementById('founder-section');
+            if (founderSection) {
+                founderSection.style.display = 'block';
+                founderSection.scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            // Yeni kurucu bölümü oluştur
+            founderSection = document.createElement('section');
+            founderSection.id = 'founder-section';
+            founderSection.className = 'section';
+            founderSection.innerHTML = `
+                <h2>👑 Kurucu Paneli</h2>
+                <div class="founder-container">
+                    <div class="founder-card">
+                        <h3>🔔 Bildirim Sistemi Test</h3>
+                        <p>Bildirim sistemi test araçları</p>
+                        <button class="founder-btn" onclick="testNotificationSystem()">Bildirim Sistemi Testi</button>
+                    </div>
+
+                    <div class="founder-card">
+                        <h3>🤖 Bot Sistemi</h3>
+                        <p>Belirli kodlarla çalışan bot sistemi</p>
+                        <button class="founder-btn" onclick="showBotSystem()">Bot Sistemini Aç</button>
+                    </div>
+
+                    <div class="founder-card">
+                        <h3>🎨 Tema Yönetimi</h3>
+                        <p>Yeni temaları yönet ve uygula</p>
+                        <button class="founder-btn" onclick="showThemeManager()">Tema Yöneticisini Aç</button>
+                    </div>
+
+                    <div class="founder-card">
+                        <h3>📊 Gelişmiş İstatistikler</h3>
+                        <p>Detaylı uygulama istatistikleri</p>
+                        <button class="founder-btn" onclick="showAdvancedStats()">Gelişmiş İstatistikleri Görüntüle</button>
+                    </div>
+                </div>
+            `;
+
+            mainContent.appendChild(founderSection);
+
+            // Kurucu bölümünü göster
+            founderSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Bildirim sistemi testi
+        function testNotificationSystem() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        // Test bildirimleri gönder
+                        const notifications = [
+                            { title: 'Test Bildirimi 1', body: 'Bu bir test bildirimidir.' },
+                            { title: 'Test Bildirimi 2', body: 'Bildirim sistemi çalışıyor!' },
+                            { title: 'Test Bildirimi 3', body: 'Başarıyla test edildi.' }
+                        ];
+
+                        notifications.forEach((notif, index) => {
+                            setTimeout(() => {
+                                new Notification(notif.title, {
+                                    body: notif.body,
+                                    icon: '/favicon.ico'
+                                });
+                            }, index * 2000);
+                        });
+
+                        showToast('🔔 Test bildirimleri gönderildi!');
+                    } else {
+                        showToast('❌ Bildirim izni reddedildi!');
+                    }
+                });
+            } else {
+                showToast('❌ Bu tarayıcı bildirimleri desteklemiyor!');
+            }
+        }
+
+        // Bot sistemini göster
+        function showBotSystem() {
+            showBotModal();
+        }
+
+        // Tema yöneticisini göster
+        function showThemeManager() {
+            // Tema modalı zaten varsa göster
+            let themeModal = document.getElementById('theme-modal');
+            if (themeModal) {
+                themeModal.classList.add('show');
+                return;
+            }
+
+            // Yeni tema modalı oluştur
+            themeModal = document.createElement('div');
+            themeModal.id = 'theme-modal';
+            themeModal.className = 'bot-modal';
+            themeModal.innerHTML = `
+                <div class="bot-content" style="max-width: 800px;">
+                    <div class="bot-header">
+                        <h2 class="bot-title">🎨 Tema Yöneticisi</h2>
+                        <button class="close-bot-modal" onclick="hideThemeModal()">✕</button>
+                    </div>
+
+                    <div class="theme-categories">
+                        <div class="theme-category">
+                            <h3>🌈 Klasik Temalar</h3>
+                            <div class="theme-grid">
+                                <div class="theme-item" onclick="applyTheme('classic-blue')">
+                                    <div class="theme-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                                    <div class="theme-name">Klasik Mavi</div>
+                                    <div class="theme-status">🔵 Aktif</div>
+                                </div>
+                                <div class="theme-item" onclick="applyTheme('nature-green')">
+                                    <div class="theme-preview" style="background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);"></div>
+                                    <div class="theme-name">Doğa Yeşili</div>
+                                    <div class="theme-status">🟢 Yeni</div>
+                                </div>
+                                <div class="theme-item" onclick="applyTheme('sunset-orange')">
+                                    <div class="theme-preview" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);"></div>
+                                    <div class="theme-name">Gün Batımı</div>
+                                    <div class="theme-status">🟠 Yeni</div>
+                                </div>
+                                <div class="theme-item" onclick="applyTheme('purple-dream')">
+                                    <div class="theme-preview" style="background: linear-gradient(135deg, #9c88ff 0%, #6c5ce7 100%);"></div>
+                                    <div class="theme-name">Mor Rüya</div>
+                                    <div class="theme-status">🟣 Yeni</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="theme-category">
+                            <h3>🎯 Özel Temalar</h3>
+                            <div class="theme-grid">
+                                <div class="theme-item" onclick="applyTheme('dark-mode')">
+                                    <div class="theme-preview dark-preview" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); color: white;">
+                                        <div style="padding: 20px; text-align: center;">
+                                            <div style="font-size: 24px; margin-bottom: 10px;">🌙</div>
+                                            <div>Koyu Tema</div>
+                                        </div>
+                                    </div>
+                                    <div class="theme-name">Koyu Mod</div>
+                                    <div class="theme-status">⚫ Yeni</div>
+                                </div>
+                                <div class="theme-item" onclick="applyTheme('minimal-white')">
+                                    <div class="theme-preview" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border: 2px solid #e1e8ed;">
+                                        <div style="padding: 20px; text-align: center; color: #2c3e50;">
+                                            <div style="font-size: 24px; margin-bottom: 10px;">☀️</div>
+                                            <div>Minimal Beyaz</div>
+                                        </div>
+                                    </div>
+                                    <div class="theme-name">Minimal</div>
+                                    <div class="theme-status">⚪ Yeni</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="theme-actions">
+                        <button class="bot-btn" onclick="applyAllThemes()">Tüm Yeni Temaları Uygula</button>
+                        <button class="bot-btn" onclick="resetToDefaultTheme()">Varsayılan Temaya Dön</button>
+                        <button class="bot-btn" onclick="createCustomTheme()">Özel Tema Oluştur</button>
+                    </div>
+
+                    <div class="theme-info">
+                        <p><strong>📝 Not:</strong> Yeni temalar "Yeni" etiketiyle işaretlenmiştir. Tüm yeni temaları uygulamak için "Tüm Yeni Temaları Uygula" butonunu kullanın.</p>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(themeModal);
+            themeModal.classList.add('show');
+        }
+
+        // Tema modalını gizle
+        function hideThemeModal() {
+            const modal = document.getElementById('theme-modal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+        }
+
+        // Tema uygula
+        function applyTheme(themeName) {
+            const body = document.body;
+
+            // Mevcut tema sınıflarını temizle
+            body.classList.remove('theme-classic-blue', 'theme-nature-green', 'theme-sunset-orange', 'theme-purple-dream', 'theme-dark-mode', 'theme-minimal-white');
+
+            // Yeni temayı uygula
+            switch(themeName) {
+                case 'classic-blue':
+                    body.classList.add('theme-classic-blue');
+                    break;
+                case 'nature-green':
+                    body.classList.add('theme-nature-green');
+                    break;
+                case 'sunset-orange':
+                    body.classList.add('theme-sunset-orange');
+                    break;
+                case 'purple-dream':
+                    body.classList.add('theme-purple-dream');
+                    break;
+                case 'dark-mode':
+                    body.classList.add('theme-dark-mode');
+                    break;
+                case 'minimal-white':
+                    body.classList.add('theme-minimal-white');
+                    break;
+            }
+
+            localStorage.setItem('todo_pro_theme', themeName);
+            showToast(`🎨 ${themeName} teması uygulandı!`);
+        }
+
+        // Tüm yeni temaları uygula
+        function applyAllThemes() {
+            // Tüm yeni tema sınıflarını ekle
+            const body = document.body;
+            body.classList.add('theme-nature-green', 'theme-sunset-orange', 'theme-purple-dream', 'theme-dark-mode', 'theme-minimal-white');
+
+            localStorage.setItem('todo_pro_theme', 'all-new-themes');
+            showToast('🎨 Tüm yeni temalar uygulandı!');
+        }
+
+        // Varsayılan temaya dön
+        function resetToDefaultTheme() {
+            const body = document.body;
+            body.classList.remove('theme-classic-blue', 'theme-nature-green', 'theme-sunset-orange', 'theme-purple-dream', 'theme-dark-mode', 'theme-minimal-white');
+
+            localStorage.removeItem('todo_pro_theme');
+            showToast('🎨 Varsayılan temaya dönüldü!');
+        }
+
+        // Özel tema oluştur
+        function createCustomTheme() {
+            showToast('🎨 Özel tema oluşturucu yakında eklenecek!');
+        }
+
+        // Gelişmiş istatistikleri göster
+        function showAdvancedStats() {
+            const stats = {
+                totalTasks: tasks.length,
+                completedTasks: tasks.filter(t => t.completed).length,
+                pendingTasks: tasks.filter(t => !t.completed).length,
+                categoriesCount: categories.length,
+                tasksWithComments: tasks.filter(t => t.comments && t.comments.length > 0).length,
+                overdueTasks: tasks.filter(t => isOverdue(t.dueDate)).length
+            };
+
+            const statsText = `
+📊 GELİŞMİŞ İSTATİSTİKLER
+
+Toplam Görev: ${stats.totalTasks}
+Tamamlanan Görevler: ${stats.completedTasks}
+Bekleyen Görevler: ${stats.pendingTasks}
+Kategori Sayısı: ${stats.categoriesCount}
+Yorumlu Görevler: ${stats.tasksWithComments}
+Geciken Görevler: ${stats.overdueTasks}
+
+Ortalama Tamamlanma Süresi: ${stats.completedTasks > 0 ? Math.round(stats.completedTasks / tasks.length * 100) : 0}%
+            `;
+
+            alert(statsText);
+        }
+        function showBotModal() {
+            const modal = document.getElementById('bot-modal');
+            modal.classList.add('show');
+        }
+
+        // Bot modalını gizle
+        function hideBotModal() {
+            const modal = document.getElementById('bot-modal');
+            modal.classList.remove('show');
+        }
+
+        // Bot komutunu çalıştır
+        function executeBotCommand() {
+            const commandInput = document.getElementById('bot-command');
+            const outputDiv = document.getElementById('bot-output');
+            const command = commandInput.value.trim();
+
+            if (!command) {
+                outputDiv.innerHTML = '<pre style="color: #ff6b6b;">❌ Komut boş olamaz!</pre>';
+                return;
+            }
+
+            // Basit bot komutları
+            let response = '';
+
+            if (command.toLowerCase().includes('merhaba') || command.toLowerCase().includes('selam')) {
+                response = '🤖 Merhaba! Ben To-Do PRO botuyum. Size nasıl yardımcı olabilirim?';
+            } else if (command.toLowerCase().includes('görev') && command.toLowerCase().includes('sayısı')) {
+                response = `📊 Şu anda ${tasks.length} görev var. ${tasks.filter(t => t.completed).length} tamamlanmış, ${tasks.filter(t => !t.completed).length} bekliyor.`;
+            } else if (command.toLowerCase().includes('kategori') && command.toLowerCase().includes('sayısı')) {
+                response = `📂 Şu anda ${categories.length} kategori var.`;
+            } else if (command.toLowerCase().includes('temizle')) {
+                response = '🧹 Tüm tamamlanmış görevler temizlendi!';
+                clearCompletedTasks();
+            } else if (command.toLowerCase().includes('istatistik')) {
+                showAdvancedStats();
+                response = '📊 İstatistikler gösterildi!';
+            } else if (command.toLowerCase().includes('yardım')) {
+                response = `🤖 Kullanılabilir komutlar:
+• Merhaba/Selam - Selamlaşma
+• Görev sayısı - Toplam görev sayısını göster
+• Kategori sayısı - Kategori sayısını göster
+• İstatistik - Detaylı istatistikleri göster
+• Temizle - Tamamlanmış görevleri temizle
+• Yardım - Bu yardım mesajını göster`;
+            } else {
+                response = `❓ "${command}" komutunu anlamadım. "yardım" yazarak kullanılabilir komutları görebilirsiniz.`;
+            }
+
+            outputDiv.innerHTML = `<pre>🤖 Bot: ${response}</pre>`;
+            commandInput.value = '';
+        }
+
+        // AI Asistan Functions
+        function toggleAIAssistant() {
+            const chat = document.getElementById('ai-chat');
+            const toggleBtn = document.getElementById('ai-toggle-btn');
+
+            chat.classList.toggle('show');
+
+            if (chat.classList.contains('show')) {
+                toggleBtn.style.opacity = '0.8';
+                document.getElementById('ai-input').focus();
+            } else {
+                toggleBtn.style.opacity = '1';
+            }
+        }
+
+        function handleAIKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendAIMessage();
+            }
+        }
+
+        function sendAIMessage() {
+            const input = document.getElementById('ai-input');
+            const messages = document.getElementById('ai-chat-messages');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            // Kullanıcı mesajını ekle
+            addAIMessage('user', message);
+
+            // AI yanıtını oluştur
+            setTimeout(() => {
+                const response = generateAIResponse(message);
+                addAIMessage('ai', response);
+            }, 1000);
+
+            input.value = '';
+        }
+
+        function addAIMessage(type, text) {
+            const messages = document.getElementById('ai-chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-message ${type}`;
+
+            const now = new Date();
+            const time = now.toLocaleTimeString('tr-TR', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            messageDiv.innerHTML = `
+                <div class="ai-message-avatar">${type === 'user' ? '👤' : '🤖'}</div>
+                <div class="ai-message-content">
+                    <div class="ai-message-text">${text}</div>
+                    <div class="ai-message-time">${time}</div>
+                </div>
+            `;
+
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function generateAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+
+            // AI yanıtları
+            if (lowerMessage.includes('merhaba') || lowerMessage.includes('selam')) {
+                return 'Merhaba! Size nasıl yardımcı olabilirim? Görev yönetimi hakkında bir sorunuz mu var?';
+            } else if (lowerMessage.includes('görev') && lowerMessage.includes('ekle')) {
+                return 'Yeni görev eklemek için üst kısımdaki "Görev açıklamasını yazın" alanına görev metninizi yazıp "EKLE" butonuna basın.';
+            } else if (lowerMessage.includes('kategori') && lowerMessage.includes('ekle')) {
+                return 'Yeni kategori eklemek için kategori butonlarından birine tıklayın veya kategori listesinin yanındaki "+" butonunu kullanın.';
+            } else if (lowerMessage.includes('yorum') && lowerMessage.includes('ekle')) {
+                return 'Görevlere yorum eklemek için görevin yanındaki "💬 Yorum Ekle" butonunu kullanabilirsiniz.';
+            } else if (lowerMessage.includes('tema') || lowerMessage.includes('görünüm')) {
+                return 'Tema değiştirmek için sağ üst köşedeki 🌙 butonunu kullanabilirsiniz. Ayrıca kurucu panelinden gelişmiş tema yönetimi yapabilirsiniz.';
+            } else if (lowerMessage.includes('dışa aktar') || lowerMessage.includes('yedekle')) {
+                return 'Görevlerinizi dışa aktarmak için "DIŞA AKTAR" butonunu kullanın. Tüm görevleriniz JSON formatında indirilir.';
+            } else if (lowerMessage.includes('yardım') || lowerMessage.includes('ne yapabilirim')) {
+                return 'Size şu konularda yardımcı olabilirim: görev ekleme, kategori yönetimi, yorum sistemi, tema değiştirme, dışa aktarma ve genel uygulama kullanımı hakkında bilgiler verebilirim.';
+            } else if (lowerMessage.includes('kurucu') || lowerMessage.includes('admin')) {
+                return 'Kurucu paneline erişmek için kategori listesinden "Kurucu" kategorisine tıklayıp "WelcomeOwner" şifresini girmeniz gerekiyor.';
+            } else {
+                return 'Bu konuda size yardımcı olabilmek için daha fazla detay verebilir misiniz? Görev yönetimi, kategoriler veya uygulama özellikleri hakkında soru sorun.';
+            }
+        }
+        function toggleCustomerService() {
+            const chat = document.getElementById('customer-service-chat');
+            const toggleBtn = document.getElementById('customer-service-toggle-btn');
+
+            chat.classList.toggle('show');
+
+            if (chat.classList.contains('show')) {
+                toggleBtn.style.opacity = '0.8';
+                document.getElementById('customer-service-input').focus();
+            } else {
+                toggleBtn.style.opacity = '1';
+            }
+        }
+
+        function handleCustomerServiceKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendCustomerServiceMessage();
+            }
+        }
+
+        function sendCustomerServiceMessage() {
+            const input = document.getElementById('customer-service-input');
+            const messages = document.getElementById('customer-service-messages');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            // Kullanıcı mesajını ekle
+            addCustomerServiceMessage('user', message);
+
+            // Destek yanıtını oluştur
+            setTimeout(() => {
+                const response = generateCustomerServiceResponse(message);
+                addCustomerServiceMessage('support', response);
+            }, 1500);
+
+            input.value = '';
+        }
+
+        function addCustomerServiceMessage(type, text) {
+            const messages = document.getElementById('customer-service-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `customer-service-message ${type}`;
+
+            const now = new Date();
+            const time = now.toLocaleTimeString('tr-TR', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            messageDiv.innerHTML = `
+                <div class="customer-service-avatar">${type === 'user' ? '👤' : '🛎️'}</div>
+                <div class="customer-service-content">
+                    <div class="customer-service-text">${text}</div>
+                    <div class="customer-service-time">${time}</div>
+                </div>
+            `;
+
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function generateCustomerServiceResponse(message) {
+            const lowerMessage = message.toLowerCase();
+
+            // Destek yanıtları
+            if (lowerMessage.includes('merhaba') || lowerMessage.includes('selam')) {
+                return 'Merhaba! Size nasıl yardımcı olabiliriz?';
+            } else if (lowerMessage.includes('teknik') || lowerMessage.includes('sorun') || lowerMessage.includes('hata')) {
+                return 'Teknik sorunlarınız için lütfen adamol31ggez@gmail.com adresine e-posta gönderin. Sorununuzu detaylıca açıklayın.';
+            } else if (lowerMessage.includes('özellik') || lowerMessage.includes('ekleme') || lowerMessage.includes('istiyorum')) {
+                return 'Yeni özellik önerileriniz için teşekkürler! Önerilerinizi adamol31ggez@gmail.com adresine gönderebilirsiniz.';
+            } else if (lowerMessage.includes('kullanım') || lowerMessage.includes('nasıl')) {
+                return 'Uygulama kullanımı hakkında detaylı bilgi için sağ üst köşedeki AI asistanı kullanabilirsiniz. Size adım adım yardımcı olacaktır.';
+            } else if (lowerMessage.includes('iletişim') || lowerMessage.includes('telefon')) {
+                return 'İletişim bilgilerimiz: E-posta: adamol31ggez@gmail.com, Telefon: +90 555 555 55 55';
+            } else if (lowerMessage.includes('teşekkür') || lowerMessage.includes('güzel')) {
+                return 'Güzel sözleriniz için teşekkür ederiz! 😊 Sizin memnuniyetiniz bizim için önemli.';
+            } else {
+                return 'Sorunuzu anlıyorum. Daha detaylı bilgi için lütfen e-posta adresimizden (adamol31ggez@gmail.com) iletişime geçin veya AI asistanımızı kullanın.';
             }
         }
 
@@ -2142,6 +4470,21 @@
                                     + Alt Görev Ekle
                                 </button>
                             `}
+
+                            ${task.comments && task.comments.length > 0 ? `
+                                <div class="comments-container">
+                                    <div class="comments-header">
+                                        <span class="comments-title">💬 Yorumlar (${task.comments.length})</span>
+                                        <button class="add-comment-btn" onclick="showAddCommentDialog('${task.id}')">💬 Yorum Ekle</button>
+                                    </div>
+                                    <div class="comments-list" id="comments-${task.id}">
+                                    </div>
+                                </div>
+                            ` : `
+                                <button class="add-comment-btn standalone" onclick="showAddCommentDialog('${task.id}')">
+                                    💬 Yorum Ekle
+                                </button>
+                            `}
                         </div>
 
                         <span class="priority-badge ${priorityClass}">
@@ -2171,6 +4514,11 @@
                 // Alt görevleri varsa göster
                 if (task.subtasks && task.subtasks.length > 0) {
                     renderSubtasks(task.id);
+                }
+
+                // Yorumları varsa göster
+                if (task.comments && task.comments.length > 0) {
+                    renderComments(task.id);
                 }
             });
         }
@@ -2283,7 +4631,7 @@
         }
 
         // Performans izleme
-        console.log('🚀 MELİH TO-DO Site Uygulaması Başlatıldı!');
+        console.log('🚀 To-Do PRO Site Uygulaması Başlatıldı!');
         console.log('📊 Yapımcı: Melih Can Çiğdem');
         console.log('⚡ Sayfa yükleme süresi:', performance.now().toFixed(2), 'ms');
     </script>
