@@ -3530,17 +3530,13 @@ function showWelcomeAnimation(userName) {
     welcomeTitle.textContent = `Merhaba, ${userName}!`;
     welcomeAnimation.classList.add('show');
 
-    let count = 5;
-    const countdownInterval = setInterval(() => {
-        countdown.textContent = count;
-        count--;
+    // Countdown'ı gizle ve direkt ana içeriği göster
+    countdown.style.display = 'none';
 
-        if (count < 0) {
-            clearInterval(countdownInterval);
-            hideWelcomeAnimation();
-            showMainContent();
-        }
-    }, 1000);
+    setTimeout(() => {
+        hideWelcomeAnimation();
+        showMainContent();
+    }, 2000); // 2 saniye sonra ana içeriği göster
 }
 
 function hideWelcomeAnimation() {
