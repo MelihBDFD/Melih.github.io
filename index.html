@@ -33,6 +33,41 @@
             color: white;
             padding: 30px;
             text-align: center;
+            position: relative;
+        }
+
+        .view-toggle-container {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .view-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .view-toggle-btn.active {
+            background: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.6);
         }
 
         .header h1 {
@@ -1137,6 +1172,143 @@
             animation: pulse 2s infinite;
         }
 
+        /* Desktop Mode (Default) */
+        .desktop-mode {
+            max-width: 1000px !important;
+            margin: 0 auto !important;
+        }
+
+        .desktop-mode .container {
+            max-width: 1000px !important;
+            border-radius: 20px !important;
+        }
+
+        .desktop-mode .form-row {
+            grid-template-columns: 2fr 1fr 1fr auto !important;
+        }
+
+        .desktop-mode .categories-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+        }
+
+        .desktop-mode .filters {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+        }
+
+        .desktop-mode .task-item {
+            flex-direction: row !important;
+            align-items: center !important;
+        }
+
+        .desktop-mode .task-actions {
+            display: flex !important;
+            margin-top: 0 !important;
+        }
+
+        /* Mobile Mode */
+        .mobile-mode {
+            max-width: 480px !important;
+            margin: 0 auto !important;
+        }
+
+        .mobile-mode .container {
+            max-width: 100% !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            box-shadow: none !important;
+        }
+
+        .mobile-mode .header {
+            padding: 20px !important;
+            border-radius: 0 !important;
+        }
+
+        .mobile-mode .header h1 {
+            font-size: 24px !important;
+        }
+
+        .mobile-mode .header p {
+            font-size: 14px !important;
+        }
+
+        .mobile-mode .main-content {
+            padding: 15px !important;
+        }
+
+        .mobile-mode .add-task-section {
+            padding: 20px !important;
+            margin-bottom: 15px !important;
+        }
+
+        .mobile-mode .form-row {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+        }
+
+        .mobile-mode .categories-section {
+            padding: 20px !important;
+            margin-bottom: 15px !important;
+        }
+
+        .mobile-mode .categories-header {
+            flex-direction: column !important;
+            gap: 15px !important;
+            align-items: stretch !important;
+        }
+
+        .mobile-mode .categories-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+
+        .mobile-mode .filters {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+        }
+
+        .mobile-mode .tasks-container {
+            padding: 20px !important;
+        }
+
+        .mobile-mode .tasks-header {
+            flex-direction: column !important;
+            gap: 12px !important;
+            align-items: stretch !important;
+        }
+
+        .mobile-mode .task-item {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 10px !important;
+        }
+
+        .mobile-mode .task-actions {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            margin-top: 12px !important;
+        }
+
+        .mobile-mode .ai-assistant {
+            bottom: 15px !important;
+            right: 15px !important;
+        }
+
+        .mobile-mode .ai-chat {
+            width: calc(100vw - 30px) !important;
+            height: 70vh !important;
+            max-height: 400px !important;
+            right: -15px !important;
+        }
+
+        .mobile-mode .help-btn {
+            top: 15px !important;
+            right: 15px !important;
+        }
+
         /* Toast Messages */
         .toast {
             position: fixed;
@@ -1162,6 +1334,14 @@
         <div class="header">
             <h1>🚀 To-Do PRO</h1>
             <p>Profesyonel Görev Yöneticisi</p>
+            <div class="view-toggle-container">
+                <button class="view-toggle-btn" onclick="setViewMode('desktop')" id="desktop-btn" title="Bilgisayar Görünümü">
+                    💻
+                </button>
+                <button class="view-toggle-btn" onclick="setViewMode('mobile')" id="mobile-btn" title="Telefon Görünümü">
+                    📱
+                </button>
+            </div>
         </div>
 
         <!-- Main Content -->
@@ -1328,7 +1508,37 @@
             renderTasks();
             updateStats();
             setupEventListeners();
+            initializeViewMode();
         });
+
+        // Görünüm modunu başlat
+        function initializeViewMode() {
+            // Varsayılan olarak desktop modunda başla
+            setViewMode('desktop');
+        }
+
+        // Görünüm modunu değiştir
+        function setViewMode(mode) {
+            const body = document.body;
+
+            // Tüm mod sınıflarını kaldır
+            body.classList.remove('desktop-mode', 'mobile-mode');
+
+            // Yeni modu uygula
+            body.classList.add(`${mode}-mode`);
+
+            // Aktif butonu güncelle
+            document.getElementById('desktop-btn').classList.remove('active');
+            document.getElementById('mobile-btn').classList.remove('active');
+            document.getElementById(`${mode}-btn`).classList.add('active');
+
+            // Toast mesajı göster
+            const modeNames = {
+                'desktop': '💻 Bilgisayar',
+                'mobile': '📱 Telefon'
+            };
+            showToast(`${modeNames[mode]} görünümü aktif!`);
+        }
 
         // Event listeners
         function setupEventListeners() {
