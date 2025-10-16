@@ -1052,6 +1052,17 @@ function updateUserUI() {
     }
 }
 
+function updateMobileUserUI() {
+    const loginBtn = document.querySelector('.mobile-view-toggle-container button[title="Giriş Yap"]');
+    if (loginBtn) {
+        if (currentUser) {
+            loginBtn.innerHTML = `👤 ${currentUser.name}`;
+        } else {
+            loginBtn.innerHTML = '🔐';
+        }
+    }
+}
+
 function loadUserData() {
     const savedUser = localStorage.getItem('todo_pro_current_user');
     if (savedUser) {
@@ -1489,6 +1500,380 @@ function initApp() {
     if (isMobileDevice()) {
         console.log('📱 Mobil cihaz algılandı - Otomatik mobil optimizasyon aktif');
     }
+}
+
+// Mobil arayüz sistemi
+function openMobileInterface() {
+    const modal = document.getElementById('mobile-modal');
+    modal.classList.add('show');
+
+    // Mobil verileri yükle
+    loadMobileData();
+
+    showToast('📱 Mobil arayüz açıldı!');
+}
+
+function closeMobileInterface() {
+    const modal = document.getElementById('mobile-modal');
+    modal.classList.remove('show');
+    showToast('📱 Mobil arayüz kapatıldı!');
+}
+
+function loadMobileData() {
+    // Mobil kategorileri yükle
+    renderMobileCategories();
+
+    // Mobil görevleri yükle
+    renderMobileTasks();
+
+    // Mobil başarımları yükle
+    renderMobileAchievements();
+
+    // Mobil kategori seçimini güncelle
+    updateMobileCategorySelect();
+
+    // Mobil istatistikleri güncelle
+    updateMobileStats();
+}
+
+// Mobil görev ekleme
+function addMobileTask() {
+    const input = document.getElementById('mobile-task-input');
+    const prioritySelect = document.getElementById('mobile-priority-select');
+    const categorySelect = document.getElementById('mobile-category-select');
+    const dueDateInput = document.getElementById('mobile-due-date-input');
+
+    const taskText = input.value.trim();
+    const priority = prioritySelect.value;
+    const categoryId = categorySelect.value;
+    const dueDate = dueDateInput.value ? new Date(dueDateInput.value).toISOString() : null;
+
+    if (taskText) {
+        const category = categories.find(c => c.id === categoryId);
+
+        const mainTask = {
+            id: Date.now().toString(),
+            text: taskText,
+            completed: false,
+            priority: priority,
+            categoryId: categoryId,
+            categoryName: category ? category.name : '',
+            categoryColor: category ? category.color : '',
+            dueDate: dueDate,
+            isRecurring: false,
+            created: new Date().toISOString(),
+            timeSpent: 0,
+            comments: []
+        };
+
+        tasks.unshift(mainTask);
+
+        if (document.getElementById('mobile-recurring-task').checked) {
+            const recurringType = document.getElementById('mobile-recurring-type').value;
+            const recurringCount = parseInt(document.getElementById('mobile-recurring-count').value) || 1;
+            createRecurringTasks(mainTask, recurringType, recurringCount);
+        }
+
+        saveTasks();
+        renderTasks();
+        renderMobileTasks();
+        updateStats();
+        updateMobileStats();
+        updateAchievementProgress();
+
+        // Form temizleme
+        input.value = '';
+        dueDateInput.value = '';
+        document.getElementById('mobile-recurring-task').checked = false;
+        toggleMobileRecurringOptions();
+
+        showToast(`✅ Görev eklendi!`);
+    } else {
+        showToast('⚠️ Lütfen görev metni girin!');
+    }
+}
+
+// Mobil görevleri göster
+function renderMobileTasks() {
+    const container = document.getElementById('mobile-tasks-list');
+    const filteredTasks = getMobileFilteredTasks();
+
+    container.innerHTML = '';
+
+    if (filteredTasks.length === 0) {
+        container.innerHTML = `
+            <div class="mobile-empty-state">
+                <div class="mobile-empty-icon">📋</div>
+                <h3>Henüz görev yok</h3>
+                <p>Yeni görev eklemek için yukarıyı kullanın!</p>
+            </div>
+        `;
+        return;
+    }
+
+    filteredTasks.forEach(task => {
+        const taskElement = document.createElement('div');
+        taskElement.className = `mobile-task-item ${task.completed ? 'completed' : ''}`;
+
+        const priorityClass = `priority-${task.priority || 'medium'}`;
+        const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && !task.completed;
+
+        taskElement.innerHTML = `
+            <div class="mobile-task-content">
+                <input type="checkbox" class="mobile-task-checkbox" ${task.completed ? 'checked' : ''} onchange="toggleMobileTask('${task.id}')">
+                <div class="mobile-task-text">${task.text}</div>
+                <div class="mobile-task-meta">
+                    <span class="mobile-priority-badge ${priorityClass}">${getPriorityText(task.priority)}</span>
+                    ${task.categoryName ? `<span class="mobile-category-badge" style="background: ${task.categoryColor}">${task.categoryName}</span>` : ''}
+                    ${task.dueDate ? `<span class="mobile-due-date-badge ${isOverdue ? 'overdue' : ''}">${formatDate(task.dueDate)}</span>` : ''}
+                </div>
+            </div>
+            <div class="mobile-task-actions">
+                <button class="mobile-task-btn edit-btn" onclick="editMobileTask('${task.id}')" title="Düzenle">✏️</button>
+                <button class="mobile-task-btn time-btn" onclick="trackMobileTime('${task.id}')" title="Zaman Takibi">⏱️</button>
+                <button class="mobile-task-btn delete-btn" onclick="deleteMobileTask('${task.id}')" title="Sil">🗑️</button>
+            </div>
+        `;
+
+        container.appendChild(taskElement);
+    });
+}
+
+// Mobil filtreleme
+let mobileCurrentFilter = 'all';
+
+function getMobileFilteredTasks() {
+    let filtered = [...tasks];
+
+    switch (mobileCurrentFilter) {
+        case 'completed':
+            filtered = tasks.filter(task => task.completed);
+            break;
+        case 'pending':
+            filtered = tasks.filter(task => !task.completed);
+            break;
+        case 'high':
+            filtered = tasks.filter(task => task.priority === 'high');
+            break;
+        case 'medium':
+            filtered = tasks.filter(task => task.priority === 'medium');
+            break;
+        case 'low':
+            filtered = tasks.filter(task => task.priority === 'low');
+            break;
+        case 'overdue':
+            filtered = tasks.filter(task => task.dueDate && new Date(task.dueDate) < new Date() && !task.completed);
+            break;
+        default:
+            if (mobileCurrentFilter && categories.find(c => c.id === mobileCurrentFilter)) {
+                filtered = tasks.filter(task => task.categoryId === mobileCurrentFilter);
+            }
+            break;
+    }
+
+    return filtered;
+}
+
+function setMobileFilter(filter) {
+    mobileCurrentFilter = filter;
+
+    document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+
+    renderMobileTasks();
+}
+
+// Mobil kategorileri göster
+function renderMobileCategories() {
+    const container = document.getElementById('mobile-categories-container');
+    container.innerHTML = '';
+
+    categories.forEach(category => {
+        const categoryElement = document.createElement('div');
+        categoryElement.className = 'mobile-category-item';
+        categoryElement.onclick = () => setMobileFilter(category.id);
+
+        categoryElement.innerHTML = `
+            <div class="mobile-category-color" style="background: ${category.color};"></div>
+            <div class="mobile-category-name">${category.name}</div>
+        `;
+
+        container.appendChild(categoryElement);
+    });
+}
+
+// Mobil başarımları göster
+function renderMobileAchievements() {
+    const container = document.getElementById('mobile-achievements-container');
+    container.innerHTML = '';
+
+    achievements.forEach(achievement => {
+        const achievementElement = document.createElement('div');
+        achievementElement.className = `mobile-achievement-item ${achievement.unlocked ? 'unlocked' : 'locked'}`;
+
+        const progressPercent = Math.min((achievement.current / achievement.requirement) * 100, 100);
+
+        achievementElement.innerHTML = `
+            <div class="mobile-achievement-icon">${achievement.icon}</div>
+            <div class="mobile-achievement-name">${achievement.name}</div>
+            <div class="mobile-achievement-progress">
+                <div class="mobile-achievement-progress-bar" style="width: ${progressPercent}%"></div>
+            </div>
+            <div class="mobile-achievement-status">
+                ${achievement.unlocked ? '✅' : `${achievement.current}/${achievement.requirement}`}
+            </div>
+        `;
+
+        container.appendChild(achievementElement);
+    });
+}
+
+// Mobil kategori seçimini güncelle
+function updateMobileCategorySelect() {
+    const select = document.getElementById('mobile-category-select');
+    select.innerHTML = '<option value="">📂 Kategori</option>';
+
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.name;
+        select.appendChild(option);
+    });
+}
+
+// Mobil istatistikleri güncelle
+function updateMobileStats() {
+    const totalCount = document.getElementById('mobile-total-count');
+    const completedCount = document.getElementById('mobile-completed-count');
+    const pendingCount = document.getElementById('mobile-pending-count');
+
+    totalCount.textContent = tasks.length;
+    completedCount.textContent = tasks.filter(t => t.completed).length;
+    pendingCount.textContent = tasks.filter(t => !t.completed).length;
+}
+
+// Mobil kalan fonksiyonları
+function toggleMobileRecurringOptions() {
+    const checkbox = document.getElementById('mobile-recurring-task');
+    const options = document.getElementById('mobile-recurring-options');
+
+    if (checkbox.checked) {
+        options.style.display = 'flex';
+    } else {
+        options.style.display = 'none';
+    }
+}
+
+function toggleMobileTask(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+        task.completed = !task.completed;
+        saveTasks();
+        renderTasks();
+        renderMobileTasks();
+        updateStats();
+        updateMobileStats();
+        updateAchievementProgress();
+        showToast(task.completed ? '✅ Görev tamamlandı!' : '⏳ Görev aktif!');
+    }
+}
+
+function deleteMobileTask(taskId) {
+    if (confirm('Bu görevi silmek istediğinizden emin misiniz?')) {
+        tasks = tasks.filter(t => t.id !== taskId);
+        saveTasks();
+        renderTasks();
+        renderMobileTasks();
+        updateStats();
+        updateMobileStats();
+        updateAchievementProgress();
+        showToast('🗑️ Görev silindi!');
+    }
+}
+
+function editMobileTask(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    const newText = prompt('Görev metnini düzenleyin:', task.text);
+    if (newText && newText.trim() !== task.text) {
+        task.text = newText.trim();
+        saveTasks();
+        renderTasks();
+        renderMobileTasks();
+        showToast('✅ Görev güncellendi!');
+    }
+}
+
+function trackMobileTime(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    if (task.isTracking) {
+        const now = Date.now();
+        const elapsed = Math.floor((now - task.trackingStart) / 1000 / 60);
+        task.timeSpent = (task.timeSpent || 0) + elapsed;
+        task.isTracking = false;
+        task.trackingStart = null;
+
+        showToast(`⏱️ ${elapsed} dakika kaydedildi!`);
+    } else {
+        task.isTracking = true;
+        task.trackingStart = Date.now();
+        saveTasks();
+        renderTasks();
+        renderMobileTasks();
+        updateStats();
+        updateMobileStats();
+    }
+}
+
+function showMobileAddCategoryDialog() {
+    const categoryName = prompt('Yeni kategori adını girin:');
+    if (categoryName && categoryName.trim()) {
+        const colors = [
+            '#667eea', '#4caf50', '#ff9800', '#e91e63', '#9c27b0', '#2196f3',
+            '#ff5722', '#795548', '#607d8b', '#3f51b5', '#00bcd4', '#009688',
+            '#8bc34a', '#ffc107', '#ff7043', '#f48fb1', '#ce93d8', '#90caf9'
+        ];
+        const newCategory = {
+            id: Date.now().toString(),
+            name: categoryName.trim(),
+            color: colors[Math.floor(Math.random() * colors.length)]
+        };
+
+        categories.push(newCategory);
+        saveCategories();
+        renderCategories();
+        renderMobileCategories();
+        updateCategorySelect();
+        updateMobileCategorySelect();
+        showToast(`✅ "${newCategory.name}" kategorisi eklendi!`);
+    }
+}
+
+function showMobileHelpModal() {
+    const helpHTML = `
+        <div style="padding: 20px;">
+            <h3 style="color: #667eea; margin-bottom: 20px;">📚 Mobil Kullanım Kılavuzu</h3>
+            <div class="help-section">
+                <h4>🎯 Temel Kullanım</h4>
+                <p>Üst kısımda görev ekleyin, orta kısımda görevlerinizi görün, alt kısımda hızlı erişim araçları bulun.</p>
+            </div>
+            <div class="help-section">
+                <h4>📱 Mobil Özellikler</h4>
+                <p>• Dokunmatik optimizasyon<br>• Kolay navigasyon<br>• Hızlı işlemler menüsü<br>• Tema değiştirici<br>• AI asistan</p>
+            </div>
+            <div style="margin-top: 30px; text-align: center;">
+                <button onclick="this.closest('.modal').remove()" style="background: #6c757d; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">Anladım</button>
+            </div>
+        </div>
+    `;
+
+    const modal = createModal('📚 Mobil Yardım', helpHTML);
+    modal.classList.add('show');
 }
 
 // Sayfa yüklendiğinde uygulamayı başlat
