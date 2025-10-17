@@ -3,186 +3,735 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 To-Do PRO Ultimate - Profesyonel Görev Yöneticisi</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <title>TodoMobile - Akıllı Görev Yöneticisi</title>
+    <meta name="description" content="Modern, mobil uyumlu görev yönetimi uygulaması">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b82f6">
 </head>
 <body>
     <div class="app-container">
         <!-- Header -->
         <header class="app-header">
-            <div class="view-toggle-container">
-                <button id="login-btn" onclick="showLoginModal()" class="view-toggle-btn" title="Giriş Yap">🔐 Giriş</button>
-                <button class="view-toggle-btn" onclick="showSettings()" title="Ayarlar">⚙️</button>
-                <button class="view-toggle-btn" onclick="showQuickActions()" title="Hızlı İşlemler">⚡</button>
+            <div class="header-content">
+                <h1 class="app-title">TodoMobile</h1>
+                <div class="header-actions">
+                    <button class="btn-icon" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn-icon" id="filterBtn">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                    <button class="btn-icon" id="menuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
-            <h1>To-Do PRO Ultimate</h1>
-            <p>Profesyonel Görev Yönetimi Sistemi</p>
         </header>
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Add Task Section -->
-            <section class="add-task-section">
-                <h3>📝 Yeni Görev Ekle</h3>
-                <div class="task-form-grid">
-                    <input type="text" id="task-input" class="task-input" placeholder="Görev metnini yazın..." onkeypress="handleKeyPress(event)">
-                    <select id="priority-select" class="select-input">
-                        <option value="medium">🟡 Orta Öncelik</option>
-                        <option value="high">🔴 Yüksek Öncelik</option>
-                        <option value="low">🟢 Düşük Öncelik</option>
-                    </select>
-                    <select id="category-select" class="select-input">
-                        <option value="">📂 Kategori Seçin</option>
-                    </select>
-                    <input type="date" id="due-date-input" class="date-input">
-                    <button onclick="addTask()" class="add-btn">EKLE</button>
-                </div>
-
-                <!-- Task Options -->
-                <div class="task-options">
-                    <label class="checkbox-container">
-                        <input type="checkbox" id="recurring-task" onchange="toggleRecurringOptions()">
-                        <span>Tekrarlayan görev</span>
-                    </label>
-                    <div class="recurring-options" id="recurring-options" style="display: none;">
-                        <select id="recurring-type" class="recurring-select">
-                            <option value="daily">Günlük</option>
-                            <option value="weekly">Haftalık</option>
-                            <option value="monthly">Aylık</option>
-                        </select>
-                        <input type="number" id="recurring-count" class="recurring-input" placeholder="Tekrar sayısı" min="1" value="1">
-                    </div>
+            <!-- Quick Add Section -->
+            <section class="quick-add-section">
+                <div class="quick-add-container">
+                    <input type="text" class="quick-add-input" id="quickAddInput" placeholder="Hızlı görev ekle... (örn: 'Alışveriş yap - yarın 15:00')">
+                    <button class="btn-primary" id="quickAddBtn">
+                        <i class="fas fa-plus"></i>
+                        Ekle
+                    </button>
                 </div>
             </section>
 
-            <!-- Categories Section -->
-            <section class="categories-section">
-                <div class="categories-header">
-                    <h3 class="categories-title">📂 Kategoriler</h3>
-                    <button onclick="showAddCategoryDialog()" class="add-category-btn">➕ Kategori Ekle</button>
-                </div>
-                <div class="categories-grid" id="categories-container">
-                    <!-- Categories will be rendered here -->
+            <!-- Filter Tabs -->
+            <section class="filter-tabs">
+                <div class="tabs-container">
+                    <button class="tab-btn active" data-filter="all">
+                        <i class="fas fa-list"></i>
+                        Tümü
+                    </button>
+                    <button class="tab-btn" data-filter="today">
+                        <i class="fas fa-calendar-day"></i>
+                        Bugün
+                    </button>
+                    <button class="tab-btn" data-filter="upcoming">
+                        <i class="fas fa-calendar-alt"></i>
+                        Yaklaşan
+                    </button>
+                    <button class="tab-btn" data-filter="overdue">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Geciken
+                    </button>
+                    <button class="tab-btn" data-filter="completed">
+                        <i class="fas fa-check-circle"></i>
+                        Tamamlanan
+                    </button>
+                    <button class="tab-btn" data-filter="high-priority">
+                        <i class="fas fa-flag"></i>
+                        Yüksek Öncelik
+                    </button>
                 </div>
             </section>
 
-            <!-- Filters -->
-            <div class="filters">
-                <button onclick="setFilter('all')" class="filter-btn active">Tümü</button>
-                <button onclick="setFilter('pending')" class="filter-btn">Bekleyen</button>
-                <button onclick="setFilter('completed')" class="filter-btn">Tamamlanan</button>
-                <button onclick="setFilter('high')" class="filter-btn">🔴 Yüksek</button>
-                <button onclick="setFilter('medium')" class="filter-btn">🟡 Orta</button>
-                <button onclick="setFilter('low')" class="filter-btn">🟢 Düşük</button>
-                <button onclick="setFilter('overdue')" class="filter-btn">⏰ Geciken</button>
-            </div>
-
-            <!-- Tasks Section -->
+            <!-- Tasks List -->
             <section class="tasks-section">
-                <div class="tasks-header">
-                    <h3 class="tasks-title">📋 Görevler</h3>
-                    <div class="task-stats">
-                        <div class="stat total" id="total-count">0</div>
-                        <div class="stat completed" id="completed-count">0</div>
-                        <div class="stat pending" id="pending-count">0</div>
-                        <div class="stat time-spent" id="total-time">0dk</div>
+                <div class="tasks-container" id="tasksContainer">
+                    <!-- Tasks will be dynamically added here -->
+                    <div class="empty-state">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>Henüz görev yok</p>
+                        <small>Hızlı ekleme alanını kullanarak ilk görevinizi oluşturun</small>
                     </div>
-                </div>
-                <div class="tasks-list" id="tasks-list">
-                    <!-- Tasks will be rendered here -->
-                </div>
-            </section>
-
-            <!-- Achievements Section -->
-            <section class="achievements-section">
-                <h3>🏆 Başarımlar</h3>
-                <div class="achievements-grid" id="achievements-container">
-                    <!-- Achievements will be rendered here -->
                 </div>
             </section>
         </main>
-    </div>
 
-    <!-- Theme Switcher Panel -->
-    <div class="theme-switcher" id="theme-switcher">
-        <div class="theme-option theme-original active" onclick="setTheme('original')" title="Orijinal">
-            <span class="theme-tooltip">Orijinal</span>
-        </div>
-        <div class="theme-option theme-ocean" onclick="setTheme('ocean')" title="Okyanus">
-            <span class="theme-tooltip">Okyanus</span>
-        </div>
-        <div class="theme-option theme-forest" onclick="setTheme('forest')" title="Orman">
-            <span class="theme-tooltip">Orman</span>
-        </div>
-        <div class="theme-option theme-sunset" onclick="setTheme('sunset')" title="Gün Batımı">
-            <span class="theme-tooltip">Gün Batımı</span>
-        </div>
-        <div class="theme-option theme-rose" onclick="setTheme('rose')" title="Gül">
-            <span class="theme-tooltip">Gül</span>
-        </div>
-        <div class="theme-option theme-purple" onclick="setTheme('purple')" title="Mor">
-            <span class="theme-tooltip">Mor</span>
-        </div>
-        <div class="theme-option theme-midnight" onclick="setTheme('midnight')" title="Gece Yarısı">
-            <span class="theme-tooltip">Gece Yarısı</span>
-        </div>
-        <div class="theme-option theme-cyber" onclick="setTheme('cyber')" title="Siber">
-            <span class="theme-tooltip">Siber</span>
-        </div>
-    </div>
+        <!-- Floating Action Button -->
+        <button class="fab" id="fab">
+            <i class="fas fa-plus"></i>
+        </button>
 
-    <!-- Floating Action Buttons -->
-    <div class="fab-container">
-        <button class="fab" onclick="showQuickActions()" title="Hızlı İşlemler">
-            <span style="font-size: 24px;">⚡</span>
-        </button>
-        <button class="fab export" onclick="exportTasks()" title="Verileri Dışa Aktar">
-            <span style="font-size: 18px;">📤</span>
-        </button>
-        <button class="fab stats" onclick="showDetailedStats()" title="Detaylı İstatistikler">
-            <span style="font-size: 18px;">📊</span>
-        </button>
-        <button class="fab settings" onclick="showSettings()" title="Ayarlar">
-            <span style="font-size: 18px;">⚙️</span>
-        </button>
-    </div>
-
-    <!-- Toast Container -->
-    <div id="toast-container" class="toast-container"></div>
-
-    <!-- AI Assistant -->
-    <div class="ai-assistant">
-        <button onclick="toggleAIAssistant()" class="ai-toggle" id="ai-toggle-btn">
-            🤖 AI Asistan
-        </button>
-        <div class="ai-chat" id="ai-chat">
-            <div class="ai-chat-header">
-                <h3>AI Görev Asistanı</h3>
-                <div class="ai-chat-controls">
-                    <button onclick="clearChatHistory()" class="chat-control-btn" title="Sohbet geçmişini temizle">🗑️</button>
-                    <button onclick="toggleAIAssistant()" class="ai-chat-close">✕</button>
+        <!-- Modals and Overlays -->
+        <!-- Task Detail Modal -->
+        <div class="modal-overlay" id="taskModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Görev Detayları</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="task-form" id="taskForm">
+                        <div class="form-group">
+                            <label for="taskTitle">Görev Başlığı *</label>
+                            <input type="text" id="taskTitle" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="taskDescription">Açıklama</label>
+                            <textarea id="taskDescription" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="taskPriority">Öncelik</label>
+                                <select id="taskPriority">
+                                    <option value="low">Düşük</option>
+                                    <option value="medium" selected>Orta</option>
+                                    <option value="high">Yüksek</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="taskDueDate">Bitiş Tarihi</label>
+                                <input type="datetime-local" id="taskDueDate">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="taskCategory">Kategori</label>
+                            <select id="taskCategory">
+                                <option value="">Kategori Seçin</option>
+                                <option value="work">İş</option>
+                                <option value="personal">Kişisel</option>
+                                <option value="shopping">Alışveriş</option>
+                                <option value="health">Sağlık</option>
+                                <option value="education">Eğitim</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="taskTags">Etiketler</label>
+                            <input type="text" id="taskTags" placeholder="Etiketleri virgülle ayırın">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Alt Görevler</label>
+                            <div class="subtasks-container" id="subtasksContainer">
+                                <!-- Alt görevler dinamik olarak eklenecek -->
+                            </div>
+                            <button type="button" class="btn-secondary" id="addSubtaskBtn">
+                                <i class="fas fa-plus"></i>
+                                Alt Görev Ekle
+                            </button>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" id="cancelTask">İptal</button>
+                            <button type="submit" class="btn-primary">Kaydet</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="ai-chat-messages" id="ai-chat-messages">
-                <div class="ai-message ai-welcome">
-                    <div class="ai-message-avatar">🤖</div>
-                    <div class="ai-message-content">
-                        <div class="ai-message-text">Merhaba! Ben To-Do PRO Ultimate'ın akıllı asistanıyım. Görev yönetimi, kategoriler, zaman takibi ve diğer özellikler hakkında sorularınızı yanıtlayabilirim. Size nasıl yardımcı olabilirim?</div>
-                        <div class="ai-message-time">Şimdi</div>
+        </div>
+
+        <!-- Search Modal -->
+        <div class="modal-overlay" id="searchModal">
+            <div class="modal-content search-modal">
+                <div class="modal-header">
+                    <h2>Görev Ara</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="search-container">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Görev ara...">
+                        <div class="search-results" id="searchResults"></div>
                     </div>
                 </div>
             </div>
-            <div class="ai-chat-input-area">
-                <input type="text" id="ai-input" class="ai-input" placeholder="Sorunuzu yazın..." onkeypress="handleAIKeyPress(event)">
-                <button onclick="sendAIMessage()" class="ai-send-btn">📤</button>
+        </div>
+
+        <!-- Filtre Modal -->
+        <div class="modal-overlay" id="filterModal">
+            <div class="modal-content filter-modal">
+                <div class="modal-header">
+                    <h2>Filtreler</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="filter-options">
+                        <button class="filter-option" data-filter="all">
+                            <i class="fas fa-list"></i>
+                            Tüm Görevler
+                        </button>
+                        <button class="filter-option" data-filter="today">
+                            <i class="fas fa-calendar-day"></i>
+                            Bugün
+                        </button>
+                        <button class="filter-option" data-filter="upcoming">
+                            <i class="fas fa-calendar-alt"></i>
+                            Yaklaşan
+                        </button>
+                        <button class="filter-option" data-filter="overdue">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Geciken
+                        </button>
+                        <button class="filter-option" data-filter="completed">
+                            <i class="fas fa-check-circle"></i>
+                            Tamamlanan
+                        </button>
+                        <button class="filter-option" data-filter="high-priority">
+                            <i class="fas fa-flag"></i>
+                            Yüksek Öncelik
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menü Modal -->
+        <div class="modal-overlay" id="menuModal">
+            <div class="modal-content menu-modal">
+                <div class="modal-header">
+                    <h2>Menü</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="menu-items">
+                        <button class="menu-item" id="exportData">
+                            <i class="fas fa-download"></i>
+                            Verileri Dışa Aktar
+                        </button>
+                        <button class="menu-item" id="importData">
+                            <i class="fas fa-upload"></i>
+                            Verileri İçe Aktar
+                        </button>
+                        <button class="menu-item" id="clearAll">
+                            <i class="fas fa-trash"></i>
+                            Tüm Görevleri Temizle
+                        </button>
+                        <button class="menu-item" id="statsBtn">
+                            <i class="fas fa-chart-line"></i>
+                            İstatistikler
+                        </button>
+                        <button class="menu-item" id="dashboardBtn">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Dashboard
+                        </button>
+                        <button class="menu-item" id="aiSuggestBtn">
+                            <i class="fas fa-brain"></i>
+                            AI Önerileri
+                        </button>
+                        <button class="menu-item" id="smartCategorizeBtn">
+                            <i class="fas fa-magic"></i>
+                            Akıllı Kategori
+                        </button>
+                        <button class="menu-item" id="calendarBtn">
+                            <i class="fas fa-calendar-alt"></i>
+                            Takvim Görünümü
+                        </button>
+                        <button class="menu-item" id="settingsBtn">
+                            <i class="fas fa-sliders-h"></i>
+                            Ayarlar
+                        </button>
+                        <button class="menu-item" id="notesBtn">
+                            <i class="fas fa-sticky-note"></i>
+                            Not Defterim
+                        </button>
+                        <button class="menu-item" id="adminBtn">
+                            <i class="fas fa-user-shield"></i>
+                            Yönetici Paneli
+                        </button>
+                        <button class="menu-item" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                            Koyu Tema
+                        </button>
+                        <button class="menu-item" id="aboutBtn">
+                            <i class="fas fa-info-circle"></i>
+                            Hakkında
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auth Modal -->
+        <div class="modal-overlay" id="authModal">
+            <div class="modal-content auth-modal">
+                <div class="modal-header">
+                    <h2 id="authTitle">TodoMobile'e Hoş Geldiniz</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-tab="login">Giriş Yap</button>
+                        <button class="auth-tab" data-tab="register">Kayıt Ol</button>
+                    </div>
+                    <form class="auth-form" id="authForm">
+                        <div class="form-group" id="nameGroup" style="display: none;">
+                            <label for="authName">Ad Soyad</label>
+                            <input type="text" id="authName" placeholder="Adınızı ve soyadınızı girin">
+                        </div>
+                        <div class="form-group">
+                            <label for="authEmail">E-posta</label>
+                            <input type="email" id="authEmail" placeholder="E-posta adresinizi girin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="authPassword">Şifre</label>
+                            <input type="password" id="authPassword" placeholder="Şifrenizi girin" required>
+                        </div>
+                        <button type="submit" class="btn-primary auth-btn" id="authBtn">Giriş Yap</button>
+                    </form>
+                    <div class="auth-demo">
+                        <p><strong>Demo Mod:</strong> Herhangi bir e-posta ve şifre ile giriş yapabilirsiniz</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Helper Bot Modal -->
+        <div class="modal-overlay" id="helperModal">
+            <div class="modal-content helper-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-robot"></i> TodoBot Yardımcı</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="helper-content">
+                        <div class="helper-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="helper-messages" id="helperMessages">
+                            <div class="helper-message bot-message">
+                                <div class="message-content">
+                                    Merhaba! Ben TodoBot, görev yönetimi konusunda sana yardımcı olabilirim. Ne yapmak istiyorsun?
+                                </div>
+                            </div>
+                        </div>
+                        <div class="helper-input-container">
+                            <input type="text" class="helper-input" id="helperInput" placeholder="TodoBot'a bir şey sor...">
+                            <button class="btn-primary helper-send" id="helperSend">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="helper-suggestions">
+                            <p>Örnek sorular:</p>
+                            <div class="suggestions">
+                                <button class="suggestion-btn" data-suggestion="Bugün için görev öner">Bugün için görev öner</button>
+                                <button class="suggestion-btn" data-suggestion="Öncelik nasıl ayarlanır?">Öncelik nasıl ayarlanır?</button>
+                                <button class="suggestion-btn" data-suggestion="Alt görev nedir?">Alt görev nedir?</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Not Defteri Modal -->
+        <div class="modal-overlay" id="notesModal">
+            <div class="modal-content notes-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-sticky-note"></i> Not Defterim</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="notes-container">
+                        <textarea id="notesTextarea" class="notes-textarea" placeholder="Notlarınızı buraya yazın..."></textarea>
+                        <div class="notes-actions">
+                            <button class="btn-secondary" id="clearNotes">
+                                <i class="fas fa-trash"></i>
+                                Temizle
+                            </button>
+                            <button class="btn-primary" id="saveNotes">
+                                <i class="fas fa-save"></i>
+                                Kaydet
+                            </button>
+                        </div>
+                        <div class="notes-info">
+                            <small class="text-muted">Son kaydedilme: <span id="notesLastSaved">Henüz kaydedilmedi</span></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Panel Modal -->
+        <div class="modal-overlay" id="adminModal">
+            <div class="modal-content admin-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-user-shield"></i> Yönetici Paneli</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="adminAuth" class="admin-auth">
+                        <div class="admin-lock">
+                            <i class="fas fa-lock"></i>
+                            <h3>Yönetici Girişi</h3>
+                            <p>Bu alana erişmek için yönetici şifresini girin</p>
+                            <div class="form-group">
+                                <input type="password" id="adminPassword" placeholder="Yönetici şifresi..." class="admin-password-input">
+                            </div>
+                            <button class="btn-primary" id="adminLoginBtn">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Giriş Yap
+                            </button>
+                        </div>
+                    </div>
+                    <div id="adminPanel" class="admin-panel" style="display: none;">
+                        <div class="admin-section">
+                            <h3><i class="fas fa-bell"></i> Bildirim Testi</h3>
+                            <p>Tarayıcı bildirimlerini test edin</p>
+                            <button class="btn-primary" id="testNotification">
+                                <i class="fas fa-bell"></i>
+                                Test Bildirimi Gönder
+                            </button>
+                            <div id="notificationStatus" class="notification-status"></div>
+                        </div>
+                        <div class="admin-section">
+                            <h3><i class="fas fa-chart-bar"></i> Sistem İstatistikleri</h3>
+                            <div class="admin-stats">
+                                <div class="stat-card">
+                                    <i class="fas fa-tasks"></i>
+                                    <div class="stat-info">
+                                        <span class="stat-value" id="totalTasks">0</span>
+                                        <span class="stat-label">Toplam Görev</span>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="stat-info">
+                                        <span class="stat-value" id="completedTasks">0</span>
+                                        <span class="stat-label">Tamamlanan</span>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <i class="fas fa-users"></i>
+                                    <div class="stat-info">
+                                        <span class="stat-value" id="totalUsers">1</span>
+                                        <span class="stat-label">Kullanıcı</span>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <i class="fas fa-database"></i>
+                                    <div class="stat-info">
+                                        <span class="stat-value" id="storageUsed">0 KB</span>
+                                        <span class="stat-label">Depolama</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="admin-section">
+                            <h3><i class="fas fa-tools"></i> Yönetici İşlemleri</h3>
+                            <div class="admin-actions">
+                                <button class="btn-danger" id="clearAllDataAdmin">
+                                    <i class="fas fa-trash-alt"></i>
+                                    Tüm Verileri Temizle
+                                </button>
+                                <button class="btn-secondary" id="exportLogsAdmin">
+                                    <i class="fas fa-file-download"></i>
+                                    Logları Dışa Aktar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Modal -->
+        <div class="modal-overlay" id="dashboardModal">
+            <div class="modal-content dashboard-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="dashboard-container">
+                        <!-- Progress Overview -->
+                        <div class="dashboard-section">
+                            <h3><i class="fas fa-chart-pie"></i> Genel Durum</h3>
+                            <div class="progress-cards">
+                                <div class="progress-card">
+                                    <div class="progress-circle" id="overallProgress">
+                                        <span class="progress-text">0%</span>
+                                    </div>
+                                    <p>Genel İlerleme</p>
+                                </div>
+                                <div class="progress-card">
+                                    <div class="streak-counter">
+                                        <span class="streak-number" id="streakDays">0</span>
+                                        <span class="streak-label">Gün</span>
+                                    </div>
+                                    <p>Aktif Streak</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Weekly Chart -->
+                        <div class="dashboard-section">
+                            <h3><i class="fas fa-chart-bar"></i> Haftalık Aktivite</h3>
+                            <div class="chart-container">
+                                <canvas id="weeklyChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Category Stats -->
+                        <div class="dashboard-section">
+                            <h3><i class="fas fa-tags"></i> Kategori Dağılımı</h3>
+                            <div class="category-stats" id="categoryStats">
+                                <!-- Dinamik olarak doldurulacak -->
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="dashboard-section">
+                            <h3><i class="fas fa-history"></i> Son Aktiviteler</h3>
+                            <div class="activity-feed" id="activityFeed">
+                                <!-- Dinamik olarak doldurulacak -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Center Modal -->
+        <div class="modal-overlay" id="notificationModal">
+            <div class="modal-content notification-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-bell"></i> Bildirim Merkezi</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="notification-settings">
+                        <div class="setting-group">
+                            <h3>Bildirim Ayarları</h3>
+                            <label class="switch">
+                                <input type="checkbox" id="enableNotifications">
+                                <span class="slider"></span>
+                                Bildirimleri Etkinleştir
+                            </label>
+                            <label class="switch">
+                                <input type="checkbox" id="dailyReminder">
+                                <span class="slider"></span>
+                                Günlük Hatırlatıcı
+                            </label>
+                            <label class="switch">
+                                <input type="checkbox" id="deadlineAlerts">
+                                <span class="slider"></span>
+                                Deadline Uyarıları
+                            </label>
+                        </div>
+                        <div class="setting-group">
+                            <h3>Hatırlatıcı Zamanı</h3>
+                            <input type="time" id="reminderTime" value="09:00">
+                        </div>
+                        <button class="btn-primary" id="saveNotificationSettings">
+                            <i class="fas fa-save"></i>
+                            Ayarları Kaydet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme Customizer Modal -->
+        <div class="modal-overlay" id="themeModal">
+            <div class="modal-content theme-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-palette"></i> Tema Özelleştirme</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="theme-customizer">
+                        <div class="theme-section">
+                            <h3>Renk Paleti</h3>
+                            <div class="color-picker-group">
+                                <label>Ana Renk</label>
+                                <input type="color" id="primaryColor" value="#6366f1">
+                            </div>
+                            <div class="color-picker-group">
+                                <label>Arka Plan</label>
+                                <input type="color" id="backgroundColor" value="#f8fafc">
+                            </div>
+                        </div>
+                        <div class="theme-section">
+                            <h3>Font Ayarları</h3>
+                            <div class="font-controls">
+                                <label>Font Boyutu</label>
+                                <input type="range" id="fontSize" min="12" max="20" value="16">
+                                <span id="fontSizeValue">16px</span>
+                            </div>
+                        </div>
+                        <div class="theme-section">
+                            <h3>Animasyon Hızı</h3>
+                            <div class="animation-controls">
+                                <input type="range" id="animationSpeed" min="0.1" max="1" step="0.1" value="0.3">
+                                <span id="animationSpeedValue">0.3s</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary" id="applyTheme">
+                            <i class="fas fa-check"></i>
+                            Temayı Uygula
+                        </button>
+                        <button class="btn-secondary" id="resetTheme">
+                            <i class="fas fa-undo"></i>
+                            Varsayılana Dön
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Modal -->
+        <div class="modal-overlay" id="calendarModal">
+            <div class="modal-content calendar-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-calendar-alt"></i> Takvim Görünümü</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <button class="btn-icon" id="prevMonth">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <h3 id="currentMonth">Ocak 2024</h3>
+                            <button class="btn-icon" id="nextMonth">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Dinamik olarak doldurulacak -->
+                        </div>
+                        <div class="calendar-legend">
+                            <div class="legend-item">
+                                <span class="legend-color high"></span>
+                                Yüksek Öncelik
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color medium"></span>
+                                Orta Öncelik
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color low"></span>
+                                Düşük Öncelik
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gamification Modal -->
+        <div class="modal-overlay" id="gamificationModal">
+            <div class="modal-content gamification-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-trophy"></i> Başarılarım</h2>
+                    <button class="btn-icon modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="gamification-container">
+                        <!-- Level Progress -->
+                        <div class="level-section">
+                            <div class="level-info">
+                                <h3>Seviye <span id="userLevel">1</span></h3>
+                                <div class="xp-bar">
+                                    <div class="xp-fill" id="xpFill" style="width: 0%"></div>
+                                </div>
+                                <p><span id="currentXP">0</span> / <span id="nextLevelXP">100</span> XP</p>
+                            </div>
+                        </div>
+
+                        <!-- Achievements -->
+                        <div class="achievements-section">
+                            <h3><i class="fas fa-medal"></i> Başarılar</h3>
+                            <div class="achievements-grid" id="achievementsGrid">
+                                <!-- Dinamik olarak doldurulacak -->
+                            </div>
+                        </div>
+
+                        <!-- Daily Challenge -->
+                        <div class="challenge-section">
+                            <h3><i class="fas fa-target"></i> Günlük Meydan Okuma</h3>
+                            <div class="daily-challenge" id="dailyChallenge">
+                                <!-- Dinamik olarak doldurulacak -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Help Button -->
-    <button onclick="showHelpModal()" class="help-btn">❓</button>
-
-    <script src="assets/js/app.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
